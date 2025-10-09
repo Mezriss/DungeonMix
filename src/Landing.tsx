@@ -1,6 +1,24 @@
+import { useState } from "react";
+import { Link } from "wouter";
+import { useIDB } from "./hooks/useIDB";
+import { IDB_PREFIX } from "./const";
+
 import styles from "@/styles/Landing.module.css";
 
+type BoardList = {
+  id: string;
+  name: string;
+}[];
+
 export default function Landing() {
+  const [creating, setCreating] = useState(false);
+  const { data: boards, loading } = useIDB<BoardList>(IDB_PREFIX + "boards");
+
+  function createBoard() {
+    setCreating(true);
+    // ...
+  }
+
   return (
     <div className={styles.landing}>
       <div>
@@ -9,25 +27,31 @@ export default function Landing() {
             Welcome to <span>DungeonMix</span>
           </h1>
           <p>
-            DungeonMix is a web application that allows you to create and share
-            audio boards for your dungeon maps.
+            DungeonMix is a web application that allows you to create audio
+            boards for your dungeon maps.
           </p>
         </div>
         <div className={styles.separator}></div>
         <div className={styles.controls}>
-          <button>Create New Board</button>
-          <div>or load existing board</div>
-          <ul>
-            <li>
-              <a href="#">Unnamed board 1</a>
-            </li>
-            <li>
-              <a href="#">Unnamed board 1</a>
-            </li>
-            <li>
-              <a href="#">Unnamed board 1</a>
-            </li>
-          </ul>
+          {!loading && (
+            <>
+              <button disabled={creating} onClick={createBoard}>
+                Create New Board
+              </button>
+              {boards?.length && (
+                <>
+                  <div>or load existing board</div>
+                  <ul>
+                    {boards.map((board) => (
+                      <li key={board.id}>
+                        <Link href={`/boards/${board.id}`}>{board.name}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>

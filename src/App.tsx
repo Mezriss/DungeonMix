@@ -1,10 +1,13 @@
+import { Switch, Route } from "wouter";
 import Landing from "./Landing";
+import Board from "./Board";
 
 function App() {
   return (
-    <>
-      <Landing />
-    </>
+    <Switch>
+      <Route path="/" component={Landing} />
+      <Route path="/board/:id">{({ id }) => <Board id={id} />}</Route>
+    </Switch>
   );
 }
 
