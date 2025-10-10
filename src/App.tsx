@@ -6,7 +6,7 @@ function App() {
   return (
     <Switch>
       <Route path="/" component={Landing} />
-      <Route path="/board/:id">{({ id }) => <Board id={id} />}</Route>
+      <Route path="/boards/:id">{({ id }) => <Board id={id} />}</Route>
     </Switch>
   );
 }

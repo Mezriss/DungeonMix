@@ -1,22 +1,34 @@
-import { useState } from "react";
-import { Link } from "wouter";
-import { useIDB } from "./hooks/useIDB";
-import { IDB_PREFIX } from "./const";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "wouter";
+import { boardTemplate, KEY_BOARDS, STORE_PREFIX } from "./const";
 
 import styles from "@/styles/Landing.module.css";
+import { nanoid } from "nanoid";
 
-type BoardList = {
+export type BoardList = {
   id: string;
   name: string;
 }[];
 
 export default function Landing() {
-  const [creating, setCreating] = useState(false);
-  const { data: boards, loading } = useIDB<BoardList>(IDB_PREFIX + "boards");
+  const [, navigate] = useLocation();
+  const [boards, setBoards] = useState<BoardList | null>(null);
+  useEffect(() => {
+    try {
+      setBoards(JSON.parse(localStorage.getItem(KEY_BOARDS) || "[]"));
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
 
   function createBoard() {
-    setCreating(true);
-    // ...
+    const id = nanoid();
+    localStorage.setItem(
+      KEY_BOARDS,
+      JSON.stringify([...(boards || []), { id, name: "Untitled Board" }]),
+    );
+    localStorage.setItem(STORE_PREFIX + id, JSON.stringify(boardTemplate(id)));
+    navigate(`/boards/${id}`);
   }
 
   return (
@@ -33,25 +45,23 @@ export default function Landing() {
         </div>
         <div className={styles.separator}></div>
         <div className={styles.controls}>
-          {!loading && (
-            <>
-              <button disabled={creating} onClick={createBoard}>
-                Create New Board
-              </button>
-              {boards?.length && (
-                <>
-                  <div>or load existing board</div>
-                  <ul>
-                    {boards.map((board) => (
-                      <li key={board.id}>
-                        <Link href={`/boards/${board.id}`}>{board.name}</Link>
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              )}
-            </>
-          )}
+          <>
+            <button onClick={createBoard}>Create New Board</button>
+            {!boards?.length ? null : (
+              <>
+                <div>or load existing board</div>
+                <ul>
+                  {boards.map((board) => (
+                    <li key={board.id}>
+                      <Link href={`/boards/${board.id}`}>
+                        {board.name || "Untitled Board"}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </>
         </div>
       </div>
     </div>

@@ -55,8 +55,8 @@ button:focus-visible {
 }
 
 #root {
-    width: 98vw;
-    height: 98vh;
+    width: 100vw;
+    height: 100vh;
 }
 
 @media (prefers-color-scheme: light) {
