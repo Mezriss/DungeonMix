@@ -3,7 +3,7 @@ import { useSnapshot, proxy } from "valtio";
 import { boardTemplate, KEY_BOARDS, STORE_PREFIX } from "./const";
 import type { BoardList } from "./Landing";
 import { nanoid } from "nanoid";
-import { getMany } from "idb-keyval";
+import { set, getMany } from "idb-keyval";
 import { getFilesRecursively } from "./util/file";
 
 type FileInfo = {
@@ -81,7 +81,9 @@ const actions = (state: BoardState) => ({
   addFolder: async (handle: FileSystemDirectoryHandle) => {
     const id = nanoid();
     if (state.folders.length) {
-      const existingHandleIds = state.folders.map((folder) => folder.id);
+      const existingHandleIds = state.folders.map(
+        (folder) => STORE_PREFIX + folder.id,
+      );
       const existingHandles: FileSystemDirectoryHandle[] =
         await getMany(existingHandleIds);
       for (const existingHandle of existingHandles) {
@@ -99,10 +101,12 @@ const actions = (state: BoardState) => ({
         path: fullPath,
       });
     }
+    files.sort((a, b) => a.path.localeCompare(b.path));
     state.folders.push({
       id,
       name: handle.name,
       files,
     });
+    await set(STORE_PREFIX + id, handle);
   },
 });

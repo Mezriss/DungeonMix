@@ -11,7 +11,7 @@ type Props = {
   onConfirm: () => void;
 };
 
-export default function Dialog({
+export default function AlertDialogComponent({
   title,
   open,
   description,
