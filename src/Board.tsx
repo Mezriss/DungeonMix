@@ -1,12 +1,12 @@
 import { subscribe } from "valtio";
 import MissingBoard from "./components/MissingBoard";
-import { initBoardState, BoardStateContext, type BoardState } from "./state";
+import { initBoardState, BoardStateContext, type State } from "./state";
 import { useEffect, useState } from "react";
 import { STORE_PREFIX } from "./const";
 import Header from "./components/Header";
 
 export default function Board({ id }: { id: string }) {
-  const [state, setState] = useState<BoardState | null | undefined>(undefined);
+  const [state, setState] = useState<State | null | undefined>(undefined);
   useEffect(() => {
     const boardState = initBoardState(id);
     setState(boardState);

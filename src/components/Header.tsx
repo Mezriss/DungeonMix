@@ -1,8 +1,6 @@
 import { useCallback, useState } from "react";
 import { Settings } from "lucide-react";
 import { Menu } from "@base-ui-components/react/menu";
-import { KEY_BOARDS, STORE_PREFIX } from "@/const";
-import type { BoardList } from "@/Landing";
 import AlertDialog from "@/components/ui/AlertDialog";
 import { useBoardState } from "@/state";
 
@@ -10,42 +8,18 @@ import styles from "@/styles/Header.module.css";
 import { Link, useLocation } from "wouter";
 
 export default function Header() {
-  const { state, snap } = useBoardState();
+  const { snap, actions } = useBoardState();
   const [, navigate] = useLocation();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const updateBoardName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    state.name = e.target.value;
-    try {
-      const boardIndex: BoardList = JSON.parse(
-        localStorage.getItem(KEY_BOARDS) || "",
-      );
-      const record = boardIndex.find((board) => board.id === snap.id);
-      if (record) {
-        record.name = state.name;
-        localStorage.setItem(KEY_BOARDS, JSON.stringify(boardIndex));
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
   const deleteBoard = useCallback(() => {
     try {
-      const boardIndex: BoardList = JSON.parse(
-        localStorage.getItem(KEY_BOARDS) || "",
-      );
-      const index = boardIndex.findIndex((board) => board.id === snap.id);
-      if (index !== -1) {
-        boardIndex.splice(index, 1);
-        localStorage.setItem(KEY_BOARDS, JSON.stringify(boardIndex));
-      }
-      localStorage.removeItem(STORE_PREFIX + snap.id);
+      actions.deleteBoard();
       navigate("/");
     } catch (e) {
       console.error(e);
     }
-  }, [navigate, snap.id]);
+  }, [actions, navigate]);
 
   return (
     <>
@@ -58,7 +32,7 @@ export default function Header() {
             name="Board name"
             placeholder="Untitled board"
             value={snap.name}
-            onChange={updateBoardName}
+            onChange={(e) => actions.updateName(e.target.value)}
           />
         </div>
         <div className={styles.settings}>
