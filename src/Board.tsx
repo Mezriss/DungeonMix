@@ -4,6 +4,7 @@ import { initBoardState, BoardStateContext, type State } from "./state";
 import { useEffect, useState } from "react";
 import { STORE_PREFIX } from "./const";
 import Header from "./components/Header";
+import AudioLibrary from "./components/AudioLibrary";
 
 export default function Board({ id }: { id: string }) {
   const [state, setState] = useState<State | null | undefined>(undefined);
@@ -12,8 +13,11 @@ export default function Board({ id }: { id: string }) {
     setState(boardState);
 
     const unsubscribe = boardState
-      ? subscribe(boardState, () => {
-          localStorage.setItem(STORE_PREFIX + id, JSON.stringify(boardState));
+      ? subscribe(boardState.data, () => {
+          localStorage.setItem(
+            STORE_PREFIX + id,
+            JSON.stringify(boardState.data),
+          );
         })
       : undefined;
 
@@ -28,6 +32,7 @@ export default function Board({ id }: { id: string }) {
   return (
     <BoardStateContext.Provider value={state}>
       <Header />
+      <AudioLibrary />
     </BoardStateContext.Provider>
   );
 }

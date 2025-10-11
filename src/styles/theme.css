@@ -1,5 +1,6 @@
 :root {
     --color-blue: oklch(45% 50% 264deg);
+    --color-blue-2: oklch(55% 50% 264deg);
     --color-red: oklch(50% 55% 31deg);
 
     --color-gray-50: oklch(98.42% 0.0034 247.86deg);
@@ -16,6 +17,7 @@
 
     @media (prefers-color-scheme: dark) {
         --color-blue: oklch(69% 50% 264deg);
+        --color-blue-2: oklch(59% 50% 264deg);
         --color-red: oklch(80% 55% 31deg);
 
         --color-gray-50: oklch(17% 1% 264deg);

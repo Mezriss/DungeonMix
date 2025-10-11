@@ -2,11 +2,19 @@ import { createContext, useContext } from "react";
 import { useSnapshot, proxy } from "valtio";
 import { boardTemplate, KEY_BOARDS, STORE_PREFIX } from "./const";
 import type { BoardList } from "./Landing";
+import { nanoid } from "nanoid";
+import { getMany } from "idb-keyval";
+import { getFilesRecursively } from "./util/file";
+
+type FileInfo = {
+  name: string;
+  path: string;
+};
 
 export type BoardState = {
   id: string;
   name: string;
-  folders: [];
+  folders: { id: string; name: string; files: FileInfo[] }[];
   areas: [];
   sketches: [];
   images: [];
@@ -69,5 +77,32 @@ const actions = (state: BoardState) => ({
     }
     localStorage.removeItem(STORE_PREFIX + state.id);
     // TODO: clear resources from IDB
+  },
+  addFolder: async (handle: FileSystemDirectoryHandle) => {
+    const id = nanoid();
+    if (state.folders.length) {
+      const existingHandleIds = state.folders.map((folder) => folder.id);
+      const existingHandles: FileSystemDirectoryHandle[] =
+        await getMany(existingHandleIds);
+      for (const existingHandle of existingHandles) {
+        if (await existingHandle.isSameEntry(handle)) {
+          return;
+        }
+      }
+    }
+    const files: FileInfo[] = [];
+    for await (const { file, path } of getFilesRecursively(handle)) {
+      const fullPath = path ? `${path}/${file.name}` : file.name;
+
+      files.push({
+        name: file.name,
+        path: fullPath,
+      });
+    }
+    state.folders.push({
+      id,
+      name: handle.name,
+      files,
+    });
   },
 });
