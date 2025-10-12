@@ -9,7 +9,7 @@ import { Link, useLocation } from "wouter";
 import ArrowSvg from "@/assets/ArrowSvg";
 
 export default function Header() {
-  const { snap, actions } = useBoardState();
+  const { state, actions } = useBoardState();
   const [, navigate] = useLocation();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -32,7 +32,7 @@ export default function Header() {
           <input
             name="Board name"
             placeholder="Untitled board"
-            value={snap.name}
+            value={state.name}
             onChange={(e) => actions.updateName(e.target.value)}
           />
         </div>
@@ -63,7 +63,7 @@ export default function Header() {
         title="Delete Board"
         description="Delete this board? This can't be undone."
         actionName="Delete"
-        onConfirm={deleteBoard}
+        action={deleteBoard}
         open={isDialogOpen}
         setOpen={setIsDialogOpen}
       />

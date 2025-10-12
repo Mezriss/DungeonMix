@@ -4,7 +4,11 @@ import { initBoardState, BoardStateContext, type State } from "./state";
 import { useEffect, useState } from "react";
 import { STORE_PREFIX } from "./const";
 import Header from "./components/Header";
-import AudioLibrary from "./components/AudioLibrary";
+import AudioLibrary from "./components/AudioLibrary/AudioLibrary";
+import Toolbar from "./components/Toolbar";
+import Body from "./components/Body";
+
+import styles from "./styles/Board.module.css";
 
 export default function Board({ id }: { id: string }) {
   const [state, setState] = useState<State | null | undefined>(undefined);
@@ -31,7 +35,11 @@ export default function Board({ id }: { id: string }) {
 
   return (
     <BoardStateContext.Provider value={state}>
-      <Header />
+      <div className={styles.board}>
+        <Header />
+        <Body />
+      </div>
+      <Toolbar />
       <AudioLibrary />
     </BoardStateContext.Provider>
   );

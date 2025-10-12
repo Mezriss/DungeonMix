@@ -6,10 +6,10 @@ import Tooltip from "@/components/ui/Tooltip";
 import { AlertDialogTriggered as AlertDialog } from "../ui/AlertDialog";
 
 export default function AudioList() {
-  const { snap, actions } = useBoardState();
+  const { state, actions } = useBoardState();
   return (
     <div className={styles.audioList}>
-      {snap.folders.map((folder) => (
+      {state.folders.map((folder) => (
         <Collapsible.Root key={folder.id} className={styles.collapsible}>
           <div className={styles.collapsibleHeader}>
             <Collapsible.Trigger className={styles.trigger}>

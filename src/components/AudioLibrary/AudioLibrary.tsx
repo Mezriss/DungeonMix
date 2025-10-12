@@ -1,15 +1,15 @@
 import styles from "@/styles/AudioLibrary.module.css";
 import { Info } from "lucide-react";
-import AudioGrabber from "./AudioLibrary/AudioGrabber";
+import AudioGrabber from "./AudioGrabber";
 import { useBoardState } from "@/state";
-import AudioList from "./AudioLibrary/AudioList";
+import AudioList from "./AudioList";
 
 export default function AudioLibrary() {
-  const { snap } = useBoardState();
+  const { state } = useBoardState();
 
   return (
     <div className={styles.library}>
-      {snap.folders.length ? (
+      {state.folders.length ? (
         <AudioList />
       ) : (
         <div className="info">

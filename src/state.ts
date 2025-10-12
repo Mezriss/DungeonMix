@@ -11,6 +11,10 @@ export type FileInfo = {
   path: string;
 };
 
+export type UIState = {
+  selectedTool: "select" | "rectangle" | "circle";
+};
+
 export type BoardState = {
   id: string;
   name: string;
@@ -23,9 +27,14 @@ export type BoardState = {
 export type State = {
   data: BoardState;
   actions: ReturnType<typeof actions>;
+  ui: UIState;
 };
 
-export function initBoardState(id: string) {
+const initialUIState: UIState = {
+  selectedTool: "select",
+};
+
+export function initBoardState(id: string): State | null {
   const stored = localStorage.getItem(STORE_PREFIX + id);
   let data: BoardState | null = null;
   if (stored) {
@@ -39,7 +48,15 @@ export function initBoardState(id: string) {
       localStorage.setItem(STORE_PREFIX + id, JSON.stringify(data));
     }
   }
-  return data ? { data: proxy(data), actions: actions(proxy(data)) } : null;
+  const pData = data && proxy(data);
+  const pUI = proxy(structuredClone(initialUIState));
+  return pData
+    ? {
+        data: pData,
+        actions: actions(pData, pUI),
+        ui: pUI,
+      }
+    : null;
 }
 
 export const BoardStateContext = createContext<State>(null!);
@@ -47,10 +64,15 @@ export const BoardStateContext = createContext<State>(null!);
 export function useBoardState() {
   const state = useContext(BoardStateContext);
   const snap = useSnapshot<BoardState>(state.data);
-  return { state: state.data, actions: state.actions, snap };
+  const uiSnap = useSnapshot<UIState>(state.ui);
+  return {
+    state: snap,
+    ui: uiSnap,
+    actions: state.actions,
+  };
 }
 
-const actions = (state: BoardState) => ({
+const actions = (state: BoardState, ui: UIState) => ({
   updateName: (name: string) => {
     state.name = name;
     try {
@@ -151,5 +173,8 @@ const actions = (state: BoardState) => ({
     }
     files.sort((a, b) => a.path.localeCompare(b.path));
     folder.files = files;
+  },
+  switchTool: (tool: UIState["selectedTool"]) => {
+    ui.selectedTool = tool;
   },
 });

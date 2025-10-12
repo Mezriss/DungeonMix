@@ -1,14 +1,14 @@
-.ArrowFill {
+.arrowFill {
     fill: canvas;
 }
 
-.ArrowOuterStroke {
+.arrowOuterStroke {
     @media (prefers-color-scheme: light) {
         fill: var(--color-gray-200);
     }
 }
 
-.ArrowInnerStroke {
+.arrowInnerStroke {
     @media (prefers-color-scheme: dark) {
         fill: var(--color-gray-300);
     }
