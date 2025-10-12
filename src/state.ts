@@ -3,10 +3,10 @@ import { useSnapshot, proxy } from "valtio";
 import { boardTemplate, KEY_BOARDS, STORE_PREFIX } from "./const";
 import type { BoardList } from "./Landing";
 import { nanoid } from "nanoid";
-import { set, getMany } from "idb-keyval";
+import { get, set, getMany, del, delMany } from "idb-keyval";
 import { getFilesRecursively } from "./util/file";
 
-type FileInfo = {
+export type FileInfo = {
   name: string;
   path: string;
 };
@@ -66,7 +66,7 @@ const actions = (state: BoardState) => ({
       console.error(e);
     }
   },
-  deleteBoard: () => {
+  deleteBoard: async () => {
     const boardIndex: BoardList = JSON.parse(
       localStorage.getItem(KEY_BOARDS) || "",
     );
@@ -76,7 +76,11 @@ const actions = (state: BoardState) => ({
       localStorage.setItem(KEY_BOARDS, JSON.stringify(boardIndex));
     }
     localStorage.removeItem(STORE_PREFIX + state.id);
-    // TODO: clear resources from IDB
+    const existingHandleIds = state.folders.map(
+      (folder) => STORE_PREFIX + folder.id,
+    );
+    await delMany(existingHandleIds);
+    // TODO: clear other resources from IDB (images?)
   },
   addFolder: async (handle: FileSystemDirectoryHandle) => {
     const id = nanoid();
@@ -108,5 +112,44 @@ const actions = (state: BoardState) => ({
       files,
     });
     await set(STORE_PREFIX + id, handle);
+  },
+  removeFolder: async (id: string) => {
+    const index = state.folders.findIndex((folder) => folder.id === id);
+    if (index !== -1) {
+      state.folders.splice(index, 1);
+    }
+    // TODO: find and remove tracks from this folder that were used in areas
+    await del(STORE_PREFIX + id);
+  },
+  refreshFolder: async (id: string) => {
+    // TODO: user visible errors
+    const folder = state.folders.find((folder) => folder.id === id);
+    if (!folder) {
+      return console.error(`Folder ${id} is missing from state`);
+    }
+    const handle: FileSystemDirectoryHandle | undefined = await get(
+      STORE_PREFIX + id,
+    );
+
+    if (!handle) {
+      return console.error(`Folder ${id} handle is missing from storage`);
+    }
+    if ((await handle.queryPermission({ mode: "read" })) !== "granted") {
+      if ((await handle.requestPermission({ mode: "read" })) !== "granted") {
+        return console.error(`Folder ${id} does not have read permission`);
+      }
+    }
+
+    const files: FileInfo[] = [];
+    for await (const { file, path } of getFilesRecursively(handle)) {
+      const fullPath = path ? `${path}/${file.name}` : file.name;
+
+      files.push({
+        name: file.name,
+        path: fullPath,
+      });
+    }
+    files.sort((a, b) => a.path.localeCompare(b.path));
+    folder.files = files;
   },
 });

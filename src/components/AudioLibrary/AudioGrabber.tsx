@@ -105,7 +105,7 @@ export default function AudioGrabber() {
             <>
               {" "}
               or{" "}
-              <button className="Button" onClick={selectDirectory}>
+              <button className="button" onClick={selectDirectory}>
                 browse
               </button>
             </>

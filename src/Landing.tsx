@@ -46,7 +46,7 @@ export default function Landing() {
         <div className={styles.separator}></div>
         <div className={styles.controls}>
           <>
-            <button onClick={createBoard} className="Button">
+            <button onClick={createBoard} className="button">
               Create New Board
             </button>
             {!boards?.length ? null : (

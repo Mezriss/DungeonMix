@@ -40,7 +40,7 @@ h1 {
     height: 100vh;
 }
 
-.Button {
+.button {
     cursor: pointer;
     box-sizing: border-box;
     display: flex;

@@ -1,4 +1,4 @@
-import { AlertDialog } from "@base-ui-components/react/alert-dialog";
+import { AlertDialog as Alert } from "@base-ui-components/react/alert-dialog";
 
 import styles from "@/styles/AlertDialog.module.css";
 
@@ -8,40 +8,71 @@ type Props = {
   title: string;
   description: string;
   actionName: string;
-  onConfirm: () => void;
+  action: () => void;
 };
 
-export default function AlertDialogComponent({
+export function AlertDialog({
   title,
   open,
   description,
   actionName,
-  onConfirm,
+  action,
   setOpen,
 }: Props) {
   return (
-    <AlertDialog.Root open={open} onOpenChange={setOpen}>
-      <AlertDialog.Portal>
-        <AlertDialog.Backdrop className={styles.Backdrop} />
-        <AlertDialog.Popup className={styles.Popup}>
-          <AlertDialog.Title className={styles.Title}>
-            {title}
-          </AlertDialog.Title>
-          <AlertDialog.Description className={styles.Description}>
+    <Alert.Root open={open} onOpenChange={setOpen}>
+      <Alert.Portal>
+        <Alert.Backdrop className={styles.Backdrop} />
+        <Alert.Popup className={styles.Popup}>
+          <Alert.Title className={styles.Title}>{title}</Alert.Title>
+          <Alert.Description className={styles.Description}>
             {description}
-          </AlertDialog.Description>
+          </Alert.Description>
           <div className={styles.Actions}>
-            <AlertDialog.Close className={"Button"}>Cancel</AlertDialog.Close>
-            <AlertDialog.Close
-              data-color="red"
-              className={"Button"}
-              onClick={onConfirm}
-            >
+            <Alert.Close className="button">Cancel</Alert.Close>
+            <Alert.Close data-color="red" className="button" onClick={action}>
               {actionName}
-            </AlertDialog.Close>
+            </Alert.Close>
           </div>
-        </AlertDialog.Popup>
-      </AlertDialog.Portal>
-    </AlertDialog.Root>
+        </Alert.Popup>
+      </Alert.Portal>
+    </Alert.Root>
+  );
+}
+
+type PropsT = {
+  children: React.ReactNode;
+  title: string;
+  description: string;
+  actionName: string;
+  action: () => void;
+};
+
+export function AlertDialogTriggered({
+  children,
+  title,
+  description,
+  actionName,
+  action,
+}: PropsT) {
+  return (
+    <Alert.Root>
+      <Alert.Trigger className="button">{children}</Alert.Trigger>
+      <Alert.Portal>
+        <Alert.Backdrop className={styles.Backdrop} />
+        <Alert.Popup className={styles.Popup}>
+          <Alert.Title className={styles.Title}>{title}</Alert.Title>
+          <Alert.Description className={styles.Description}>
+            {description}
+          </Alert.Description>
+          <div className={styles.Actions}>
+            <Alert.Close className="button">Cancel</Alert.Close>
+            <Alert.Close data-color="red" className="button" onClick={action}>
+              {actionName}
+            </Alert.Close>
+          </div>
+        </Alert.Popup>
+      </Alert.Portal>
+    </Alert.Root>
   );
 }

@@ -10,13 +10,13 @@ type TooltipProps = {
 export default function TooltipComponent({ children, text }: TooltipProps) {
   return (
     <Tooltip.Root delay={100}>
-      <Tooltip.Trigger aria-label={text} className={"Button"}>
+      <Tooltip.Trigger aria-label={text} render={<div />}>
         {children}
       </Tooltip.Trigger>
       <Tooltip.Portal>
         <Tooltip.Positioner sideOffset={10}>
-          <Tooltip.Popup className={styles.Popup}>
-            <Tooltip.Arrow className={styles.Arrow}>
+          <Tooltip.Popup className={styles.popup}>
+            <Tooltip.Arrow className={styles.arrow}>
               <ArrowSvg />
             </Tooltip.Arrow>
             {text}
