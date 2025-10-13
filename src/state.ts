@@ -15,11 +15,20 @@ export type UIState = {
   selectedTool: "select" | "rectangle" | "circle";
 };
 
+export type AudioArea = {
+  id: string;
+  shape: "rectangle" | "circle";
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
 export type BoardState = {
   id: string;
   name: string;
   folders: { id: string; name: string; files: FileInfo[] }[];
-  areas: [];
+  areas: AudioArea[];
   sketches: [];
   images: [];
 };
@@ -176,5 +185,8 @@ const actions = (state: BoardState, ui: UIState) => ({
   },
   switchTool: (tool: UIState["selectedTool"]) => {
     ui.selectedTool = tool;
+  },
+  addArea: (shape: AudioArea) => {
+    state.areas.push({ ...shape, id: nanoid() });
   },
 });

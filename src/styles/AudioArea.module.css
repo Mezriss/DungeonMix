@@ -1,0 +1,12 @@
+.area {
+  position: absolute;
+  outline: 2px solid var(--color-blue);
+  background-color: color-mix(in srgb, var(--color-blue), transparent 80%);
+}
+
+/*.rectangle {
+}*/
+
+.circle {
+  border-radius: 50%;
+}

@@ -1,0 +1,6 @@
+./node_modules/.bin/prettier $(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g') --write --ignore-unknown
+git update-index --again
+
+./node_modules/.bin/tsc -b --noEmit
+
+echo "All checks passed."
