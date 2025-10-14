@@ -1,7 +1,7 @@
 import { Circle, MousePointer2, Music, Square } from "lucide-react";
 import styles from "@/styles/Toolbar.module.css";
 import Tooltip from "./ui/Tooltip";
-import { useBoardState } from "@/state";
+import { useBoardState } from "@/hooks/useBoardState";
 import { classes } from "@/util/misc";
 
 export default function Toolbar() {

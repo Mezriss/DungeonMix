@@ -1,8 +1,8 @@
 import { Link } from "wouter";
 
-import styles from "@/styles/MissingBoard.module.css";
+import styles from "@/styles/BoardMissing.module.css";
 
-export default function MissingBoard() {
+export default function BoardMissing() {
   return (
     <div className={styles.missing}>
       <h1>Board Not Found</h1>

@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import styles from "@/styles/Body.module.css";
-import { useBoardState, type AudioArea } from "@/state";
+import styles from "@/styles/BoardCanvas.module.css";
+import { useBoardState } from "@/hooks/useBoardState";
 import AudioAreaComponent from "./shapes/AudioArea";
+import type { AudioArea } from "@/state";
 
-export default function Body() {
+export default function BoardCanvas() {
   const { state, ui, actions } = useBoardState();
   const divRef = useRef<HTMLDivElement>(null);
   const [rect, setRect] = useState({ width: 0, height: 0, x: 0, y: 0 });

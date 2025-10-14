@@ -1,4 +1,4 @@
-import { useBoardState } from "@/state";
+import { useBoardState } from "@/hooks/useBoardState";
 import styles from "@/styles/AudioGrabber.module.css";
 import { CircleX, X } from "lucide-react";
 import { useRef, useState } from "react";

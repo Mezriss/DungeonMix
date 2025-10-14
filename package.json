@@ -19,6 +19,7 @@
     "nanoid": "^5.1.6",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-error-boundary": "^6.0.0",
     "valtio": "^2.1.8",
     "wouter": "^3.7.1"
   },

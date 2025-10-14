@@ -1,5 +1,4 @@
-import { createContext, useContext } from "react";
-import { useSnapshot, proxy } from "valtio";
+import { proxy } from "valtio";
 import { boardTemplate, KEY_BOARDS, STORE_PREFIX } from "./const";
 import type { BoardList } from "./Landing";
 import { nanoid } from "nanoid";
@@ -66,19 +65,6 @@ export function initBoardState(id: string): State | null {
         ui: pUI,
       }
     : null;
-}
-
-export const BoardStateContext = createContext<State>(null!);
-
-export function useBoardState() {
-  const state = useContext(BoardStateContext);
-  const snap = useSnapshot<BoardState>(state.data);
-  const uiSnap = useSnapshot<UIState>(state.ui);
-  return {
-    state: snap,
-    ui: uiSnap,
-    actions: state.actions,
-  };
 }
 
 const actions = (state: BoardState, ui: UIState) => ({

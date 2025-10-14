@@ -1,4 +1,4 @@
-import { useBoardState } from "@/state";
+import { useBoardState } from "@/hooks/useBoardState";
 import styles from "@/styles/AudioList.module.css";
 import { Folder, FolderOpen, RefreshCw, X } from "lucide-react";
 import { Collapsible } from "@base-ui-components/react/collapsible";

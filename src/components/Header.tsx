@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { Settings } from "lucide-react";
 import { Menu } from "@base-ui-components/react/menu";
 import { AlertDialog } from "@/components/ui/AlertDialog";
-import { useBoardState } from "@/state";
+import { useBoardState } from "@/hooks/useBoardState";
 
 import styles from "@/styles/Header.module.css";
 import { Link, useLocation } from "wouter";

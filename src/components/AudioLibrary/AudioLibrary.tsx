@@ -1,7 +1,7 @@
 import styles from "@/styles/AudioLibrary.module.css";
 import { Info } from "lucide-react";
 import AudioGrabber from "./AudioGrabber";
-import { useBoardState } from "@/state";
+import { useBoardState } from "@/hooks/useBoardState";
 import AudioList from "./AudioList";
 
 export default function AudioLibrary() {

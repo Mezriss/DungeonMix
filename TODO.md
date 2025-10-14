@@ -1,0 +1,3 @@
+- [ ] user visible errors for actions in AudioGrabber
+- [ ] fallback flow for browsers withour proper support of File System Access API
+- [ ] show an error message instead of resettin corrupted board
