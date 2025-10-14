@@ -1,5 +1,4 @@
-import { proxy } from "valtio";
-import { boardTemplate, KEY_BOARDS, STORE_PREFIX } from "./const";
+import { KEY_BOARDS, STORE_PREFIX } from "./const";
 import type { BoardList } from "./Landing";
 import { nanoid } from "nanoid";
 import { get, set, getMany, del, delMany } from "idb-keyval";
@@ -38,36 +37,20 @@ export type State = {
   ui: UIState;
 };
 
-const initialUIState: UIState = {
+export const getInitialBoardState = (id: string): BoardState => ({
+  id,
+  name: "",
+  folders: [],
+  areas: [],
+  sketches: [],
+  images: [],
+});
+
+export const getInitialUIState = (): UIState => ({
   selectedTool: "select",
-};
+});
 
-export function initBoardState(id: string): State | null {
-  const stored = localStorage.getItem(STORE_PREFIX + id);
-  let data: BoardState | null = null;
-  if (stored) {
-    try {
-      data = JSON.parse(stored);
-    } catch {
-      console.error(`Somehow data for board ${id} is corrupted`);
-      console.error(stored);
-      console.info("Resetting board state");
-      data = boardTemplate(id);
-      localStorage.setItem(STORE_PREFIX + id, JSON.stringify(data));
-    }
-  }
-  const pData = data && proxy(data);
-  const pUI = proxy(structuredClone(initialUIState));
-  return pData
-    ? {
-        data: pData,
-        actions: actions(pData, pUI),
-        ui: pUI,
-      }
-    : null;
-}
-
-const actions = (state: BoardState, ui: UIState) => ({
+export const actions = (state: BoardState, ui: UIState) => ({
   updateName: (name: string) => {
     state.name = name;
     try {

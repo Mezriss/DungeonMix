@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
-import { boardTemplate, KEY_BOARDS, STORE_PREFIX } from "./const";
+import { nanoid } from "nanoid";
+import { KEY_BOARDS, STORE_PREFIX } from "./const";
+import { getInitialBoardState } from "./state";
 
 import styles from "@/styles/Landing.module.css";
-import { nanoid } from "nanoid";
 
 export type BoardList = {
   id: string;
@@ -27,7 +28,10 @@ export default function Landing() {
       KEY_BOARDS,
       JSON.stringify([...(boards || []), { id, name: "Untitled Board" }]),
     );
-    localStorage.setItem(STORE_PREFIX + id, JSON.stringify(boardTemplate(id)));
+    localStorage.setItem(
+      STORE_PREFIX + id,
+      JSON.stringify(getInitialBoardState(id)),
+    );
     navigate(`/boards/${id}`);
   }
 

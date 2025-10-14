@@ -1,0 +1,20 @@
+.loading {
+  display: grid;
+  place-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.spinner {
+  display: grid;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
