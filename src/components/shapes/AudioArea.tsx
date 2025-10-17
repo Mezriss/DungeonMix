@@ -1,13 +1,14 @@
+import { type Snapshot } from "valtio";
 import { useBoardState } from "@/hooks/useBoardState";
 import type { AudioArea } from "@/state";
 
 import styles from "@/styles/AudioArea.module.css";
 import { classes } from "@/util/misc";
-import { Move, Music, Plus, Trash2 } from "lucide-react";
+import { CirclePlay, Move, Music, Plus, Trash2, Volume1 } from "lucide-react";
 import Tooltip from "@/components/ui/Tooltip";
 import { useState } from "react";
+import TrackAdder from "./TrackAdder";
 
-// TODO: track selector modal
 // TODO: resize handles
 // TODO: list of tracks with autoplay toggle and volume control
 
@@ -15,10 +16,10 @@ export default function AudioAreaComponent({
   area,
   temp = false,
 }: {
-  area: AudioArea;
+  area: Snapshot<AudioArea>;
   temp?: boolean;
 }) {
-  const { ui, actions } = useBoardState();
+  const { ui, actions, state } = useBoardState();
   const selected = ui.selectedAreaId === area.id;
   const isInteractive = selected || ui.selectedTool === "select";
 
@@ -66,7 +67,7 @@ export default function AudioAreaComponent({
       onPointerLeave={handlePointerLeave}
       className={classes(
         styles.area,
-        area.shape === "rectangle" ? styles.rectangle : styles.circle,
+        area.shape === "circle" && styles.circle,
         selected && styles.selected,
         !isInteractive && styles.nonInteractive,
         temp && styles.temp,
@@ -82,14 +83,40 @@ export default function AudioAreaComponent({
           }),
       }}
     >
+      {!temp &&
+        area.tracks.map((track) => (
+          <div key={track.folderId + track.path} className={styles.track}>
+            <div className={styles.title}>{track.name}</div>
+            <Tooltip text="Toggle autoplay">
+              <button className={"button"}>
+                <CirclePlay size={16} />
+              </button>
+            </Tooltip>
+            <Tooltip text="Volume">
+              <button className={"button"}>
+                <Volume1 size={16} />
+              </button>
+            </Tooltip>
+            <Tooltip text="Remove track">
+              <button className={"button"}>
+                <Trash2 size={16} />
+              </button>
+            </Tooltip>
+          </div>
+        ))}
       {!temp && selected && (
         <div className={styles.controls}>
-          <Tooltip text="Add track">
-            <button className={"button"}>
-              <Plus size={16} />
-              <Music size={16} />
-            </button>
-          </Tooltip>
+          {!!state.folders.length && (
+            <TrackAdder areaId={area.id}>
+              <Tooltip text="Add track">
+                <button className={"button"}>
+                  <Plus size={16} />
+                  <Music size={16} />
+                </button>
+              </Tooltip>
+            </TrackAdder>
+          )}
+
           <Tooltip text="Hold button to move area">
             <button className={"button"} onPointerDown={handleMoveStart}>
               <Move size={16} />

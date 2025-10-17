@@ -22,8 +22,8 @@ export function AlertDialog({
   return (
     <Alert.Root open={open} onOpenChange={setOpen}>
       <Alert.Portal>
-        <Alert.Backdrop className={styles.backdrop} />
-        <Alert.Popup className={styles.popup}>
+        <Alert.Backdrop className={"backdrop"} />
+        <Alert.Popup className={"popup"}>
           <Alert.Title className={styles.title}>{title}</Alert.Title>
           <Alert.Description className={styles.description}>
             {description}

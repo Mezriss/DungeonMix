@@ -2,12 +2,26 @@
   position: absolute;
   outline: 2px solid var(--color-blue);
   background-color: color-mix(in srgb, var(--color-blue), transparent 80%);
-  display: grid;
+  display: flex;
+  flex-direction: column;
   place-items: center;
+  justify-content: center;
+  gap: 1rem;
 }
 
-/*.rectangle {
-}*/
+.track {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto auto;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 80%;
+}
+
+.title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 
 .circle {
   border-radius: 50%;

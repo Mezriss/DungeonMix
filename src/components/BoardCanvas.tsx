@@ -16,6 +16,7 @@ export default function BoardCanvas() {
     height: 0,
     x: 0,
     y: 0,
+    tracks: [],
   });
 
   useEffect(() => {
@@ -47,6 +48,7 @@ export default function BoardCanvas() {
           height: 0,
           x: e.clientX - rect.x,
           y: e.clientY - rect.y,
+          tracks: [],
         });
       }
     }

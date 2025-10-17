@@ -1,117 +1,167 @@
 :root {
-    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-    line-height: 1.5;
-    font-weight: 400;
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
 
-    color-scheme: light dark;
-    color: var(--color-gray-900);
-    background-color: var(--color-gray-100);
+  color-scheme: light dark;
+  color: var(--color-gray-900);
+  background-color: var(--color-gray-100);
 
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
-    font-weight: 500;
-    color: var(--color-blue);
-    text-decoration: inherit;
+  font-weight: 500;
+  color: var(--color-blue);
+  text-decoration: inherit;
 }
 a:hover {
-    color: var(--color-blue-2);
+  color: var(--color-blue-2);
 }
 
 body {
-    margin: 0;
-    display: flex;
-    place-items: center;
-    min-width: 320px;
-    min-height: 100vh;
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
 }
 
 h1 {
-    font-size: 3.2em;
-    line-height: 1.1;
+  font-size: 3.2em;
+  line-height: 1.1;
 }
 
 #root {
-    width: 100vw;
-    height: 100vh;
+  width: 100vw;
+  height: 100vh;
 }
 
 .button {
-    cursor: pointer;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 2.5rem;
-    padding: 0 0.875rem;
-    margin: 0;
-    outline: 0;
-    border: 1px solid var(--color-gray-200);
-    border-radius: 0.375rem;
-    background-color: var(--color-gray-50);
-    font-family: inherit;
-    font-size: 1rem;
-    font-weight: 500;
-    line-height: 1.5rem;
-    color: var(--color-gray-900);
-    user-select: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.5rem;
+  padding: 0 0.875rem;
+  margin: 0;
+  outline: 0;
+  border: 1px solid var(--color-gray-200);
+  border-radius: 0.375rem;
+  background-color: var(--color-gray-50);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5rem;
+  color: var(--color-gray-900);
+  user-select: none;
 
-    &[data-color="red"] {
-        color: var(--color-red);
-    }
+  &[data-color="red"] {
+    color: var(--color-red);
+  }
 
-    @media (hover: hover) {
-        &:hover {
-            background-color: var(--color-gray-100);
-        }
+  @media (hover: hover) {
+    &:hover {
+      background-color: var(--color-gray-100);
     }
+  }
 
-    &:active {
-        background-color: var(--color-gray-100);
-    }
+  &:active {
+    background-color: var(--color-gray-100);
+  }
 
-    &:focus-visible {
-        outline: 2px solid var(--color-blue);
-        outline-offset: -1px;
-    }
+  &:focus-visible {
+    outline: 2px solid var(--color-blue);
+    outline-offset: -1px;
+  }
 }
 
 .info,
 .error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid;
+  & > div {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    border-radius: 0.5rem;
-    padding: 0.5rem;
-    border: 1px solid;
-    & > div {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
+  }
 }
 .info {
-    border-color: var(--color-blue);
-    & svg {
-        color: var(--color-blue);
-    }
+  border-color: var(--color-blue);
+  & svg {
+    color: var(--color-blue);
+  }
 }
 .error {
-    justify-content: space-between;
-    border-color: var(--color-red);
-    & svg {
-        color: var(--color-red);
+  justify-content: space-between;
+  border-color: var(--color-red);
+  & svg {
+    color: var(--color-red);
+  }
+  .dismiss {
+    aspect-ratio: 1;
+    justify-self: end;
+    svg {
+      cursor: pointer;
+      color: var(--color-gray-900);
     }
-    .dismiss {
-        aspect-ratio: 1;
-        justify-self: end;
-        svg {
-            cursor: pointer;
-            color: var(--color-gray-900);
-        }
-    }
+  }
+}
+
+.backdrop {
+  position: fixed;
+  min-height: 100dvh;
+  inset: 0;
+  background-color: black;
+  opacity: 0.2;
+  transition: opacity 150ms;
+
+  /* iOS 26+: Ensure the backdrop covers the entire visible viewport. */
+  @supports (-webkit-touch-callout: none) {
+    position: absolute;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    opacity: 0.7;
+  }
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0;
+  }
+}
+
+.popup {
+  box-sizing: border-box;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 24rem;
+  max-width: calc(100vw - 3rem);
+  margin-top: -2rem;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  outline: 1px solid var(--color-gray-200);
+  background-color: var(--color-gray-50);
+  color: var(--color-gray-900);
+  transition: all 150ms;
+
+  @media (prefers-color-scheme: dark) {
+    outline: 1px solid var(--color-gray-300);
+  }
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
 }

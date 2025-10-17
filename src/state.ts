@@ -21,6 +21,13 @@ export type AudioArea = {
   y: number;
   width: number;
   height: number;
+  tracks: {
+    folderId: string;
+    path: string;
+    name: string;
+    autoplay: boolean;
+    volume: number;
+  }[];
 };
 
 export type BoardState = {
@@ -184,5 +191,18 @@ export const actions = (state: BoardState, ui: UIState) => ({
     }
     area.x += x;
     area.y += y;
+  },
+  addTrackToArea(areaId: string, folderId: string, path: string) {
+    const area = state.areas.find((area) => area.id === areaId);
+    if (!area) {
+      return console.error(`Area ${areaId} is missing from state`);
+    }
+    area.tracks.push({
+      folderId,
+      path,
+      autoplay: true,
+      volume: 100,
+      name: path.match(/([^\\/]+)(?=\.\w+$)/)?.[0] || path,
+    });
   },
 });
