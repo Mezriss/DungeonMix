@@ -11,6 +11,7 @@ export type FileInfo = {
 
 export type UIState = {
   selectedTool: "select" | "rectangle" | "circle";
+  selectedAreaId: string | null;
 };
 
 export type AudioArea = {
@@ -48,6 +49,7 @@ export const getInitialBoardState = (id: string): BoardState => ({
 
 export const getInitialUIState = (): UIState => ({
   selectedTool: "select",
+  selectedAreaId: null,
 });
 
 export const actions = (state: BoardState, ui: UIState) => ({
@@ -156,6 +158,31 @@ export const actions = (state: BoardState, ui: UIState) => ({
     ui.selectedTool = tool;
   },
   addArea: (shape: AudioArea) => {
-    state.areas.push({ ...shape, id: nanoid() });
+    const area = {
+      ...shape,
+      id: nanoid(),
+    };
+    area.width = Math.max(area.width, 100);
+    area.height = Math.max(area.height, 100);
+    state.areas.push(area);
+    ui.selectedAreaId = area.id;
+  },
+  selectArea: (id: string) => {
+    ui.selectedAreaId = id;
+  },
+  deleteArea: (id: string) => {
+    const index = state.areas.findIndex((area) => area.id === id);
+    if (index === -1) {
+      return console.error(`Area ${id} is missing from state`);
+    }
+    state.areas.splice(index, 1);
+  },
+  moveArea: (id: string, x: number, y: number) => {
+    const area = state.areas.find((area) => area.id === id);
+    if (!area) {
+      return console.error(`Area ${id} is missing from state`);
+    }
+    area.x += x;
+    area.y += y;
   },
 });

@@ -2,6 +2,8 @@
   position: absolute;
   outline: 2px solid var(--color-blue);
   background-color: color-mix(in srgb, var(--color-blue), transparent 80%);
+  display: grid;
+  place-items: center;
 }
 
 /*.rectangle {
@@ -9,4 +11,22 @@
 
 .circle {
   border-radius: 50%;
+}
+
+.nonInteractive {
+  pointer-events: none;
+}
+
+.selected {
+  box-shadow: 0 0 1rem var(--color-blue);
+  z-index: 10;
+}
+
+.temp {
+  border-style: dashed;
+}
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
 }
