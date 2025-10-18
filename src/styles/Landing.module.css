@@ -1,38 +1,38 @@
 .landing {
-    display: grid;
-    place-content: center;
-    height: 100vh;
+  display: grid;
+  place-content: center;
+  height: 100vh;
 }
 .landing > div {
-    max-width: 98vw;
-    display: grid;
-    gap: 2rem;
-    grid-template-columns: min-content 1px 20rem;
+  max-width: 98vw;
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: min-content 1px 20rem;
 }
 
 .title {
-    width: min-content;
+  width: min-content;
 }
 .title h1 {
-    text-align: center;
-    margin: 2rem 0;
+  text-align: center;
+  margin: 2rem 0;
 }
 
 .separator {
-    width: 1px;
-    background-color: var(--color-gray-300);
+  width: 1px;
+  background-color: var(--color-gray-300);
 }
 
 .controls {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: center;
-    gap: 1rem;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  gap: 1rem;
+  text-align: center;
 }
 .controls ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }

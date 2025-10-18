@@ -1,9 +1,9 @@
 .library {
-    position: fixed;
-    bottom: 1rem;
-    right: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    width: 25rem;
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 25rem;
 }

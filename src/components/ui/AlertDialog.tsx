@@ -59,13 +59,13 @@ export function AlertDialogTriggered({
     <Alert.Root>
       <Alert.Trigger className="button">{children}</Alert.Trigger>
       <Alert.Portal>
-        <Alert.Backdrop className={styles.Backdrop} />
-        <Alert.Popup className={styles.Popup}>
-          <Alert.Title className={styles.Title}>{title}</Alert.Title>
-          <Alert.Description className={styles.Description}>
+        <Alert.Backdrop className={"backdrop"} />
+        <Alert.Popup className={"popup"}>
+          <Alert.Title className={styles.title}>{title}</Alert.Title>
+          <Alert.Description className={styles.description}>
             {description}
           </Alert.Description>
-          <div className={styles.Actions}>
+          <div className={styles.actions}>
             <Alert.Close className="button">Cancel</Alert.Close>
             <Alert.Close data-color="red" className="button" onClick={action}>
               {actionName}

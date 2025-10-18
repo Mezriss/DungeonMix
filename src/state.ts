@@ -12,6 +12,7 @@ export type FileInfo = {
 export type UIState = {
   selectedTool: "select" | "rectangle" | "circle";
   selectedAreaId: string | null;
+  editMode: boolean;
 };
 
 export type AudioArea = {
@@ -57,6 +58,7 @@ export const getInitialBoardState = (id: string): BoardState => ({
 export const getInitialUIState = (): UIState => ({
   selectedTool: "select",
   selectedAreaId: null,
+  editMode: true,
 });
 
 export const actions = (state: BoardState, ui: UIState) => ({
@@ -204,5 +206,8 @@ export const actions = (state: BoardState, ui: UIState) => ({
       volume: 100,
       name: path.match(/([^\\/]+)(?=\.\w+$)/)?.[0] || path,
     });
+  },
+  toggleEditMode: (val: boolean) => {
+    ui.editMode = val;
   },
 });
