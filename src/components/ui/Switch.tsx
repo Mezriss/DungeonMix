@@ -9,7 +9,7 @@ type Props = {
 export default function SwitchComponent({ checked, onChange }: Props) {
   return (
     <Switch.Root
-      defaultChecked={checked}
+      checked={checked}
       className={styles.switch}
       onCheckedChange={onChange}
     >

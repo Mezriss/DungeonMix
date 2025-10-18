@@ -3,6 +3,7 @@ import styles from "@/styles/BoardCanvas.module.css";
 import { useBoardState } from "@/hooks/useBoardState";
 import AudioAreaComponent from "./shapes/AudioArea";
 import type { AudioArea } from "@/state";
+import { MapPin } from "lucide-react";
 
 export default function BoardCanvas() {
   const { state, ui, actions } = useBoardState();
@@ -31,14 +32,22 @@ export default function BoardCanvas() {
   }, []);
 
   function handlePointerDown(e: React.PointerEvent<HTMLDivElement>) {
-    if (e.target !== e.currentTarget) {
+    if (ui.editMode && e.target !== e.currentTarget) {
       return;
     }
     e.preventDefault();
     if (e.buttons === 4) {
       setMode("drag");
     }
-    if (e.buttons === 1) {
+
+    if (e.buttons === 1 && !ui.editMode) {
+      actions.setMarker(e.clientX - rect.x, e.clientY - rect.y);
+    }
+
+    if (e.buttons === 1 && ui.editMode) {
+      if (ui.selectedTool === "select") {
+        actions.selectArea(null);
+      }
       if (ui.selectedTool === "rectangle" || ui.selectedTool === "circle") {
         setMode("add");
         setTempShape({
@@ -88,6 +97,14 @@ export default function BoardCanvas() {
         <AudioAreaComponent key={area.id} area={area} />
       ))}
       {mode === "add" && <AudioAreaComponent area={tempShape} temp={true} />}
+      {!ui.editMode && ui.marker && (
+        <div
+          className={styles.marker}
+          style={{ left: ui.marker.x, top: ui.marker.y }}
+        >
+          <MapPin />
+        </div>
+      )}
     </div>
   );
 }

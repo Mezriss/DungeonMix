@@ -13,6 +13,7 @@ export type UIState = {
   selectedTool: "select" | "rectangle" | "circle";
   selectedAreaId: string | null;
   editMode: boolean;
+  marker: null | { x: number; y: number };
 };
 
 export type AudioArea = {
@@ -59,6 +60,7 @@ export const getInitialUIState = (): UIState => ({
   selectedTool: "select",
   selectedAreaId: null,
   editMode: true,
+  marker: null,
 });
 
 export const actions = (state: BoardState, ui: UIState) => ({
@@ -165,6 +167,7 @@ export const actions = (state: BoardState, ui: UIState) => ({
   },
   switchTool: (tool: UIState["selectedTool"]) => {
     ui.selectedTool = tool;
+    ui.selectedAreaId = null;
   },
   addArea: (shape: AudioArea) => {
     const area = {
@@ -176,7 +179,7 @@ export const actions = (state: BoardState, ui: UIState) => ({
     state.areas.push(area);
     ui.selectedAreaId = area.id;
   },
-  selectArea: (id: string) => {
+  selectArea: (id: string | null) => {
     ui.selectedAreaId = id;
   },
   deleteArea: (id: string) => {
@@ -209,5 +212,12 @@ export const actions = (state: BoardState, ui: UIState) => ({
   },
   toggleEditMode: (val: boolean) => {
     ui.editMode = val;
+    ui.selectedTool = "select";
+    if (!val) {
+      ui.selectedAreaId = null;
+    }
+  },
+  setMarker: (x: number, y: number) => {
+    ui.marker = { x, y };
   },
 });

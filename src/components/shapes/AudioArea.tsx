@@ -27,7 +27,7 @@ export default function AudioAreaComponent({
   const [offset, setOffset] = useState<[number, number] | null>(null);
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (e.buttons !== 1 || selected || !isInteractive) return;
+    if (!ui.editMode || e.buttons !== 1 || selected || !isInteractive) return;
 
     actions.selectArea(area.id);
   };
@@ -83,27 +83,35 @@ export default function AudioAreaComponent({
           }),
       }}
     >
-      {!temp &&
-        area.tracks.map((track) => (
-          <div key={track.folderId + track.path} className={styles.track}>
-            <div className={styles.title}>{track.name}</div>
-            <Tooltip text="Toggle autoplay">
-              <button className={"button"}>
-                <CirclePlay size={16} />
-              </button>
-            </Tooltip>
-            <Tooltip text="Volume">
-              <button className={"button"}>
-                <Volume1 size={16} />
-              </button>
-            </Tooltip>
-            <Tooltip text="Remove track">
-              <button className={"button"}>
-                <Trash2 size={16} />
-              </button>
-            </Tooltip>
-          </div>
-        ))}
+      {!temp && (
+        <div className={styles.tracklist}>
+          {area.tracks.map((track) => (
+            <div key={track.folderId + track.path} className={styles.track}>
+              <div className={styles.title}>{track.name}</div>
+              {ui.editMode && (
+                <div className={styles.controls}>
+                  <Tooltip text="Toggle autoplay">
+                    <button className={"button"}>
+                      <CirclePlay size={16} />
+                    </button>
+                  </Tooltip>
+                  <Tooltip text="Volume">
+                    <button className={"button"}>
+                      <Volume1 size={16} />
+                    </button>
+                  </Tooltip>
+                  <Tooltip text="Remove track">
+                    <button className={"button"}>
+                      <Trash2 size={16} />
+                    </button>
+                  </Tooltip>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
       {!temp && selected && (
         <div className={styles.controls}>
           {!!state.folders.length && (
