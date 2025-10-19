@@ -4,6 +4,7 @@ import { Folder, FolderOpen, RefreshCw, X } from "lucide-react";
 import { Collapsible } from "@base-ui-components/react/collapsible";
 import Tooltip from "@/components/ui/Tooltip";
 import { AlertDialogTriggered as AlertDialog } from "../ui/AlertDialog";
+import { useMemo } from "react";
 
 export default function AudioList() {
   const { state, actions } = useBoardState();
@@ -35,15 +36,29 @@ export default function AudioList() {
               </AlertDialog>
             </Tooltip>
           </div>
-          <Collapsible.Panel className={styles.panel}>
-            <div className={styles.content}>
-              {folder.files.map((file) => (
-                <div key={file.path}>{file.name.replace(/\.[^.]+$/, "")}</div>
-              ))}
-            </div>
-          </Collapsible.Panel>
+          <TrackList folderId={folder.id} />
         </Collapsible.Root>
       ))}
     </div>
+  );
+}
+
+function TrackList({ folderId }: { folderId: string }) {
+  const { state } = useBoardState();
+
+  const list = useMemo(() => {
+    return Object.values(state.files)
+      .filter((file) => file.folderId === folderId)
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }, [state.files, folderId]);
+
+  return (
+    <Collapsible.Panel className={styles.panel}>
+      <div className={styles.content}>
+        {list.map((file) => (
+          <div key={file.id}>{file.name}</div>
+        ))}
+      </div>
+    </Collapsible.Panel>
   );
 }

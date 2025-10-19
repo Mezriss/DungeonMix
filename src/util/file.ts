@@ -1,5 +1,3 @@
-import type { FileInfo } from "@/state";
-
 export async function getFileHandleFromPath(
   rootDirHandle: FileSystemDirectoryHandle,
   path: string,
@@ -50,21 +48,4 @@ export async function* getFilesRecursively(
       yield* getFilesRecursively(handle, newPath);
     }
   }
-}
-
-export async function getFileList(
-  handle: FileSystemDirectoryHandle,
-): Promise<FileInfo[]> {
-  const files: FileInfo[] = [];
-  for await (const { file, path } of getFilesRecursively(handle)) {
-    const fullPath = path ? `${path}/${file.name}` : file.name;
-
-    files.push({
-      name: file.name,
-      path: fullPath,
-    });
-  }
-  files.sort((a, b) => a.path.localeCompare(b.path));
-
-  return files;
 }

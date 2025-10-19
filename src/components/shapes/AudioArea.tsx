@@ -86,9 +86,11 @@ export default function AudioAreaComponent({
       {!temp && (
         <div className={styles.tracklist}>
           {area.tracks.map((track) => (
-            <div key={track.folderId + track.path} className={styles.track}>
-              <div className={styles.title}>{track.name}</div>
-              {ui.editMode && (
+            <div key={track.trackId} className={styles.track}>
+              <div className={styles.title}>
+                {state.files[track.trackId].name}
+              </div>
+              {ui.editMode && selected && (
                 <div className={styles.controls}>
                   <Tooltip text="Toggle autoplay">
                     <button className={"button"}>
@@ -101,7 +103,12 @@ export default function AudioAreaComponent({
                     </button>
                   </Tooltip>
                   <Tooltip text="Remove track">
-                    <button className={"button"}>
+                    <button
+                      className={"button"}
+                      onClick={() =>
+                        actions.removeTrackFromArea(area.id, track.trackId)
+                      }
+                    >
                       <Trash2 size={16} />
                     </button>
                   </Tooltip>

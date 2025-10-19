@@ -3,40 +3,38 @@ import { useBoardState } from "@/hooks/useBoardState";
 
 import styles from "@/styles/TrackAdder.module.css";
 import { Combobox } from "@base-ui-components/react";
+import type { FileInfo } from "@/state";
 
 type Props = {
   children: React.ReactNode;
   areaId: string;
 };
 
-type Track = {
-  name: string;
-  path: string;
-  folderId: string;
-};
-
 export default function TrackAdder({ children, areaId }: Props) {
   const { state, actions } = useBoardState();
-  const [value, setValue] = useState<Track | null>(null);
+  const [value, setValue] = useState<FileInfo | null>(null);
 
-  const tracks: Track[] = state.folders.flatMap((folder) =>
-    folder.files.map((file) => ({
-      name: file.name.replace(/\.[^.]+$/, ""),
-      path: file.path,
-      folderId: folder.id,
-    })),
+  const tracks = Object.values(state.files).sort((a, b) =>
+    a.name.localeCompare(b.name),
   );
 
-  const handleChange = (track: Track | null) => {
+  const handleChange = (track: FileInfo | null) => {
     if (track) {
-      actions.addTrackToArea(areaId, track.folderId, track.path);
+      actions.addTrackToArea(areaId, track.id);
     }
-    console.info(areaId, track?.name, track?.path);
     setValue(null);
   };
 
   return (
-    <Combobox.Root items={tracks} value={value} onValueChange={handleChange}>
+    <Combobox.Root
+      items={tracks}
+      value={value}
+      onValueChange={handleChange}
+      filter={(item: FileInfo, query: string) => {
+        if (!query) return true;
+        return item.name.toLowerCase().includes(query.toLowerCase());
+      }}
+    >
       <Combobox.Trigger render={<div />} nativeButton={false}>
         {children}
       </Combobox.Trigger>
@@ -53,9 +51,9 @@ export default function TrackAdder({ children, areaId }: Props) {
               No tracks found.
             </Combobox.Empty>
             <Combobox.List className={styles.list}>
-              {(track: Track) => (
+              {(track: FileInfo) => (
                 <Combobox.Item
-                  key={track.folderId + track.path}
+                  key={track.id}
                   value={track}
                   className={styles.item}
                 >
