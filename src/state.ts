@@ -359,7 +359,6 @@ export const actions = (state: BoardState, ui: UIState) => {
             howl.fade(0, volume, FADE_DURATION);
             howl.play();
             ui.tracks[trackId].status = "playing";
-            console.info("start playing track", trackId);
           }
         }),
       );
