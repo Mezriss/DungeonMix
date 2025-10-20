@@ -32,7 +32,8 @@ export default function BoardCanvas() {
   }, []);
 
   function handlePointerDown(e: React.PointerEvent<HTMLDivElement>) {
-    if (ui.editMode && e.target !== e.currentTarget) {
+    const [editMode, selectedTool] = actions.getUI("editMode", "selectedTool");
+    if (editMode && e.target !== e.currentTarget) {
       return;
     }
     e.preventDefault();
@@ -40,19 +41,19 @@ export default function BoardCanvas() {
       setMode("drag");
     }
 
-    if (e.buttons === 1 && !ui.editMode) {
+    if (e.buttons === 1 && !editMode) {
       actions.setMarker(e.clientX - rect.x, e.clientY - rect.y);
     }
 
-    if (e.buttons === 1 && ui.editMode) {
-      if (ui.selectedTool === "select") {
+    if (e.buttons === 1 && editMode) {
+      if (selectedTool === "select") {
         actions.selectArea(null);
       }
-      if (ui.selectedTool === "rectangle" || ui.selectedTool === "circle") {
+      if (selectedTool === "rectangle" || selectedTool === "circle") {
         setMode("add");
         setTempShape({
           id: "temp",
-          shape: ui.selectedTool,
+          shape: selectedTool,
           width: 0,
           height: 0,
           x: e.clientX - rect.x,

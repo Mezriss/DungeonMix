@@ -1,2 +1,4 @@
 export const STORE_PREFIX = "dungeonmix:";
 export const KEY_BOARDS = STORE_PREFIX + "boards";
+export const SUPPORTED_FORMATS = ["mp3", "wav", "ogg", "m4a", "flac", "aac"];
+export const FADE_DURATION = 750;

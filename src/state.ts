@@ -1,8 +1,13 @@
-import { KEY_BOARDS, STORE_PREFIX } from "./const";
-import type { BoardList } from "./Landing";
 import { nanoid } from "nanoid";
+import { Howl } from "howler";
 import { get, set, getMany, del, delMany } from "idb-keyval";
-import { getFilesRecursively } from "./util/file";
+import { FADE_DURATION, KEY_BOARDS, STORE_PREFIX } from "./const";
+import type { BoardList } from "./Landing";
+import {
+  getFileHandleFromPath,
+  getFilesRecursively,
+  getPermission,
+} from "./util/file";
 import { pointInEllipse, pointInRectangle } from "./util/misc";
 
 export type FileInfo = {
@@ -20,8 +25,8 @@ export type UIState = {
   marker: null | { x: number; y: number };
   tracks: {
     [id: string]: {
-      src: string;
-      howl: Howl;
+      id: string;
+      status: "playing" | "paused" | "stopped" | "fadingout";
     };
   };
 };
@@ -75,15 +80,50 @@ export const getInitialUIState = (): UIState => ({
 });
 
 export const actions = (state: BoardState, ui: UIState) => {
+  const trackCache = new Map<string, Howl>(); // howler breaks when it's put into valtio
   const removeFile = (id: string) => {
     delete state.files[id];
     state.areas.forEach((area) => {
       area.tracks = area.tracks.filter((track) => track.trackId !== id);
     });
     delete ui.tracks[id];
+    trackCache.delete(id);
+  };
+
+  const initTrack = async (trackId: string) => {
+    const dirHandle = await get(STORE_PREFIX + state.files[trackId].folderId);
+    try {
+      if (!getPermission(dirHandle)) return;
+      const fileHandle = await getFileHandleFromPath(
+        dirHandle,
+        state.files[trackId].path,
+      );
+      const src = URL.createObjectURL(await fileHandle.getFile());
+      trackCache.set(
+        trackId,
+        new Howl({
+          src: src,
+          format: state.files[trackId].format,
+          volume: 1,
+          loop: true,
+          autoplay: false,
+        }),
+      );
+      ui.tracks[trackId] = {
+        id: trackId,
+        status: "stopped",
+      };
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return {
+    getUI: (...props: (keyof typeof ui)[]) => {
+      return props.map((prop) => {
+        return ui[prop];
+      });
+    },
     updateName: (name: string) => {
       state.name = name;
       try {
@@ -116,36 +156,40 @@ export const actions = (state: BoardState, ui: UIState) => {
       // TODO: clear other resources from IDB (images?)
     },
     addFolder: async (handle: FileSystemDirectoryHandle) => {
-      const id = nanoid();
-      if (state.folders.length) {
-        const existingHandleIds = state.folders.map(
-          (folder) => STORE_PREFIX + folder.id,
-        );
-        const existingHandles: FileSystemDirectoryHandle[] =
-          await getMany(existingHandleIds);
-        for (const existingHandle of existingHandles) {
-          if (await existingHandle.isSameEntry(handle)) {
-            return;
+      try {
+        const id = nanoid();
+        if (state.folders.length) {
+          const existingHandleIds = state.folders.map(
+            (folder) => STORE_PREFIX + folder.id,
+          );
+          const existingHandles: FileSystemDirectoryHandle[] =
+            await getMany(existingHandleIds);
+          for (const existingHandle of existingHandles) {
+            if (await existingHandle.isSameEntry(handle)) {
+              return;
+            }
           }
         }
+        for await (const { file, path } of getFilesRecursively(handle)) {
+          const fullPath = path ? `${path}/${file.name}` : file.name;
+          const fileId = nanoid();
+          const info: FileInfo = {
+            id: fileId,
+            path: fullPath,
+            name: file.name.replace(/\.[^.]+$/, ""),
+            format: file.name.split(".").pop() || "",
+            folderId: id,
+          };
+          state.files[fileId] = info;
+        }
+        state.folders.push({
+          id,
+          name: handle.name,
+        });
+        await set(STORE_PREFIX + id, handle);
+      } catch (error) {
+        console.error(`Failed to add folder ${handle.name}: ${error}`);
       }
-      for await (const { file, path } of getFilesRecursively(handle)) {
-        const fullPath = path ? `${path}/${file.name}` : file.name;
-        const fileId = nanoid();
-        const info: FileInfo = {
-          id: fileId,
-          path: fullPath,
-          name: file.name.replace(/\.[^.]+$/, ""),
-          format: file.name.split(".").pop() || "",
-          folderId: id,
-        };
-        state.files[fileId] = info;
-      }
-      state.folders.push({
-        id,
-        name: handle.name,
-      });
-      await set(STORE_PREFIX + id, handle);
     },
     removeFolder: async (id: string) => {
       const index = state.folders.findIndex((folder) => folder.id === id);
@@ -175,13 +219,7 @@ export const actions = (state: BoardState, ui: UIState) => {
           `Folder ${folderId} handle is missing from storage`,
         );
       }
-      if ((await handle.queryPermission({ mode: "read" })) !== "granted") {
-        if ((await handle.requestPermission({ mode: "read" })) !== "granted") {
-          return console.error(
-            `Folder ${folderId} does not have read permission`,
-          );
-        }
-      }
+      if (!getPermission(handle)) return;
 
       const files: { path: string; name: string }[] = [];
       for await (const { file, path } of getFilesRecursively(handle)) {
@@ -255,7 +293,7 @@ export const actions = (state: BoardState, ui: UIState) => {
       area.tracks.push({
         trackId,
         autoplay: true,
-        volume: 100,
+        volume: 1,
       });
     },
     removeTrackFromArea(areaId: string, trackId: string) {
@@ -276,7 +314,7 @@ export const actions = (state: BoardState, ui: UIState) => {
         ui.selectedAreaId = null;
       }
     },
-    setMarker: (x: number, y: number) => {
+    setMarker: async (x: number, y: number) => {
       ui.marker = { x, y };
       const areas = state.areas.filter((area) => {
         if (area.shape === "rectangle") {
@@ -296,10 +334,48 @@ export const actions = (state: BoardState, ui: UIState) => {
           });
         }
       });
-      console.info(areas);
-      // resolve tracks, cache them if needed
+      const shouldPlay = areas.flatMap((area) =>
+        area.tracks.filter((track) => track.autoplay),
+      );
+      const shouldPlayIds = shouldPlay.map((track) => track.trackId);
+      const currentlyPlayingIds = Object.values(ui.tracks)
+        .filter((track) => track.status === "playing")
+        .map((track) => track.id);
+      const shouldStopIds = currentlyPlayingIds.filter(
+        (id) => !shouldPlayIds.includes(id),
+      );
+
+      await Promise.all(
+        shouldPlay.map(async ({ trackId, volume }) => {
+          if (!ui.tracks[trackId]) {
+            await initTrack(trackId);
+          }
+          if (!currentlyPlayingIds.includes(trackId)) {
+            const howl = trackCache.get(trackId);
+            if (!howl) {
+              return console.error(`Track ${trackId} not found in cache`);
+            }
+            howl.off("fade");
+            howl.fade(0, volume, FADE_DURATION);
+            howl.play();
+            ui.tracks[trackId].status = "playing";
+            console.info("start playing track", trackId);
+          }
+        }),
+      );
+      shouldStopIds.forEach((trackId) => {
+        const howl = trackCache.get(trackId);
+        if (!howl) {
+          return console.error(`Track ${trackId} not found in cache`);
+        }
+        howl.fade(howl.volume(), 0, FADE_DURATION);
+        ui.tracks[trackId].status = "fadingout";
+        howl.once("fade", () => {
+          howl.pause();
+          ui.tracks[trackId].status = "paused";
+        });
+      });
       // TODO if there are several areas - determine how they should mix (?)
-      // fade out previous tracks, fade in new tracks
     },
   };
 };

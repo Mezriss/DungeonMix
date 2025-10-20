@@ -1,3 +1,5 @@
+import { SUPPORTED_FORMATS } from "@/const";
+
 export async function getFileHandleFromPath(
   rootDirHandle: FileSystemDirectoryHandle,
   path: string,
@@ -26,8 +28,6 @@ export async function getFileHandleFromPath(
   return fileHandle;
 }
 
-const SUPPORTED_FORMATS = ["mp3", "wav", "ogg", "m4a", "flac", "aac"];
-
 export async function* getFilesRecursively(
   entry: FileSystemDirectoryHandle | FileSystemFileHandle,
   basePath = "",
@@ -48,4 +48,16 @@ export async function* getFilesRecursively(
       yield* getFilesRecursively(handle, newPath);
     }
   }
+}
+
+export async function getPermission(
+  handle: FileSystemDirectoryHandle | FileSystemFileHandle,
+) {
+  if ((await handle.queryPermission({ mode: "read" })) !== "granted") {
+    if ((await handle.requestPermission({ mode: "read" })) !== "granted") {
+      console.error(`Couldn't get permission for file ${handle.name}`);
+      return false;
+    }
+  }
+  return true;
 }
