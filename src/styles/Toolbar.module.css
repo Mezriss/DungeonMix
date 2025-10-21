@@ -1,8 +1,10 @@
 .toolbar {
-  position: fixed;
-  left: 0;
-  top: 8rem;
+  grid-area: 2 / 1;
+  justify-self: start;
+  margin-top: 2rem;
+  height: min-content;
   display: flex;
+  position: relative;
   flex-direction: column;
   gap: 0.5rem;
   padding: 0.5rem;

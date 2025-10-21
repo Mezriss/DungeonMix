@@ -21,9 +21,9 @@ export default function Board({ id }: { id: string }) {
           <div className={styles.board}>
             <Header />
             <BoardCanvas />
+            <Toolbar />
+            <AudioLibrary />
           </div>
-          <Toolbar />
-          <AudioLibrary />
         </ErrorBoundary>
       </BoardStateContext.Provider>
     );
