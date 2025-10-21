@@ -11,10 +11,10 @@ type Props = {
 };
 
 export default function TrackAdder({ children, areaId }: Props) {
-  const { state, actions } = useBoardState();
+  const { data, actions } = useBoardState();
   const [value, setValue] = useState<FileInfo | null>(null);
 
-  const tracks = Object.values(state.files).sort((a, b) =>
+  const tracks = Object.values(data.files).sort((a, b) =>
     a.name.localeCompare(b.name),
   );
 

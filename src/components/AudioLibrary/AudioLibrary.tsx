@@ -5,11 +5,11 @@ import { useBoardState } from "@/hooks/useBoardState";
 import AudioList from "./AudioList";
 
 export default function AudioLibrary() {
-  const { state } = useBoardState();
+  const { data } = useBoardState();
 
   return (
     <div className={styles.library}>
-      {state.folders.length ? (
+      {data.folders.length ? (
         <AudioList />
       ) : (
         <div className="info">

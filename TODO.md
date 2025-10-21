@@ -1,3 +1,12 @@
+- [ ] scrolling
+- [ ] scaling
+- [ ] track volume control
+- [ ] visual indicator for playing tracks
+- [ ] autoplay control (with play button in play mode)
+- [ ] adding images (a layer under shapes, shapes shouldn't stop adding)
 - [ ] user visible errors for actions in AudioGrabber
 - [ ] fallback flow for browsers withour proper support of File System Access API
-- [ ] show an error message instead of resettin corrupted board
+- [ ] audio library revisit, scroll for long track lists
+- [ ] test
+- [ ] docs
+- [ ] video presentation

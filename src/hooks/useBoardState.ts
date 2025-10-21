@@ -8,7 +8,7 @@ export function useBoardState() {
   const snap = useSnapshot<BoardState>(state.data);
   const uiSnap = useSnapshot<UIState>(state.ui);
   return {
-    state: snap,
+    data: snap,
     ui: uiSnap,
     actions: state.actions,
   };

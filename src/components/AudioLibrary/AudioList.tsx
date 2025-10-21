@@ -7,10 +7,10 @@ import { AlertDialogTriggered as AlertDialog } from "../ui/AlertDialog";
 import { useMemo } from "react";
 
 export default function AudioList() {
-  const { state, actions } = useBoardState();
+  const { data, actions } = useBoardState();
   return (
     <div className={styles.audioList}>
-      {state.folders.map((folder) => (
+      {data.folders.map((folder) => (
         <Collapsible.Root key={folder.id} className={styles.collapsible}>
           <div className={styles.collapsibleHeader}>
             <Collapsible.Trigger className={styles.trigger}>
@@ -44,13 +44,13 @@ export default function AudioList() {
 }
 
 function TrackList({ folderId }: { folderId: string }) {
-  const { state } = useBoardState();
+  const { data } = useBoardState();
 
   const list = useMemo(() => {
-    return Object.values(state.files)
+    return Object.values(data.files)
       .filter((file) => file.folderId === folderId)
       .sort((a, b) => a.name.localeCompare(b.name));
-  }, [state.files, folderId]);
+  }, [data.files, folderId]);
 
   return (
     <Collapsible.Panel className={styles.panel}>

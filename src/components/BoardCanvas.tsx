@@ -6,7 +6,7 @@ import type { AudioArea } from "@/state";
 import { MapPin } from "lucide-react";
 
 export default function BoardCanvas() {
-  const { state, ui, actions } = useBoardState();
+  const { data, ui, actions } = useBoardState();
   const divRef = useRef<HTMLDivElement>(null);
   const [rect, setRect] = useState({ width: 0, height: 0, x: 0, y: 0 });
   const [mode, setMode] = useState<"add" | "drag" | null>(null);
@@ -94,7 +94,7 @@ export default function BoardCanvas() {
       onPointerUp={handlePointerUp}
       onPointerLeave={handlePointerLeave}
     >
-      {state.areas.map((area) => (
+      {data.areas.map((area) => (
         <AudioAreaComponent key={area.id} area={area} />
       ))}
       {mode === "add" && <AudioAreaComponent area={tempShape} temp={true} />}

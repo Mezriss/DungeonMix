@@ -19,7 +19,7 @@ export default function AudioAreaComponent({
   area: Snapshot<AudioArea>;
   temp?: boolean;
 }) {
-  const { ui, actions, state } = useBoardState();
+  const { ui, actions, data } = useBoardState();
   const selected = ui.selectedAreaId === area.id;
   const isInteractive = selected || ui.selectedTool === "select";
 
@@ -88,7 +88,7 @@ export default function AudioAreaComponent({
           {area.tracks.map((track) => (
             <div key={track.trackId} className={styles.track}>
               <div className={styles.title}>
-                {state.files[track.trackId].name}
+                {data.files[track.trackId].name}
               </div>
               {ui.editMode && selected && (
                 <div className={styles.controls}>
@@ -121,7 +121,7 @@ export default function AudioAreaComponent({
 
       {!temp && selected && (
         <div className={styles.controls}>
-          {!!state.folders.length && (
+          {!!data.folders.length && (
             <TrackAdder areaId={area.id}>
               <Tooltip text="Add track">
                 <button className={"button"}>

@@ -9,7 +9,7 @@ import Switch from "./ui/Switch";
 import styles from "@/styles/Header.module.css";
 
 export default function Header() {
-  const { state, ui, actions } = useBoardState();
+  const { data, ui, actions } = useBoardState();
   const [, navigate] = useLocation();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -32,7 +32,7 @@ export default function Header() {
           <input
             name="Board name"
             placeholder="Untitled board"
-            value={state.name}
+            value={data.name}
             onChange={(e) => actions.updateName(e.target.value)}
           />
         </div>
