@@ -52,10 +52,8 @@ export const actions = (state: BoardState, ui: UIState) => {
   };
 
   return {
-    getUI: (...props: (keyof typeof ui)[]) => {
-      return props.map((prop) => {
-        return ui[prop];
-      });
+    getUI: <K extends keyof UIState>(prop: K): UIState[K] => {
+      return ui[prop];
     },
     updateName: (name: string) => {
       state.name = name;

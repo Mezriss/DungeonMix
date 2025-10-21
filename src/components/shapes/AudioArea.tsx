@@ -1,13 +1,14 @@
+import { CirclePlay, Move, Music, Plus, Trash2, Volume1 } from "lucide-react";
+import { useState } from "react";
 import { type Snapshot } from "valtio";
+import TrackAdder from "./TrackAdder";
+import Tooltip from "@/components/ui/Tooltip";
 import { useBoardState } from "@/hooks/useBoardState";
+import { classes } from "@/util/misc";
+
 import type { AudioArea } from "@/state";
 
 import styles from "@/styles/AudioArea.module.css";
-import { classes } from "@/util/misc";
-import { CirclePlay, Move, Music, Plus, Trash2, Volume1 } from "lucide-react";
-import Tooltip from "@/components/ui/Tooltip";
-import { useState } from "react";
-import TrackAdder from "./TrackAdder";
 
 // TODO: resize handles
 // TODO: list of tracks with autoplay toggle and volume control
