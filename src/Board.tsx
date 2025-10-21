@@ -1,12 +1,14 @@
 import { ErrorBoundary } from "react-error-boundary";
+import AudioLibrary from "./components/AudioLibrary/AudioLibrary";
+import BoardCanvas from "./components/BoardCanvas";
+import BoardError from "./components/BoardError";
 import BoardMissing from "./components/BoardMissing";
 import Header from "./components/Header";
-import AudioLibrary from "./components/AudioLibrary/AudioLibrary";
+import Locator from "./components/Locator";
 import Toolbar from "./components/Toolbar";
-import BoardCanvas from "./components/BoardCanvas";
-import { BoardStateContext } from "./providers/BoardStateContext";
-import BoardError from "./components/BoardError";
 import { useStoredState } from "./hooks/useStoredState";
+import { BoardStateContext } from "./providers/BoardStateContext";
+
 import styles from "./styles/Board.module.css";
 
 export default function Board({ id }: { id: string }) {
@@ -22,6 +24,7 @@ export default function Board({ id }: { id: string }) {
             <Header />
             <BoardCanvas />
             <Toolbar />
+            <Locator />
             <AudioLibrary />
           </div>
         </ErrorBoundary>

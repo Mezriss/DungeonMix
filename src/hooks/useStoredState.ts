@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 import { proxy, subscribe } from "valtio";
-import {
-  actions,
-  getInitialBoardState,
-  getInitialUIState,
-  type BoardState,
-  type State,
-} from "../state";
+import { actions } from "../actions";
 import { STORE_PREFIX } from "../const";
+import { getInitialBoardState, getInitialUIState } from "../state";
+
+import type { BoardState, State } from "../state";
 
 function loadBoardState(id: string): State | null {
   const stored = localStorage.getItem(STORE_PREFIX + id);

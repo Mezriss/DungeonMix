@@ -1,15 +1,17 @@
-import { useBoardState } from "@/hooks/useBoardState";
-import styles from "@/styles/AudioList.module.css";
-import { Folder, FolderOpen, RefreshCw, X } from "lucide-react";
 import { Collapsible } from "@base-ui-components/react/collapsible";
-import Tooltip from "@/components/ui/Tooltip";
-import { AlertDialogTriggered as AlertDialog } from "../ui/AlertDialog";
+import { Folder, FolderOpen, RefreshCw, X } from "lucide-react";
 import { useMemo } from "react";
+import { AlertDialogTriggered as AlertDialog } from "@/components/ui/AlertDialog";
+import Tooltip from "@/components/ui/Tooltip";
+import { useBoardState } from "@/hooks/useBoardState";
+import { classes } from "@/util/misc";
+
+import styles from "@/styles/AudioList.module.css";
 
 export default function AudioList() {
   const { data, actions } = useBoardState();
   return (
-    <div className={styles.audioList}>
+    <div className={classes(styles.audioList, "panel")}>
       {data.folders.map((folder) => (
         <Collapsible.Root key={folder.id} className={styles.collapsible}>
           <div className={styles.collapsibleHeader}>

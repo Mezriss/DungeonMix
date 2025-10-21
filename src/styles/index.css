@@ -40,6 +40,13 @@ h1 {
   height: 100vh;
 }
 
+.panel {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+}
+
 .button {
   cursor: pointer;
   box-sizing: border-box;

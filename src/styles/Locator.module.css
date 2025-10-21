@@ -1,0 +1,22 @@
+.locator {
+  position: relative;
+  grid-area: 2 / 1;
+  align-self: end;
+  height: min-content;
+}
+
+.position {
+  display: flex;
+  gap: 0.5rem;
+}
+.indicator {
+  display: flex;
+}
+.value {
+  width: 3rem;
+  text-align: right;
+}
+.sep {
+  width: 1px;
+  background-color: var(--color-gray-200);
+}

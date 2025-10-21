@@ -1,9 +1,11 @@
-import { useEffect, useRef, useState } from "react";
-import styles from "@/styles/BoardCanvas.module.css";
-import { useBoardState } from "@/hooks/useBoardState";
-import AudioAreaComponent from "./shapes/AudioArea";
-import type { AudioArea } from "@/state";
 import { MapPin } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import AudioAreaComponent from "./shapes/AudioArea";
+import { useBoardState } from "@/hooks/useBoardState";
+
+import type { AudioArea } from "@/state";
+
+import styles from "@/styles/BoardCanvas.module.css";
 
 export default function BoardCanvas() {
   const { data, ui, actions } = useBoardState();
@@ -19,6 +21,8 @@ export default function BoardCanvas() {
     y: 0,
     tracks: [],
   });
+  const dragStartCoords = useRef({ x: 0, y: 0 });
+  const [dragDelta, setDragDelta] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -33,12 +37,13 @@ export default function BoardCanvas() {
 
   function handlePointerDown(e: React.PointerEvent<HTMLDivElement>) {
     const [editMode, selectedTool] = actions.getUI("editMode", "selectedTool");
-    if (editMode && e.target !== e.currentTarget) {
+    if (editMode && e.buttons === 1 && e.target !== e.currentTarget) {
       return;
     }
     e.preventDefault();
     if (e.buttons === 4) {
       setMode("drag");
+      dragStartCoords.current = { x: e.clientX, y: e.clientY };
     }
 
     if (e.buttons === 1 && !editMode) {
@@ -64,14 +69,26 @@ export default function BoardCanvas() {
     }
   }
 
-  function handlePointerUp() {
+  const endDrag = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (mode === "drag") {
+      actions.moveBoard(
+        e.clientX - dragStartCoords.current.x,
+        e.clientY - dragStartCoords.current.y,
+      );
+      setDragDelta({ x: 0, y: 0 });
+    }
+  };
+
+  function handlePointerUp(e: React.PointerEvent<HTMLDivElement>) {
     if (mode === "add") {
       actions.addArea(tempShape);
     }
+    endDrag(e);
     setMode(null);
   }
 
-  function handlePointerLeave() {
+  function handlePointerLeave(e: React.PointerEvent<HTMLDivElement>) {
+    endDrag(e);
     setMode(null);
   }
 
@@ -81,6 +98,12 @@ export default function BoardCanvas() {
         ...tempShape,
         width: e.clientX - rect.x - tempShape.x,
         height: e.clientY - rect.y - tempShape.y,
+      });
+    }
+    if (mode === "drag") {
+      setDragDelta({
+        x: e.clientX - dragStartCoords.current.x,
+        y: e.clientY - dragStartCoords.current.y,
       });
     }
   }
@@ -94,9 +117,16 @@ export default function BoardCanvas() {
       onPointerUp={handlePointerUp}
       onPointerLeave={handlePointerLeave}
     >
-      {data.areas.map((area) => (
-        <AudioAreaComponent key={area.id} area={area} />
-      ))}
+      <div
+        className={styles.positioner}
+        style={{
+          transform: `translate(${ui.position.x + dragDelta.x}px, ${ui.position.y + dragDelta.y}px)`,
+        }}
+      >
+        {data.areas.map((area) => (
+          <AudioAreaComponent key={area.id} area={area} />
+        ))}
+      </div>
       {mode === "add" && <AudioAreaComponent area={tempShape} temp={true} />}
       {!ui.editMode && ui.marker && (
         <div

@@ -1,0 +1,12 @@
+{
+  "plugins": ["@ianvs/prettier-plugin-sort-imports"],
+  "importOrder": [
+    "<THIRD_PARTY_MODULES>",
+    "^(?!.*[.]css$)(@\/|\\.).*$",
+    "",
+    "<TYPES>",
+    "",
+    "css$",
+    ""
+  ]
+}

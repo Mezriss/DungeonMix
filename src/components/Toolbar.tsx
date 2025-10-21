@@ -1,14 +1,15 @@
 import { Circle, MapPin, MousePointer2, Music, Square } from "lucide-react";
-import styles from "@/styles/Toolbar.module.css";
 import Tooltip from "./ui/Tooltip";
 import { useBoardState } from "@/hooks/useBoardState";
 import { classes } from "@/util/misc";
+
+import styles from "@/styles/Toolbar.module.css";
 
 export default function Toolbar() {
   const { ui, actions } = useBoardState();
   if (!ui.editMode)
     return (
-      <div className={styles.toolbar}>
+      <div className={classes(styles.toolbar, "panel")}>
         <Tooltip text="Place location marker" side="right">
           <button className={classes("button", styles.selected)}>
             <MapPin size={16} />
@@ -17,7 +18,7 @@ export default function Toolbar() {
       </div>
     );
   return (
-    <div className={styles.toolbar}>
+    <div className={classes(styles.toolbar, "panel")}>
       <Tooltip text="Select" side="right">
         <button
           onClick={() => actions.switchTool("select")}

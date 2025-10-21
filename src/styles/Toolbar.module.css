@@ -7,10 +7,8 @@
   position: relative;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 0.5rem;
   border-radius: 0 0.5rem 0.5rem 0;
-  background-color: var(--color-gray-50);
-  border: 1px solid var(--color-gray-200);
+
   align-items: center;
 
   button {

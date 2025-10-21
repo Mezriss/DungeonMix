@@ -1,5 +1,6 @@
 .header {
-  grid-area: 1 / 1 / 2 / end;
+  grid-column: 1 / -1;
+  grid-row: 1;
   padding: 1rem;
   background-color: var(--color-gray-50);
   border-bottom: 1px solid var(--color-gray-300);
