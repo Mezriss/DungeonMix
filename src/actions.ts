@@ -193,6 +193,8 @@ export const actions = (state: BoardState, ui: UIState) => {
         ...shape,
         id: nanoid(),
       };
+      area.x -= ui.position.x;
+      area.y -= ui.position.y;
       area.width = Math.max(area.width, 100);
       area.height = Math.max(area.height, 100);
       state.areas.push(area);
@@ -246,6 +248,8 @@ export const actions = (state: BoardState, ui: UIState) => {
       }
     },
     setMarker: async (x: number, y: number) => {
+      x -= ui.position.x;
+      y -= ui.position.y;
       ui.marker = { x, y };
       const areas = state.areas.filter((area) => {
         if (area.shape === "rectangle") {

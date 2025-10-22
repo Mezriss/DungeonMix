@@ -22,25 +22,21 @@ export default function BoardCanvas() {
   const { panDelta, startPan, pan, endPan } = useBoardPan();
 
   function handlePointerDown(e: PointerEvent<HTMLDivElement>) {
+    e.preventDefault();
     const editMode = actions.getUI("editMode");
     const selectedTool = actions.getUI("selectedTool");
-    if (editMode && e.buttons === 1 && e.target !== e.currentTarget) {
-      return;
-    }
-    e.preventDefault();
-    if (e.buttons === 4) {
-      startPan(e);
-    }
 
-    if (e.buttons === 1 && !editMode) {
-      actions.setMarker(e.clientX - rect.x, e.clientY - rect.y);
-    }
+    startPan(e);
+    startDrawing(e);
 
-    if (e.buttons === 1 && editMode) {
-      if (selectedTool === "select") {
-        actions.selectArea(null);
+    if (e.buttons === 1) {
+      if (editMode) {
+        if (selectedTool === "select" && e.target === e.currentTarget) {
+          actions.selectArea(null);
+        }
+      } else {
+        actions.setMarker(e.clientX - rect.x, e.clientY - rect.y);
       }
-      startDrawing(e);
     }
   }
 
@@ -76,16 +72,16 @@ export default function BoardCanvas() {
         {data.areas.map((area) => (
           <AudioAreaComponent key={area.id} area={area} />
         ))}
+        {!ui.editMode && ui.marker && (
+          <div
+            className={styles.marker}
+            style={{ left: ui.marker.x, top: ui.marker.y }}
+          >
+            <MapPin />
+          </div>
+        )}
       </div>
       {tempShape && <AudioAreaComponent area={tempShape} temp={true} />}
-      {!ui.editMode && ui.marker && (
-        <div
-          className={styles.marker}
-          style={{ left: ui.marker.x, top: ui.marker.y }}
-        >
-          <MapPin />
-        </div>
-      )}
     </div>
   );
 }

@@ -16,6 +16,7 @@
   display: grid;
   place-items: center;
   transform: translate(-50%, -50%);
+  transition: 0.5s;
 }
 
 .positioner {

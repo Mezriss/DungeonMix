@@ -1,4 +1,4 @@
-- [ ] scrolling
+- [x] scrolling
 - [ ] scaling
 - [ ] track volume control
 - [ ] visual indicator for playing tracks

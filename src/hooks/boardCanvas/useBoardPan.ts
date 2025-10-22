@@ -9,7 +9,9 @@ export function useBoardPan() {
   const [panDelta, setPanDelta] = useState({ x: 0, y: 0 });
 
   function startPan(event: PointerEvent<HTMLDivElement>) {
-    panStartCoords.current = { x: event.clientX, y: event.clientY };
+    if (event.buttons === 4) {
+      panStartCoords.current = { x: event.clientX, y: event.clientY };
+    }
   }
 
   function pan(event: PointerEvent<HTMLDivElement>) {

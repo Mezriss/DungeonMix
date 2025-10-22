@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useBoardState } from "@/hooks/useBoardState";
 
 import type { AudioArea } from "@/state";
+import type { PointerEvent } from "react";
 
 type ShapeDrawingProps = {
   rect: { x: number; y: number };
@@ -11,10 +12,17 @@ export function useShapeDrawing({ rect }: ShapeDrawingProps) {
   const { actions } = useBoardState();
   const [tempShape, setTempShape] = useState<AudioArea | null>(null);
 
-  const startDrawing = (e: React.PointerEvent) => {
+  const startDrawing = (e: PointerEvent) => {
     const editMode = actions.getUI("editMode");
     const selectedTool = actions.getUI("selectedTool");
-    if (!editMode || !["circle", "rectangle"].includes(selectedTool)) return;
+    if (
+      !editMode ||
+      e.buttons !== 1 ||
+      !["circle", "rectangle"].includes(selectedTool) ||
+      e.target !== e.currentTarget
+    )
+      return;
+
     setTempShape({
       id: "temp",
       shape: selectedTool as "circle" | "rectangle",
@@ -26,7 +34,7 @@ export function useShapeDrawing({ rect }: ShapeDrawingProps) {
     });
   };
 
-  const draw = (e: React.PointerEvent) => {
+  const draw = (e: PointerEvent) => {
     if (!tempShape) return;
     setTempShape({
       ...tempShape,
