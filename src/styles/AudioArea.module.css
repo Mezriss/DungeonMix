@@ -18,12 +18,17 @@
 .track {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 1rem;
+  gap: 0.5rem;
+  align-items: center;
 
   button {
     height: auto;
     padding: 0.25rem;
   }
+}
+.autoplay {
+  background: transparent;
+  border-color: color-mix(in srgb, var(--color-gray-900), transparent 70%);
 }
 
 .title {

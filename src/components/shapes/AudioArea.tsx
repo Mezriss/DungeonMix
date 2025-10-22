@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { type Snapshot } from "valtio";
-import TrackAdder from "./TrackAdder";
+import AreaControls from "./AreaControls";
+import TrackControls from "./TrackControls";
 import Tooltip from "@/components/ui/Tooltip";
 import { useBoardState } from "@/hooks/useBoardState";
 import { classes } from "@/util/misc";
 
 import type { AudioArea } from "@/state";
 
-import { CirclePlay, Move, Music, Plus, Trash2, Volume1 } from "lucide-react";
+import { CirclePause, CirclePlay } from "lucide-react";
 import styles from "@/styles/AudioArea.module.css";
 
 // TODO: resize handles
-// TODO: list of tracks with autoplay toggle and volume control
+// TODO: volume control
 
 export default function AudioAreaComponent({
   area,
@@ -39,7 +40,7 @@ export default function AudioAreaComponent({
     setMove([e.clientX, e.clientY]);
   };
 
-  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+  const handleMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!move) return;
 
     const dx = e.clientX - move[0];
@@ -47,7 +48,7 @@ export default function AudioAreaComponent({
     setOffset([dx, dy]);
   };
 
-  const handlePointerUp = () => {
+  const handleMoveEnd = () => {
     if (offset) {
       actions.moveArea(
         area.id,
@@ -59,17 +60,12 @@ export default function AudioAreaComponent({
     setOffset(null);
   };
 
-  const handlePointerLeave = () => {
-    setMove(null);
-    setOffset(null);
-  };
-
   return (
     <div
       onPointerDown={handlePointerDown}
-      onPointerMove={handlePointerMove}
-      onPointerUp={handlePointerUp}
-      onPointerLeave={handlePointerLeave}
+      onPointerMove={handleMove}
+      onPointerUp={handleMoveEnd}
+      onPointerLeave={handleMoveEnd}
       className={classes(
         styles.area,
         area.shape === "circle" && styles.circle,
@@ -88,69 +84,35 @@ export default function AudioAreaComponent({
           }),
       }}
     >
-      {!temp && (
-        <div className={styles.tracklist}>
-          {area.tracks.map((track) => (
-            <div key={track.trackId} className={styles.track}>
-              <div className={styles.title}>
-                {data.files[track.trackId].name}
-              </div>
-              {ui.editMode && selected && (
-                <div className={styles.controls}>
-                  <Tooltip text="Toggle autoplay">
-                    <button className={"button"}>
-                      <CirclePlay size={16} />
-                    </button>
-                  </Tooltip>
-                  <Tooltip text="Volume">
-                    <button className={"button"}>
-                      <Volume1 size={16} />
-                    </button>
-                  </Tooltip>
-                  <Tooltip text="Remove track">
-                    <button
-                      className={"button"}
-                      onClick={() =>
-                        actions.removeTrackFromArea(area.id, track.trackId)
-                      }
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </Tooltip>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-
-      {!temp && selected && (
-        <div className={styles.controls}>
-          {!!data.folders.length && (
-            <TrackAdder areaId={area.id}>
-              <Tooltip text="Add track">
-                <button className={"button"}>
-                  <Plus size={16} />
-                  <Music size={16} />
+      <div className={styles.tracklist}>
+        {area.tracks.map((track) => (
+          <div key={track.trackId} className={styles.track}>
+            {!ui.editMode && (
+              <Tooltip text="Toggle autoplay">
+                <button
+                  className={classes("button", styles.autoplay)}
+                  onClick={() =>
+                    actions.toggleTrackAutoplay(area.id, track.trackId)
+                  }
+                >
+                  {track.autoplay ? (
+                    <CirclePlay size={16} />
+                  ) : (
+                    <CirclePause size={16} />
+                  )}
                 </button>
               </Tooltip>
-            </TrackAdder>
-          )}
+            )}
+            <div className={styles.title}>{data.files[track.trackId].name}</div>
+            {ui.editMode && selected && (
+              <TrackControls areaId={area.id} track={track} />
+            )}
+          </div>
+        ))}
+      </div>
 
-          <Tooltip text="Hold button to move area">
-            <button className={"button"} onPointerDown={handleMoveStart}>
-              <Move size={16} />
-            </button>
-          </Tooltip>
-          <Tooltip text="Delete area (there is no undo)">
-            <button
-              className={"button"}
-              onClick={() => actions.deleteArea(area.id)}
-            >
-              <Trash2 size={16} />
-            </button>
-          </Tooltip>
-        </div>
+      {selected && (
+        <AreaControls area={area} handleMoveStart={handleMoveStart} />
       )}
     </div>
   );

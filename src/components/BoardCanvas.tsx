@@ -36,10 +36,11 @@ export default function BoardCanvas() {
         if (selectedTool === "select" && e.target === e.currentTarget) {
           actions.selectArea(null);
         }
-      } else {
+      } else if (!(e.target as HTMLElement).closest("button")) {
         actions.setMarker(
-          (e.clientX - rect.x - rect.width / 2) * (1 / ui.zoom),
-          (e.clientY - rect.y - rect.height / 2) * (1 / ui.zoom),
+          (e.clientX - rect.x - rect.width / 2) * (1 / ui.zoom) - ui.position.x,
+          (e.clientY - rect.y - rect.height / 2) * (1 / ui.zoom) -
+            ui.position.y,
         );
       }
     }

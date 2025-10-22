@@ -246,6 +246,20 @@ export const actions = (state: BoardState, ui: UIState) => {
       }
       area.tracks.splice(index, 1);
     },
+    toggleTrackAutoplay(areaId: string, trackId: string) {
+      const area = state.areas.find((area) => area.id === areaId);
+      if (!area) {
+        return console.error(`Area ${areaId} is missing from state`);
+      }
+      const track = area.tracks.find((track) => track.trackId === trackId);
+      if (!track) {
+        return console.error(`Track ${trackId} is missing from area ${areaId}`);
+      }
+      track.autoplay = !track.autoplay;
+      if (ui.marker) {
+        this.setMarker(ui.marker.x, ui.marker.y);
+      }
+    },
     toggleEditMode: (val: boolean) => {
       ui.editMode = val;
       ui.selectedTool = "select";
@@ -254,8 +268,6 @@ export const actions = (state: BoardState, ui: UIState) => {
       }
     },
     setMarker: async (x: number, y: number) => {
-      x -= ui.position.x;
-      y -= ui.position.y;
       ui.marker = { x, y };
       const areas = state.areas.filter((area) => {
         if (area.shape === "rectangle") {
