@@ -1,4 +1,3 @@
-import { CirclePlay, Move, Music, Plus, Trash2, Volume1 } from "lucide-react";
 import { useState } from "react";
 import { type Snapshot } from "valtio";
 import TrackAdder from "./TrackAdder";
@@ -8,6 +7,7 @@ import { classes } from "@/util/misc";
 
 import type { AudioArea } from "@/state";
 
+import { CirclePlay, Move, Music, Plus, Trash2, Volume1 } from "lucide-react";
 import styles from "@/styles/AudioArea.module.css";
 
 // TODO: resize handles
@@ -49,7 +49,11 @@ export default function AudioAreaComponent({
 
   const handlePointerUp = () => {
     if (offset) {
-      actions.moveArea(area.id, offset[0], offset[1]);
+      actions.moveArea(
+        area.id,
+        offset[0] * (1 / ui.zoom),
+        offset[1] * (1 / ui.zoom),
+      );
     }
     setMove(null);
     setOffset(null);
@@ -74,10 +78,10 @@ export default function AudioAreaComponent({
         temp && styles.temp,
       )}
       style={{
-        left: area.x,
-        top: area.y,
-        width: area.width,
-        height: area.height,
+        left: area.x * ui.zoom,
+        top: area.y * ui.zoom,
+        width: area.width * ui.zoom,
+        height: area.height * ui.zoom,
         ...(move &&
           offset && {
             transform: `translate(${offset[0]}px, ${offset[1]}px)`,

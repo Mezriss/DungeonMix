@@ -26,3 +26,7 @@ export const pointInEllipse = (
   const b = ellipse.radiusY;
   return (dx * dx) / (a * a) + (dy * dy) / (b * b) <= 1;
 };
+
+export const clamp = (value: number, min: number, max: number): number => {
+  return Math.min(Math.max(value, min), max);
+};

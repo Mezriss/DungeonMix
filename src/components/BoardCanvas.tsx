@@ -1,19 +1,21 @@
-import { MapPin } from "lucide-react";
 import { useRef } from "react";
 import AudioAreaComponent from "./shapes/AudioArea";
 import { useBoardDimensions } from "@/hooks/boardCanvas/useBoardDimensions";
 import { useBoardPan } from "@/hooks/boardCanvas/useBoardPan";
 import { useShapeDrawing } from "@/hooks/boardCanvas/useShapeDrawing";
+import { useZoom } from "@/hooks/boardCanvas/useZoom";
 import { useBoardState } from "@/hooks/useBoardState";
 
 import type { PointerEvent } from "react";
 
+import { MapPin } from "lucide-react";
 import styles from "@/styles/BoardCanvas.module.css";
 
 export default function BoardCanvas() {
   const { data, ui, actions } = useBoardState();
   const divRef = useRef<HTMLDivElement>(null!);
 
+  useZoom(divRef);
   const rect = useBoardDimensions(divRef);
 
   const { tempShape, startDrawing, draw, endDrawing } = useShapeDrawing({
@@ -35,7 +37,10 @@ export default function BoardCanvas() {
           actions.selectArea(null);
         }
       } else {
-        actions.setMarker(e.clientX - rect.x, e.clientY - rect.y);
+        actions.setMarker(
+          (e.clientX - rect.x - rect.width / 2) * (1 / ui.zoom),
+          (e.clientY - rect.y - rect.height / 2) * (1 / ui.zoom),
+        );
       }
     }
   }
@@ -66,7 +71,9 @@ export default function BoardCanvas() {
       <div
         className={styles.positioner}
         style={{
-          transform: `translate(${ui.position.x + panDelta.x}px, ${ui.position.y + panDelta.y}px)`,
+          left: "50%",
+          top: "50%",
+          transform: `translate(${ui.position.x * ui.zoom + panDelta.x}px, ${ui.position.y * ui.zoom + panDelta.y}px)`,
         }}
       >
         {data.areas.map((area) => (
@@ -75,7 +82,10 @@ export default function BoardCanvas() {
         {!ui.editMode && ui.marker && (
           <div
             className={styles.marker}
-            style={{ left: ui.marker.x, top: ui.marker.y }}
+            style={{
+              left: ui.marker.x * ui.zoom,
+              top: ui.marker.y * ui.zoom,
+            }}
           >
             <MapPin />
           </div>

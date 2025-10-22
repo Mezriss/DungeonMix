@@ -1,13 +1,19 @@
 import { Howl } from "howler";
 import { del, delMany, get, getMany, set } from "idb-keyval";
 import { nanoid } from "nanoid";
-import { FADE_DURATION, KEY_BOARDS, STORE_PREFIX } from "./const";
+import {
+  FADE_DURATION,
+  KEY_BOARDS,
+  MAX_ZOOM,
+  MIN_ZOOM,
+  STORE_PREFIX,
+} from "./const";
 import {
   getFileHandleFromPath,
   getFilesRecursively,
   getPermission,
 } from "./util/file";
-import { pointInEllipse, pointInRectangle } from "./util/misc";
+import { clamp, pointInEllipse, pointInRectangle } from "./util/misc";
 
 import type { BoardList } from "./Landing";
 import type { AudioArea, BoardState, FileInfo, UIState } from "./state";
@@ -314,6 +320,13 @@ export const actions = (state: BoardState, ui: UIState) => {
     moveBoard: (x: number, y: number) => {
       ui.position.x += x;
       ui.position.y += y;
+    },
+    setZoom: (zoom: number) => {
+      ui.zoom = clamp(zoom, MIN_ZOOM, MAX_ZOOM);
+    },
+    changeZoom: (delta: number) => {
+      ui.zoom += delta;
+      ui.zoom = clamp(ui.zoom, MIN_ZOOM, MAX_ZOOM);
     },
   };
 };

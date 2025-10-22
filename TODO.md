@@ -1,5 +1,5 @@
 - [x] scrolling
-- [ ] scaling
+- [x] scaling
 - [ ] track volume control
 - [ ] visual indicator for playing tracks
 - [ ] autoplay control (with play button in play mode)
@@ -7,6 +7,7 @@
 - [ ] user visible errors for actions in AudioGrabber
 - [ ] fallback flow for browsers withour proper support of File System Access API
 - [ ] audio library revisit, scroll for long track lists
+- [ ] hotkeys
 - [ ] test
 - [ ] docs
 - [ ] video presentation
