@@ -15,9 +15,10 @@
   gap: 0.5rem;
   max-width: 80%;
 }
+
 .track {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: min-content auto;
   gap: 0.5rem;
   align-items: center;
 
@@ -26,6 +27,10 @@
     padding: 0.25rem;
   }
 }
+.selected .track {
+  grid-template-columns: 1fr min-content;
+}
+
 .autoplay {
   background: transparent;
   border-color: color-mix(in srgb, var(--color-gray-900), transparent 70%);

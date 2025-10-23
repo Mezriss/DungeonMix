@@ -16,6 +16,7 @@ export type UIState = {
   tracks: {
     [id: string]: {
       id: string;
+      src: string;
       status: "playing" | "paused" | "stopped" | "fadingout";
     };
   };
@@ -26,6 +27,12 @@ export type UIState = {
   zoom: number;
 };
 
+export type Track = {
+  trackId: string;
+  autoplay: boolean;
+  volume: number;
+};
+
 export type AudioArea = {
   id: string;
   shape: "rectangle" | "circle";
@@ -33,11 +40,7 @@ export type AudioArea = {
   y: number;
   width: number;
   height: number;
-  tracks: {
-    trackId: string;
-    autoplay: boolean;
-    volume: number;
-  }[];
+  tracks: Track[];
 };
 
 export type BoardState = {

@@ -37,11 +37,14 @@ export default function BoardCanvas() {
           actions.selectArea(null);
         }
       } else if (!(e.target as HTMLElement).closest("button")) {
-        actions.setMarker(
-          (e.clientX - rect.x - rect.width / 2) * (1 / ui.zoom) - ui.position.x,
-          (e.clientY - rect.y - rect.height / 2) * (1 / ui.zoom) -
+        actions.setMarker({
+          x:
+            (e.clientX - rect.x - rect.width / 2) * (1 / ui.zoom) -
+            ui.position.x,
+          y:
+            (e.clientY - rect.y - rect.height / 2) * (1 / ui.zoom) -
             ui.position.y,
-        );
+        });
       }
     }
   }

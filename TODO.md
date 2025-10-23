@@ -1,13 +1,14 @@
 - [x] scrolling
 - [x] scaling
-- [ ] track volume control
+- [x] track volume control
+- [ ] fade duration setting
 - [ ] visual indicator for playing tracks
-- [ ] autoplay control (with play button in play mode)
+- [x] autoplay control (with play button in play mode)
 - [ ] adding images (a layer under shapes, shapes shouldn't stop adding)
 - [ ] user visible errors for actions in AudioGrabber
 - [ ] fallback flow for browsers withour proper support of File System Access API
-- [ ] audio library revisit, scroll for long track lists
+- [x] audio library revisit, scroll for long track lists
 - [ ] hotkeys
-- [ ] test
+- [ ] tests
 - [ ] docs
 - [ ] video presentation

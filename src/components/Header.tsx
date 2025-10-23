@@ -1,11 +1,11 @@
 import { useCallback, useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Settings } from "lucide-react";
+import Switch from "./ui/Switch";
 import { AlertDialog } from "@/components/ui/AlertDialog";
 import Menu from "@/components/ui/Menu";
 import { useBoardState } from "@/hooks/useBoardState";
-import Switch from "./ui/Switch";
 
+import { Settings } from "lucide-react";
 import styles from "@/styles/Header.module.css";
 
 export default function Header() {
@@ -29,12 +29,16 @@ export default function Header() {
           <Link to="/">DungeonMix</Link>
         </div>
         <div className={styles.name}>
-          <input
-            name="Board name"
-            placeholder="Untitled board"
-            value={data.name}
-            onChange={(e) => actions.updateName(e.target.value)}
-          />
+          {ui.editMode ? (
+            <input
+              name="Board name"
+              placeholder="Untitled board"
+              value={data.name}
+              onChange={(e) => actions.updateName(e.target.value)}
+            />
+          ) : (
+            <h2>{data.name || "Untitled board"}</h2>
+          )}
         </div>
         <div className={styles.editToggle}>
           <div>

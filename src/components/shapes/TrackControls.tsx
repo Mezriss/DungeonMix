@@ -1,9 +1,10 @@
+import VolumeControl from "./VolumeControl";
 import Tooltip from "@/components/ui/Tooltip";
 import { useBoardState } from "@/hooks/useBoardState";
 
 import type { AudioArea } from "@/state";
 
-import { CirclePause, CirclePlay, Trash2, Volume1 } from "lucide-react";
+import { CirclePause, CirclePlay, Trash2 } from "lucide-react";
 import styles from "@/styles/AudioArea.module.css";
 
 export default function TrackControls({
@@ -28,11 +29,7 @@ export default function TrackControls({
           )}
         </button>
       </Tooltip>
-      <Tooltip text="Volume">
-        <button className={"button"}>
-          <Volume1 size={16} />
-        </button>
-      </Tooltip>
+      <VolumeControl areaId={areaId} track={track} />
       <Tooltip text="Remove track">
         <button
           className={"button"}

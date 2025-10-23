@@ -13,12 +13,18 @@
   font-weight: bold;
   font-size: 2rem;
 }
+
 .name input {
   display: block;
   font-size: 2rem;
   width: 100%;
   background: transparent;
   border-width: 0 0 1px 0;
+}
+.name h2 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: normal;
 }
 
 .settings {

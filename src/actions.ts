@@ -20,6 +20,18 @@ import type { AudioArea, BoardState, FileInfo, UIState } from "./state";
 
 export const actions = (state: BoardState, ui: UIState) => {
   const trackCache = new Map<string, Howl>(); // howler breaks when it's put into valtio
+  let volumePreview: null | {
+    howl: Howl;
+    timeout: number;
+    trackId: string;
+  } = null;
+  const clearVolumePreview = () => {
+    if (!volumePreview) return;
+    clearTimeout(volumePreview.timeout);
+    volumePreview.howl.stop();
+    volumePreview = null;
+  };
+
   const removeFile = (id: string) => {
     delete state.files[id];
     state.areas.forEach((area) => {
@@ -50,6 +62,7 @@ export const actions = (state: BoardState, ui: UIState) => {
       );
       ui.tracks[trackId] = {
         id: trackId,
+        src: src,
         status: "stopped",
       };
     } catch (error) {
@@ -229,6 +242,9 @@ export const actions = (state: BoardState, ui: UIState) => {
       if (!area) {
         return console.error(`Area ${areaId} is missing from state`);
       }
+      if (area.tracks.some((track) => track.trackId === trackId)) {
+        return console.error(`Track ${trackId} is already in area ${areaId}`);
+      }
       area.tracks.push({
         trackId,
         autoplay: true,
@@ -257,9 +273,56 @@ export const actions = (state: BoardState, ui: UIState) => {
       }
       track.autoplay = !track.autoplay;
       if (ui.marker) {
-        this.setMarker(ui.marker.x, ui.marker.y);
+        this.setMarker();
       }
     },
+    setTrackVolume(areaId: string, trackId: string, volume: number) {
+      const area = state.areas.find((area) => area.id === areaId);
+      if (!area) {
+        return console.error(`Area ${areaId} is missing from state`);
+      }
+      const track = area.tracks.find((track) => track.trackId === trackId);
+      if (!track) {
+        return console.error(`Track ${trackId} is missing from area ${areaId}`);
+      }
+      track.volume = volume;
+      // let's assume that user switched to edit mode to quickly adjust volume
+      // there is an edge case of 2 areas with same track and user changing volume of the inactive one
+      // but it will be ignored for now
+      if (ui.tracks[trackId]?.status === "playing") {
+        trackCache.get(trackId)?.volume(volume);
+      }
+      clearVolumePreview();
+    },
+    async previewVolume(trackId: string, volume: number) {
+      if (!ui.tracks[trackId]) {
+        await initTrack(trackId);
+      }
+      try {
+        if (!volumePreview || volumePreview.trackId !== trackId) {
+          volumePreview = {
+            trackId,
+            howl: new Howl({
+              src: ui.tracks[trackId].src,
+              format: state.files[trackId].format,
+              volume: volume,
+              loop: true,
+              autoplay: false,
+            }),
+            timeout: setTimeout(clearVolumePreview, 3000),
+          };
+          volumePreview.howl.seek(volumePreview.howl.duration() / 2);
+          volumePreview.howl.play();
+        } else {
+          volumePreview.howl.volume(volume);
+          clearTimeout(volumePreview.timeout);
+          volumePreview.timeout = setTimeout(clearVolumePreview, 3000);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
     toggleEditMode: (val: boolean) => {
       ui.editMode = val;
       ui.selectedTool = "select";
@@ -267,24 +330,31 @@ export const actions = (state: BoardState, ui: UIState) => {
         ui.selectedAreaId = null;
       }
     },
-    setMarker: async (x: number, y: number) => {
-      ui.marker = { x, y };
+    setMarker: async (position = ui.marker) => {
+      ui.marker = position;
+      if (ui.marker === null) return;
       const areas = state.areas.filter((area) => {
         if (area.shape === "rectangle") {
-          return pointInRectangle(x, y, {
-            x: area.x,
-            y: area.y,
-            width: area.width,
-            height: area.height,
-          });
+          return (
+            ui.marker &&
+            pointInRectangle(ui.marker.x, ui.marker.y, {
+              x: area.x,
+              y: area.y,
+              width: area.width,
+              height: area.height,
+            })
+          );
         }
         if (area.shape === "circle") {
-          return pointInEllipse(x, y, {
-            x: area.x + area.width / 2,
-            y: area.y + area.height / 2,
-            radiusX: area.width / 2,
-            radiusY: area.height / 2,
-          });
+          return (
+            ui.marker &&
+            pointInEllipse(ui.marker.x, ui.marker.y, {
+              x: area.x + area.width / 2,
+              y: area.y + area.height / 2,
+              radiusX: area.width / 2,
+              radiusY: area.height / 2,
+            })
+          );
         }
       });
       const shouldPlay = areas.flatMap((area) =>

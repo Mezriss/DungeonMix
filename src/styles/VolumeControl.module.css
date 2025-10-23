@@ -1,0 +1,52 @@
+.volumeControl {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+
+  padding: 0.25rem 0.75rem 0.25rem 0.25rem;
+
+  border: 1px solid var(--color-gray-200);
+  border-radius: 0.375rem;
+  background-color: var(--color-gray-50);
+
+  input {
+    margin: 0;
+  }
+}
+
+.control {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  width: 6rem;
+  touch-action: none;
+  user-select: none;
+}
+
+.track {
+  width: 100%;
+  height: 0.25rem;
+  background-color: var(--color-gray-200);
+  box-shadow: inset 0 0 0 1px var(--color-gray-200);
+  border-radius: 0.25rem;
+  user-select: none;
+}
+
+.indicator {
+  border-radius: 0.25rem;
+  background-color: var(--color-gray-700);
+  user-select: none;
+}
+
+.thumb {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 100%;
+  background-color: white;
+  outline: 1px solid var(--color-gray-300);
+  user-select: none;
+
+  &:has(:focus-visible) {
+    outline: 2px solid var(--color-blue);
+  }
+}
