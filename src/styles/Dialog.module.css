@@ -1,0 +1,25 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  height: min-content;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-gray-100);
+
+  button {
+    height: 1.75rem;
+    border: 0;
+    height: auto;
+    margin-right: -0.875rem;
+  }
+}
+
+.title {
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  letter-spacing: -0.0025em;
+  font-weight: 500;
+  display: flex;
+  vertical-align: middle;
+}

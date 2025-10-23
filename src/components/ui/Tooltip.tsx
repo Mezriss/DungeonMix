@@ -1,5 +1,6 @@
+import { Tooltip as TooltipComponent } from "@base-ui-components/react/tooltip";
 import ArrowSvg from "@/assets/ArrowSvg";
-import { Tooltip } from "@base-ui-components/react/tooltip";
+
 import styles from "@/styles/Tooltip.module.css";
 
 type TooltipProps = {
@@ -8,26 +9,22 @@ type TooltipProps = {
   side?: "top" | "bottom" | "left" | "right" | "inline-end" | "inline-start";
 };
 
-export default function TooltipComponent({
-  children,
-  text,
-  side,
-}: TooltipProps) {
+export default function Tooltip({ children, text, side }: TooltipProps) {
   return (
-    <Tooltip.Root delay={100}>
-      <Tooltip.Trigger aria-label={text} render={<div />}>
+    <TooltipComponent.Root delay={100}>
+      <TooltipComponent.Trigger aria-label={text} render={<div />}>
         {children}
-      </Tooltip.Trigger>
-      <Tooltip.Portal>
-        <Tooltip.Positioner sideOffset={10} side={side || "top"}>
-          <Tooltip.Popup className={styles.popup}>
-            <Tooltip.Arrow className={styles.arrow}>
+      </TooltipComponent.Trigger>
+      <TooltipComponent.Portal>
+        <TooltipComponent.Positioner sideOffset={10} side={side || "top"}>
+          <TooltipComponent.Popup className={styles.popup}>
+            <TooltipComponent.Arrow className={styles.arrow}>
               <ArrowSvg />
-            </Tooltip.Arrow>
+            </TooltipComponent.Arrow>
             {text}
-          </Tooltip.Popup>
-        </Tooltip.Positioner>
-      </Tooltip.Portal>
-    </Tooltip.Root>
+          </TooltipComponent.Popup>
+        </TooltipComponent.Positioner>
+      </TooltipComponent.Portal>
+    </TooltipComponent.Root>
   );
 }

@@ -1,3 +1,5 @@
+import { FADE_DURATION } from "./const";
+
 import type { actions } from "./actions";
 
 export type FileInfo = {
@@ -51,6 +53,9 @@ export type BoardState = {
   areas: AudioArea[];
   sketches: [];
   images: [];
+  settings: {
+    fadeDuration: number;
+  };
 };
 
 export type State = {
@@ -67,6 +72,9 @@ export const getInitialBoardState = (id: string): BoardState => ({
   areas: [],
   sketches: [],
   images: [],
+  settings: {
+    fadeDuration: FADE_DURATION,
+  },
 });
 
 export const getInitialUIState = (): UIState => ({
@@ -81,3 +89,14 @@ export const getInitialUIState = (): UIState => ({
   },
   zoom: 1,
 });
+
+export const migrations = [
+  (data: BoardState) => {
+    if (!data.settings) {
+      data.settings = {
+        fadeDuration: FADE_DURATION,
+      };
+    }
+    return data;
+  },
+];

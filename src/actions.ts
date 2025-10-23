@@ -1,13 +1,7 @@
 import { Howl } from "howler";
 import { del, delMany, get, getMany, set } from "idb-keyval";
 import { nanoid } from "nanoid";
-import {
-  FADE_DURATION,
-  KEY_BOARDS,
-  MAX_ZOOM,
-  MIN_ZOOM,
-  STORE_PREFIX,
-} from "./const";
+import { KEY_BOARDS, MAX_ZOOM, MIN_ZOOM, STORE_PREFIX } from "./const";
 import {
   getFileHandleFromPath,
   getFilesRecursively,
@@ -18,7 +12,7 @@ import { clamp, pointInEllipse, pointInRectangle } from "./util/misc";
 import type { BoardList } from "./Landing";
 import type { AudioArea, BoardState, FileInfo, UIState } from "./state";
 
-export const actions = (state: BoardState, ui: UIState) => {
+export const actions = (data: BoardState, ui: UIState) => {
   const trackCache = new Map<string, Howl>(); // howler breaks when it's put into valtio
   let volumePreview: null | {
     howl: Howl;
@@ -33,8 +27,8 @@ export const actions = (state: BoardState, ui: UIState) => {
   };
 
   const removeFile = (id: string) => {
-    delete state.files[id];
-    state.areas.forEach((area) => {
+    delete data.files[id];
+    data.areas.forEach((area) => {
       area.tracks = area.tracks.filter((track) => track.trackId !== id);
     });
     delete ui.tracks[id];
@@ -42,19 +36,19 @@ export const actions = (state: BoardState, ui: UIState) => {
   };
 
   const initTrack = async (trackId: string) => {
-    const dirHandle = await get(STORE_PREFIX + state.files[trackId].folderId);
+    const dirHandle = await get(STORE_PREFIX + data.files[trackId].folderId);
     try {
       if (!getPermission(dirHandle)) return;
       const fileHandle = await getFileHandleFromPath(
         dirHandle,
-        state.files[trackId].path,
+        data.files[trackId].path,
       );
       const src = URL.createObjectURL(await fileHandle.getFile());
       trackCache.set(
         trackId,
         new Howl({
           src: src,
-          format: state.files[trackId].format,
+          format: data.files[trackId].format,
           volume: 1,
           loop: true,
           autoplay: false,
@@ -75,14 +69,14 @@ export const actions = (state: BoardState, ui: UIState) => {
       return ui[prop];
     },
     updateName: (name: string) => {
-      state.name = name;
+      data.name = name;
       try {
         const boardIndex: BoardList = JSON.parse(
           localStorage.getItem(KEY_BOARDS) || "",
         );
-        const record = boardIndex.find((board) => board.id === state.id);
+        const record = boardIndex.find((board) => board.id === data.id);
         if (record) {
-          record.name = state.name;
+          record.name = data.name;
           localStorage.setItem(KEY_BOARDS, JSON.stringify(boardIndex));
         }
       } catch (e) {
@@ -93,13 +87,13 @@ export const actions = (state: BoardState, ui: UIState) => {
       const boardIndex: BoardList = JSON.parse(
         localStorage.getItem(KEY_BOARDS) || "",
       );
-      const index = boardIndex.findIndex((board) => board.id === state.id);
+      const index = boardIndex.findIndex((board) => board.id === data.id);
       if (index !== -1) {
         boardIndex.splice(index, 1);
         localStorage.setItem(KEY_BOARDS, JSON.stringify(boardIndex));
       }
-      localStorage.removeItem(STORE_PREFIX + state.id);
-      const existingHandleIds = state.folders.map(
+      localStorage.removeItem(STORE_PREFIX + data.id);
+      const existingHandleIds = data.folders.map(
         (folder) => STORE_PREFIX + folder.id,
       );
       await delMany(existingHandleIds);
@@ -108,8 +102,8 @@ export const actions = (state: BoardState, ui: UIState) => {
     addFolder: async (handle: FileSystemDirectoryHandle) => {
       try {
         const id = nanoid();
-        if (state.folders.length) {
-          const existingHandleIds = state.folders.map(
+        if (data.folders.length) {
+          const existingHandleIds = data.folders.map(
             (folder) => STORE_PREFIX + folder.id,
           );
           const existingHandles: FileSystemDirectoryHandle[] =
@@ -130,9 +124,9 @@ export const actions = (state: BoardState, ui: UIState) => {
             format: file.name.split(".").pop() || "",
             folderId: id,
           };
-          state.files[fileId] = info;
+          data.files[fileId] = info;
         }
-        state.folders.push({
+        data.folders.push({
           id,
           name: handle.name,
         });
@@ -142,12 +136,12 @@ export const actions = (state: BoardState, ui: UIState) => {
       }
     },
     removeFolder: async (id: string) => {
-      const index = state.folders.findIndex((folder) => folder.id === id);
+      const index = data.folders.findIndex((folder) => folder.id === id);
       if (index !== -1) {
-        state.folders.splice(index, 1);
+        data.folders.splice(index, 1);
       }
-      for (const key in state.files) {
-        const file = state.files[key];
+      for (const key in data.files) {
+        const file = data.files[key];
         if (file.folderId === id) {
           removeFile(file.id);
         }
@@ -156,7 +150,7 @@ export const actions = (state: BoardState, ui: UIState) => {
     },
     refreshFolder: async (folderId: string) => {
       // TODO: user visible errors
-      const folder = state.folders.find((folder) => folder.id === folderId);
+      const folder = data.folders.find((folder) => folder.id === folderId);
       if (!folder) {
         return console.error(`Folder ${folderId} is missing from state`);
       }
@@ -176,7 +170,7 @@ export const actions = (state: BoardState, ui: UIState) => {
         const fullPath = path ? `${path}/${file.name}` : file.name;
         files.push({ path: fullPath, name: file.name });
       }
-      const removedFiles = Object.values(state.files)
+      const removedFiles = Object.values(data.files)
         .filter(
           (file) =>
             file.folderId === folderId &&
@@ -187,7 +181,7 @@ export const actions = (state: BoardState, ui: UIState) => {
 
       files.forEach(({ path, name }) => {
         if (
-          !Object.values(state.files).some(
+          !Object.values(data.files).some(
             (f) => f.folderId === folderId && f.path === path,
           )
         ) {
@@ -199,7 +193,7 @@ export const actions = (state: BoardState, ui: UIState) => {
             format: name.split(".").pop() || "",
             folderId: folderId,
           };
-          state.files[fileId] = info;
+          data.files[fileId] = info;
         }
       });
     },
@@ -216,21 +210,21 @@ export const actions = (state: BoardState, ui: UIState) => {
       area.y -= ui.position.y;
       area.width = Math.max(area.width, 100);
       area.height = Math.max(area.height, 100);
-      state.areas.push(area);
+      data.areas.push(area);
       ui.selectedAreaId = area.id;
     },
     selectArea: (id: string | null) => {
       ui.selectedAreaId = id;
     },
     deleteArea: (id: string) => {
-      const index = state.areas.findIndex((area) => area.id === id);
+      const index = data.areas.findIndex((area) => area.id === id);
       if (index === -1) {
         return console.error(`Area ${id} is missing from state`);
       }
-      state.areas.splice(index, 1);
+      data.areas.splice(index, 1);
     },
     moveArea: (id: string, x: number, y: number) => {
-      const area = state.areas.find((area) => area.id === id);
+      const area = data.areas.find((area) => area.id === id);
       if (!area) {
         return console.error(`Area ${id} is missing from state`);
       }
@@ -238,7 +232,7 @@ export const actions = (state: BoardState, ui: UIState) => {
       area.y += y;
     },
     addTrackToArea(areaId: string, trackId: string) {
-      const area = state.areas.find((area) => area.id === areaId);
+      const area = data.areas.find((area) => area.id === areaId);
       if (!area) {
         return console.error(`Area ${areaId} is missing from state`);
       }
@@ -252,7 +246,7 @@ export const actions = (state: BoardState, ui: UIState) => {
       });
     },
     removeTrackFromArea(areaId: string, trackId: string) {
-      const area = state.areas.find((area) => area.id === areaId);
+      const area = data.areas.find((area) => area.id === areaId);
       if (!area) {
         return console.error(`Area ${areaId} is missing from state`);
       }
@@ -263,7 +257,7 @@ export const actions = (state: BoardState, ui: UIState) => {
       area.tracks.splice(index, 1);
     },
     toggleTrackAutoplay(areaId: string, trackId: string) {
-      const area = state.areas.find((area) => area.id === areaId);
+      const area = data.areas.find((area) => area.id === areaId);
       if (!area) {
         return console.error(`Area ${areaId} is missing from state`);
       }
@@ -277,7 +271,7 @@ export const actions = (state: BoardState, ui: UIState) => {
       }
     },
     setTrackVolume(areaId: string, trackId: string, volume: number) {
-      const area = state.areas.find((area) => area.id === areaId);
+      const area = data.areas.find((area) => area.id === areaId);
       if (!area) {
         return console.error(`Area ${areaId} is missing from state`);
       }
@@ -304,7 +298,7 @@ export const actions = (state: BoardState, ui: UIState) => {
             trackId,
             howl: new Howl({
               src: ui.tracks[trackId].src,
-              format: state.files[trackId].format,
+              format: data.files[trackId].format,
               volume: volume,
               loop: true,
               autoplay: false,
@@ -333,7 +327,7 @@ export const actions = (state: BoardState, ui: UIState) => {
     setMarker: async (position = ui.marker) => {
       ui.marker = position;
       if (ui.marker === null) return;
-      const areas = state.areas.filter((area) => {
+      const areas = data.areas.filter((area) => {
         if (area.shape === "rectangle") {
           return (
             ui.marker &&
@@ -379,7 +373,7 @@ export const actions = (state: BoardState, ui: UIState) => {
               return console.error(`Track ${trackId} not found in cache`);
             }
             howl.off("fade");
-            howl.fade(0, volume, FADE_DURATION);
+            howl.fade(0, volume, data.settings.fadeDuration);
             howl.play();
             ui.tracks[trackId].status = "playing";
           }
@@ -390,7 +384,7 @@ export const actions = (state: BoardState, ui: UIState) => {
         if (!howl) {
           return console.error(`Track ${trackId} not found in cache`);
         }
-        howl.fade(howl.volume(), 0, FADE_DURATION);
+        howl.fade(howl.volume(), 0, data.settings.fadeDuration);
         ui.tracks[trackId].status = "fadingout";
         howl.once("fade", () => {
           howl.pause();
@@ -409,6 +403,9 @@ export const actions = (state: BoardState, ui: UIState) => {
     changeZoom: (delta: number) => {
       ui.zoom += delta;
       ui.zoom = clamp(ui.zoom, MIN_ZOOM, MAX_ZOOM);
+    },
+    setFadeDuration: (duration: number) => {
+      data.settings.fadeDuration = duration;
     },
   };
 };

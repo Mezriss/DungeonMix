@@ -1,26 +1,12 @@
-import { useCallback, useState } from "react";
-import { Link, useLocation } from "wouter";
+import { Link } from "wouter";
+import Settings from "./Settings";
 import Switch from "./ui/Switch";
-import { AlertDialog } from "@/components/ui/AlertDialog";
-import Menu from "@/components/ui/Menu";
 import { useBoardState } from "@/hooks/useBoardState";
 
-import { Settings } from "lucide-react";
 import styles from "@/styles/Header.module.css";
 
 export default function Header() {
   const { data, ui, actions } = useBoardState();
-  const [, navigate] = useLocation();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  const deleteBoard = useCallback(() => {
-    try {
-      actions.deleteBoard();
-      navigate("/");
-    } catch (e) {
-      console.error(e);
-    }
-  }, [actions, navigate]);
 
   return (
     <>
@@ -52,22 +38,9 @@ export default function Header() {
           />
         </div>
         <div className={styles.settings}>
-          <Menu
-            trigger={<Settings size={32} />}
-            items={[
-              { name: "Delete Board", onClick: () => setIsDialogOpen(true) },
-            ]}
-          />
+          <Settings />
         </div>
       </div>
-      <AlertDialog
-        title="Delete Board"
-        description="Delete this board? This can't be undone."
-        actionName="Delete"
-        action={deleteBoard}
-        open={isDialogOpen}
-        setOpen={setIsDialogOpen}
-      />
     </>
   );
 }

@@ -1,0 +1,21 @@
+.settings {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  & > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 2.5rem;
+  }
+
+  input {
+    width: 4rem;
+    font-size: 1rem;
+    background: transparent;
+    border: solid var(--color-gray-200);
+    border-width: 0 0 2px 0;
+    padding: 0.25rem;
+  }
+}
