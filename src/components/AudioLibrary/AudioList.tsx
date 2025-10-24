@@ -1,11 +1,11 @@
 import { Collapsible } from "@base-ui-components/react/collapsible";
-import { Folder, FolderOpen, RefreshCw, X } from "lucide-react";
 import { useMemo } from "react";
 import { AlertDialogTriggered as AlertDialog } from "@/components/ui/AlertDialog";
 import Tooltip from "@/components/ui/Tooltip";
 import { useBoardState } from "@/hooks/useBoardState";
 import { classes } from "@/util/misc";
 
+import { Folder, FolderOpen, RefreshCw, X } from "lucide-react";
 import styles from "@/styles/AudioList.module.css";
 
 export default function AudioList() {

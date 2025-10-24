@@ -14,7 +14,7 @@
     width: 4rem;
     font-size: 1rem;
     background: transparent;
-    border: solid var(--color-gray-200);
+    border: solid var(--color-border);
     border-width: 0 0 2px 0;
     padding: 0.25rem;
   }

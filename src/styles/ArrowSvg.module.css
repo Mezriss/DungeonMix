@@ -4,7 +4,7 @@
 
 .arrowOuterStroke {
   @media (prefers-color-scheme: light) {
-    fill: var(--color-gray-200);
+    fill: var(--color-border);
   }
 }
 

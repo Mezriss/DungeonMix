@@ -19,11 +19,11 @@
 
 .separator {
   height: 1px;
-  background-color: var(--color-gray-200);
+  background-color: var(--color-border);
   width: 100%;
 }
 
 .selected {
-  border-color: var(--color-blue);
+  border-color: var(--color-accent);
   background-color: var(--color-gray-100);
 }

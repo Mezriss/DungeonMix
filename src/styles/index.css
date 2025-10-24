@@ -4,8 +4,8 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: var(--color-gray-900);
-  background-color: var(--color-gray-100);
+  color: var(--color-primary);
+  background-color: var(--color-base);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -15,11 +15,11 @@
 
 a {
   font-weight: 500;
-  color: var(--color-blue);
+  color: var(--color-accent);
   text-decoration: inherit;
 }
 a:hover {
-  color: var(--color-blue-2);
+  color: var(--color-accent-variant);
 }
 
 body {
@@ -43,8 +43,8 @@ h1 {
 .panel {
   padding: 0.5rem;
   border-radius: 0.5rem;
-  background-color: var(--color-gray-50);
-  border: 1px solid var(--color-gray-200);
+  background-color: var(--color-background);
+  border: 1px solid var(--color-border);
 }
 
 .button {
@@ -57,14 +57,13 @@ h1 {
   padding: 0 0.875rem;
   margin: 0;
   outline: 0;
-  border: 1px solid var(--color-gray-200);
+  border: 1px solid var(--color-border);
   border-radius: 0.375rem;
-  background-color: var(--color-gray-50);
+  background-color: var(--color-background);
   font-family: inherit;
   font-size: 1rem;
   font-weight: 500;
   line-height: 1.5rem;
-  color: var(--color-gray-900);
   user-select: none;
 
   &[data-color="red"] {
@@ -82,7 +81,7 @@ h1 {
   }
 
   &:focus-visible {
-    outline: 2px solid var(--color-blue);
+    outline: 2px solid var(--color-accent);
     outline-offset: -1px;
   }
 }
@@ -102,9 +101,9 @@ h1 {
   }
 }
 .info {
-  border-color: var(--color-blue);
+  border-color: var(--color-accent);
   & svg {
-    color: var(--color-blue);
+    color: var(--color-accent);
   }
 }
 .error {
@@ -118,7 +117,7 @@ h1 {
     justify-self: end;
     svg {
       cursor: pointer;
-      color: var(--color-gray-900);
+      color: var(--color-primary);
     }
   }
 }
@@ -157,9 +156,8 @@ h1 {
   margin-top: -2rem;
   padding: 1.5rem;
   border-radius: 0.5rem;
-  outline: 1px solid var(--color-gray-200);
-  background-color: var(--color-gray-50);
-  color: var(--color-gray-900);
+  outline: 1px solid var(--color-border);
+  background-color: var(--color-background);
   transition: all 150ms;
 
   @media (prefers-color-scheme: dark) {

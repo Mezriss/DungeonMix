@@ -8,8 +8,8 @@
 .marker {
   position: absolute;
   border-radius: 50%;
-  border: 2px solid var(--color-blue);
-  background-color: var(--color-gray-100);
+  border: 2px solid var(--color-accent);
+  background-color: var(--color-base);
   padding: 0.5rem;
   width: 1.5rem;
   height: 1.5rem;
