@@ -3,6 +3,7 @@
   position: relative;
   overflow: hidden;
   isolation: isolate;
+  --area-opacity: 80%;
 }
 
 .marker {

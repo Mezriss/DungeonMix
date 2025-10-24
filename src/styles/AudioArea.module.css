@@ -1,6 +1,10 @@
 .area {
   position: absolute;
-  background-color: color-mix(in srgb, var(--color-blue), transparent 80%);
+  background-color: color-mix(
+    in srgb,
+    var(--color-blue),
+    transparent var(--area-opacity)
+  );
   display: flex;
   flex-direction: column;
   place-items: center;

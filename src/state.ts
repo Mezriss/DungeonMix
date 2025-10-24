@@ -55,6 +55,7 @@ export type BoardState = {
   images: [];
   settings: {
     fadeDuration: number;
+    areaOpacity: number;
   };
 };
 
@@ -74,6 +75,7 @@ export const getInitialBoardState = (id: string): BoardState => ({
   images: [],
   settings: {
     fadeDuration: FADE_DURATION,
+    areaOpacity: 80,
   },
 });
 
@@ -95,7 +97,14 @@ export const migrations = [
     if (!data.settings) {
       data.settings = {
         fadeDuration: FADE_DURATION,
+        areaOpacity: 80,
       };
+    }
+    return data;
+  },
+  (data: BoardState) => {
+    if (data.settings.areaOpacity === undefined) {
+      data.settings.areaOpacity = 80;
     }
     return data;
   },

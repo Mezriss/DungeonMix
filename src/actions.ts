@@ -407,5 +407,8 @@ export const actions = (data: BoardState, ui: UIState) => {
     setFadeDuration: (duration: number) => {
       data.settings.fadeDuration = duration;
     },
+    setAreaOpacity: (opacity: number) => {
+      data.settings.areaOpacity = opacity;
+    },
   };
 };

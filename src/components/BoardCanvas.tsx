@@ -6,7 +6,7 @@ import { useShapeDrawing } from "@/hooks/boardCanvas/useShapeDrawing";
 import { useZoom } from "@/hooks/boardCanvas/useZoom";
 import { useBoardState } from "@/hooks/useBoardState";
 
-import type { PointerEvent } from "react";
+import type { CSSProperties, PointerEvent } from "react";
 
 import { MapPin } from "lucide-react";
 import styles from "@/styles/BoardCanvas.module.css";
@@ -22,6 +22,10 @@ export default function BoardCanvas() {
     rect,
   });
   const { panDelta, startPan, pan, endPan } = useBoardPan();
+
+  const style = {
+    "--area-opacity": data.settings.areaOpacity + "%",
+  } as CSSProperties;
 
   function handlePointerDown(e: PointerEvent<HTMLDivElement>) {
     e.preventDefault();
@@ -71,6 +75,7 @@ export default function BoardCanvas() {
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
       onPointerLeave={handlePointerLeave}
+      style={style}
     >
       <div
         className={styles.positioner}
