@@ -337,6 +337,19 @@ export const actions = (data: BoardState, ui: UIState) => {
       image.x += x;
       image.y += y;
     },
+    loadImage: async (id: string, file: File) => {
+      const image = data.images.find((image) => image.id === id);
+      if (!image) {
+        return console.error(`Image with id ${id} not found`);
+      }
+      const assetId = nanoid();
+      try {
+        await set(STORE_PREFIX + assetId, file);
+      } catch (error) {
+        console.error(error);
+      }
+      image.assetId = assetId;
+    },
     deleteImage: (id: string) => {
       const image = data.images.find((image) => image.id === id);
       if (!image) {
@@ -344,7 +357,7 @@ export const actions = (data: BoardState, ui: UIState) => {
       }
       const assetId = image.assetId;
       if (assetId) {
-        del(assetId);
+        del(STORE_PREFIX + assetId);
       }
       data.images.splice(data.images.indexOf(image), 1);
     },

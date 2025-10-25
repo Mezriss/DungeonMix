@@ -18,8 +18,8 @@ export function useImagePlacing({ rect }: Props) {
     )
       return;
     const id = actions.addImage(
-      (e.clientX - rect.x - rect.width / 2) * (1 / ui.zoom),
-      (e.clientY - rect.y - rect.height / 2) * (1 / ui.zoom),
+      (e.clientX - rect.x - rect.width / 2) * (1 / ui.zoom) - ui.position.x,
+      (e.clientY - rect.y - rect.height / 2) * (1 / ui.zoom) - ui.position.y,
     );
     actions.select(id);
   };
