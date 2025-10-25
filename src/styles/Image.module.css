@@ -1,0 +1,31 @@
+.imageContainer {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  grid-template-areas: "center";
+  min-width: calc(15rem * var(--scale));
+  min-height: calc(15rem * var(--scale));
+  background-color: var(--color-background);
+  & > * {
+    grid-area: center;
+  }
+  isolation: isolate;
+}
+
+.selected {
+  outline: 1px solid var(--color-accent);
+  z-index: 10;
+}
+
+.noImage {
+  color: var(--color-gray-400);
+  transform: scale(var(--scale));
+  pointer-events: none;
+}
+
+.controls {
+  display: flex;
+  gap: 0.25rem;
+  z-index: 1; /* no image icon want's to cut into buttons otherwise*/
+}

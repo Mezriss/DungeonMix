@@ -11,8 +11,8 @@ export type FileInfo = {
 };
 
 export type UIState = {
-  selectedTool: "select" | "rectangle" | "circle";
-  selectedAreaId: string | null;
+  selectedTool: "select" | "rectangle" | "circle" | "image";
+  selectedId: string | null;
   editMode: boolean;
   marker: null | { x: number; y: number };
   tracks: {
@@ -45,14 +45,23 @@ export type AudioArea = {
   tracks: Track[];
 };
 
+export type Image = {
+  id: string;
+  x: number;
+  y: number;
+  scale: number;
+  assetId: string | null;
+};
+
 export type BoardState = {
+  version: number;
   id: string;
   name: string;
   folders: { id: string; name: string }[];
   files: { [id: string]: FileInfo };
   areas: AudioArea[];
   sketches: [];
-  images: [];
+  images: Image[];
   settings: {
     fadeDuration: number;
     areaOpacity: number;
@@ -65,7 +74,10 @@ export type State = {
   ui: UIState;
 };
 
+export const VERSION = 0;
+
 export const getInitialBoardState = (id: string): BoardState => ({
+  version: VERSION,
   id,
   name: "",
   folders: [],
@@ -81,7 +93,7 @@ export const getInitialBoardState = (id: string): BoardState => ({
 
 export const getInitialUIState = (): UIState => ({
   selectedTool: "select",
-  selectedAreaId: null,
+  selectedId: null,
   editMode: true,
   marker: null,
   tracks: {},

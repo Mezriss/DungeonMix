@@ -4,11 +4,11 @@ import { useBoardState } from "@/hooks/useBoardState";
 import type { AudioArea } from "@/state";
 import type { PointerEvent } from "react";
 
-type ShapeDrawingProps = {
+type Props = {
   rect: { x: number; y: number; width: number; height: number };
 };
 
-export function useShapeDrawing({ rect }: ShapeDrawingProps) {
+export function useShapeDrawing({ rect }: Props) {
   const { actions, ui } = useBoardState();
   const [tempShape, setTempShape] = useState<AudioArea | null>(null);
 

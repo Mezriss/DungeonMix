@@ -4,16 +4,16 @@
   --color-red: oklch(50% 55% 31deg);
 
   --color-gray-50: oklch(98.42% 0.0034 247.86deg);
-  --color-gray-100: oklch(12% 9.5% 264deg / 5%);
-  --color-gray-200: oklch(12% 9% 264deg / 8%);
-  --color-gray-300: oklch(12% 8.5% 264deg / 17%);
-  --color-gray-400: oklch(12% 8% 264deg / 38%);
-  --color-gray-500: oklch(12% 7.5% 264deg / 50%);
-  --color-gray-600: oklch(12% 7% 264deg / 67%);
-  --color-gray-700: oklch(12% 6% 264deg / 77%);
-  --color-gray-800: oklch(12% 5% 264deg / 85%);
-  --color-gray-900: oklch(12% 5% 264deg / 90%);
-  --color-gray-950: oklch(12% 5% 264deg / 95%);
+  --color-gray-100: oklch(93.48% 0.48% 264deg);
+  --color-gray-200: oklch(90.75% 0.72% 264deg);
+  --color-gray-300: oklch(85.73% 1.45% 264deg);
+  --color-gray-400: oklch(73.54% 3.04% 264deg);
+  --color-gray-500: oklch(63.21% 3.75% 264deg);
+  --color-gray-600: oklch(47.49% 4.69% 264deg);
+  --color-gray-700: oklch(37.57% 4.62% 264deg);
+  --color-gray-800: oklch(29.59% 4.25% 264deg);
+  --color-gray-900: oklch(25.48% 4.5% 264deg);
+  --color-gray-950: oklch(21.37% 4.75% 264deg);
 
   @media (prefers-color-scheme: dark) {
     --color-blue: oklch(69% 50% 264deg);
@@ -21,16 +21,16 @@
     --color-red: oklch(80% 55% 31deg);
 
     --color-gray-50: oklch(17% 1% 264deg);
-    --color-gray-100: oklch(28% 3% 264deg / 65%);
-    --color-gray-200: oklch(31% 3% 264deg / 80%);
-    --color-gray-300: oklch(35% 3% 264deg / 80%);
-    --color-gray-400: oklch(47% 3.5% 264deg / 80%);
-    --color-gray-500: oklch(64% 4% 264deg / 80%);
-    --color-gray-600: oklch(82% 4% 264deg / 80%);
-    --color-gray-700: oklch(92% 4.5% 264deg / 80%);
-    --color-gray-800: oklch(93% 3.5% 264deg / 85%);
-    --color-gray-900: oklch(95% 2% 264deg / 90%);
-    --color-gray-950: oklch(94% 1.5% 264deg / 95%);
+    --color-gray-100: oklch(24.15% 2.3% 264deg);
+    --color-gray-200: oklch(27.8% 2.6% 264deg);
+    --color-gray-300: oklch(31.4% 2.6% 264deg);
+    --color-gray-400: oklch(41.2% 3.2% 264deg);
+    --color-gray-500: oklch(56.4% 3.6% 264deg);
+    --color-gray-600: oklch(72.2% 3.6% 264deg);
+    --color-gray-700: oklch(83.8% 4.1% 264deg);
+    --color-gray-800: oklch(85.55% 3.48% 264deg);
+    --color-gray-900: oklch(88.3% 2.2% 264deg);
+    --color-gray-950: oklch(86.43% 1.73% 264deg);
   }
 
   --color-primary: var(--color-gray-900);
@@ -40,3 +40,4 @@
   --color-accent: var(--color-blue);
   --color-accent-variant: var(--color-blue-2);
 }
+/*oklch(0.18 0 0)  oklch(1 0 0)*/

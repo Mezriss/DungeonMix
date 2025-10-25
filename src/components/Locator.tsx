@@ -1,4 +1,5 @@
 import { useEffect, useId, useState } from "react";
+import Tooltip from "@/components/ui/Tooltip";
 import { useBoardState } from "@/hooks/useBoardState";
 import { classes } from "@/util/misc";
 
@@ -37,14 +38,16 @@ export default function Locator() {
 
   return (
     <div className={classes(styles.locator, "panel")}>
-      <div className={styles.position}>
-        <div className={styles.indicator}>
-          X:<div className={styles.value}>{-Math.round(ui.position.x)}</div>
+      <Tooltip text="Use middle mouse button to pan around">
+        <div className={styles.position}>
+          <div className={styles.indicator}>
+            X:<div className={styles.value}>{-Math.round(ui.position.x)}</div>
+          </div>
+          <div className={styles.indicator}>
+            Y:<div className={styles.value}>{-Math.round(ui.position.y)}</div>
+          </div>
         </div>
-        <div className={styles.indicator}>
-          Y:<div className={styles.value}>{-Math.round(ui.position.y)}</div>
-        </div>
-      </div>
+      </Tooltip>
       <label htmlFor={id}>Z:</label>
 
       <div className={styles.zoom}>

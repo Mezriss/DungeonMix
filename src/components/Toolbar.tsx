@@ -1,8 +1,15 @@
-import { Circle, MapPin, MousePointer2, Music, Square } from "lucide-react";
 import Tooltip from "./ui/Tooltip";
 import { useBoardState } from "@/hooks/useBoardState";
 import { classes } from "@/util/misc";
 
+import {
+  Circle,
+  Image,
+  MapPin,
+  MousePointer2,
+  Music,
+  Square,
+} from "lucide-react";
 import styles from "@/styles/Toolbar.module.css";
 
 export default function Toolbar() {
@@ -52,6 +59,17 @@ export default function Toolbar() {
           )}
         >
           <Circle size={16} />
+        </button>
+      </Tooltip>
+      <Tooltip text="Add image">
+        <button
+          onClick={() => actions.switchTool("image")}
+          className={classes(
+            "button",
+            ui.selectedTool === "image" && styles.selected,
+          )}
+        >
+          <Image size={16} />
         </button>
       </Tooltip>
     </div>

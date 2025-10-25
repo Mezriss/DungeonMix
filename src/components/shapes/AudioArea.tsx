@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { type Snapshot } from "valtio";
 import AreaControls from "./AreaControls";
 import TrackControls from "./TrackControls";
 import Tooltip from "@/components/ui/Tooltip";
+import { useDrag } from "@/hooks/boardCanvas/useDrag";
 import { useBoardState } from "@/hooks/useBoardState";
 import { classes } from "@/util/misc";
 
@@ -22,50 +22,27 @@ export default function AudioAreaComponent({
   temp?: boolean;
 }) {
   const { ui, actions, data } = useBoardState();
-  const selected = ui.selectedAreaId === area.id;
+  const selected = ui.selectedId === area.id;
   const isInteractive = selected || ui.selectedTool === "select";
-
-  const [move, setMove] = useState<[number, number] | null>(null);
-  const [offset, setOffset] = useState<[number, number] | null>(null);
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!ui.editMode || e.buttons !== 1 || selected || !isInteractive) return;
 
-    actions.selectArea(area.id);
+    actions.select(area.id);
   };
 
-  const handleMoveStart = (e: React.PointerEvent<HTMLButtonElement>) => {
-    if (!selected || !isInteractive) return;
-
-    setMove([e.clientX, e.clientY]);
-  };
-
-  const handleMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!move) return;
-
-    const dx = e.clientX - move[0];
-    const dy = e.clientY - move[1];
-    setOffset([dx, dy]);
-  };
-
-  const handleMoveEnd = () => {
-    if (offset) {
-      actions.moveArea(
-        area.id,
-        offset[0] * (1 / ui.zoom),
-        offset[1] * (1 / ui.zoom),
-      );
-    }
-    setMove(null);
-    setOffset(null);
-  };
+  const { offset, handleDragStart, handleDrag, handleDragEnd } = useDrag({
+    onDragEnd: (moveX, moveY) => {
+      actions.moveArea(area.id, moveX, moveY);
+    },
+  });
 
   return (
     <div
       onPointerDown={handlePointerDown}
-      onPointerMove={handleMove}
-      onPointerUp={handleMoveEnd}
-      onPointerLeave={handleMoveEnd}
+      onPointerMove={handleDrag}
+      onPointerUp={handleDragEnd}
+      onPointerLeave={handleDragEnd}
       className={classes(
         styles.area,
         area.shape === "circle" && styles.circle,
@@ -78,10 +55,9 @@ export default function AudioAreaComponent({
         top: area.y * ui.zoom,
         width: area.width * ui.zoom,
         height: area.height * ui.zoom,
-        ...(move &&
-          offset && {
-            transform: `translate(${offset[0]}px, ${offset[1]}px)`,
-          }),
+        ...(offset && {
+          transform: `translate(${offset[0]}px, ${offset[1]}px)`,
+        }),
       }}
     >
       <div className={styles.tracklist}>
@@ -112,7 +88,7 @@ export default function AudioAreaComponent({
       </div>
 
       {selected && (
-        <AreaControls area={area} handleMoveStart={handleMoveStart} />
+        <AreaControls area={area} handleMoveStart={handleDragStart} />
       )}
     </div>
   );

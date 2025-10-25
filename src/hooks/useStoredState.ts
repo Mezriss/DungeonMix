@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { proxy, subscribe } from "valtio";
 import { actions } from "../actions";
 import { STORE_PREFIX } from "../const";
-import { getInitialBoardState, getInitialUIState, migrations } from "../state";
+import {
+  getInitialBoardState,
+  getInitialUIState,
+  migrations,
+  VERSION,
+} from "../state";
 
 import type { BoardState, State } from "../state";
 
@@ -23,8 +28,11 @@ function loadBoardState(id: string): State | null {
   }
   if (!data) return null;
 
-  for (const migration of migrations) {
-    data = migration(data);
+  if (!("version" in data) || data.version < VERSION) {
+    for (const migration of migrations) {
+      data = migration(data);
+    }
+    data.version = VERSION;
   }
 
   const pData = proxy(data);

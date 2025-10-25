@@ -97,7 +97,8 @@ export const actions = (data: BoardState, ui: UIState) => {
         (folder) => STORE_PREFIX + folder.id,
       );
       await delMany(existingHandleIds);
-      // TODO: clear other resources from IDB (images?)
+      const imageIds = data.images.map((image) => STORE_PREFIX + image.id);
+      await delMany(imageIds);
     },
     addFolder: async (handle: FileSystemDirectoryHandle) => {
       try {
@@ -199,7 +200,7 @@ export const actions = (data: BoardState, ui: UIState) => {
     },
     switchTool: (tool: UIState["selectedTool"]) => {
       ui.selectedTool = tool;
-      ui.selectedAreaId = null;
+      ui.selectedId = null;
     },
     addArea: (shape: AudioArea) => {
       const area = {
@@ -211,10 +212,10 @@ export const actions = (data: BoardState, ui: UIState) => {
       area.width = Math.max(area.width, 100);
       area.height = Math.max(area.height, 100);
       data.areas.push(area);
-      ui.selectedAreaId = area.id;
+      ui.selectedId = area.id;
     },
-    selectArea: (id: string | null) => {
-      ui.selectedAreaId = id;
+    select: (id: string | null) => {
+      ui.selectedId = id;
     },
     deleteArea: (id: string) => {
       const index = data.areas.findIndex((area) => area.id === id);
@@ -317,11 +318,42 @@ export const actions = (data: BoardState, ui: UIState) => {
       }
     },
 
+    addImage: (x: number, y: number) => {
+      const imageId = nanoid();
+      data.images.push({
+        id: imageId,
+        x,
+        y,
+        scale: 1,
+        assetId: null,
+      });
+      return imageId;
+    },
+    moveImage: (id: string, x: number, y: number) => {
+      const image = data.images.find((image) => image.id === id);
+      if (!image) {
+        return console.error(`Image with id ${id} not found`);
+      }
+      image.x += x;
+      image.y += y;
+    },
+    deleteImage: (id: string) => {
+      const image = data.images.find((image) => image.id === id);
+      if (!image) {
+        return console.error(`Image with id ${id} not found`);
+      }
+      const assetId = image.assetId;
+      if (assetId) {
+        del(assetId);
+      }
+      data.images.splice(data.images.indexOf(image), 1);
+    },
+
     toggleEditMode: (val: boolean) => {
       ui.editMode = val;
       ui.selectedTool = "select";
       if (!val) {
-        ui.selectedAreaId = null;
+        ui.selectedId = null;
       }
     },
     setMarker: async (position = ui.marker) => {

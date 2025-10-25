@@ -1,7 +1,9 @@
 import { useRef } from "react";
 import AudioAreaComponent from "./shapes/AudioArea";
+import ImageContainer from "./shapes/ImageContainer";
 import { useBoardDimensions } from "@/hooks/boardCanvas/useBoardDimensions";
 import { useBoardPan } from "@/hooks/boardCanvas/useBoardPan";
+import { useImagePlacing } from "@/hooks/boardCanvas/useImagePlacing";
 import { useShapeDrawing } from "@/hooks/boardCanvas/useShapeDrawing";
 import { useZoom } from "@/hooks/boardCanvas/useZoom";
 import { useBoardState } from "@/hooks/useBoardState";
@@ -22,6 +24,7 @@ export default function BoardCanvas() {
     rect,
   });
   const { panDelta, startPan, pan, endPan } = useBoardPan();
+  const { placeImage } = useImagePlacing({ rect });
 
   const style = {
     "--area-opacity": data.settings.areaOpacity + "%",
@@ -34,11 +37,12 @@ export default function BoardCanvas() {
 
     startPan(e);
     startDrawing(e);
+    placeImage(e);
 
     if (e.buttons === 1) {
       if (editMode) {
         if (selectedTool === "select" && e.target === e.currentTarget) {
-          actions.selectArea(null);
+          actions.select(null);
         }
       } else if (!(e.target as HTMLElement).closest("button")) {
         actions.setMarker({
@@ -85,6 +89,9 @@ export default function BoardCanvas() {
           transform: `translate(${ui.position.x * ui.zoom + panDelta.x}px, ${ui.position.y * ui.zoom + panDelta.y}px)`,
         }}
       >
+        {data.images.map((image) => (
+          <ImageContainer key={image.id} image={image} />
+        ))}
         {data.areas.map((area) => (
           <AudioAreaComponent key={area.id} area={area} />
         ))}

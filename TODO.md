@@ -8,6 +8,7 @@
 - [ ] user visible errors for actions in AudioGrabber
 - [ ] fallback flow for browsers withour proper support of File System Access API
 - [x] audio library revisit, scroll for long track lists
+- [ ] localization
 - [ ] hotkeys
 - [ ] tests
 - [ ] docs
