@@ -71,7 +71,7 @@ export default function AudioArea({ area, rect, temp = false }: Props) {
         width: area.width,
         height: area.height,
         ...(offset && {
-          transform: `translate(${offset[0]}px, ${offset[1]}px)`,
+          transform: `translate(${offset[0] * (1 / zoom)}px, ${offset[1] * (1 / zoom)}px)`,
         }),
       }}
     >

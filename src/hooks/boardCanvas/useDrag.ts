@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import { useSnapshot } from "valtio";
 import { BoardStateContext } from "@/providers/BoardStateContext";
 
 type Props = {
@@ -8,7 +7,6 @@ type Props = {
 
 export function useDrag({ onDragEnd }: Props) {
   const state = useContext(BoardStateContext);
-  const ui = useSnapshot(state.ui);
   const [move, setMove] = useState<[number, number] | null>(null);
   const [offset, setOffset] = useState<[number, number] | null>(null);
 
@@ -26,7 +24,10 @@ export function useDrag({ onDragEnd }: Props) {
 
   const handleDragEnd = () => {
     if (offset) {
-      onDragEnd(offset[0] * (1 / ui.zoom), offset[1] * (1 / ui.zoom));
+      onDragEnd(
+        offset[0] * (1 / state.ui.zoom),
+        offset[1] * (1 / state.ui.zoom),
+      );
     }
     setMove(null);
     setOffset(null);
