@@ -56,11 +56,11 @@ export default function BoardCanvas() {
       } else if (!(e.target as HTMLElement).closest("button")) {
         state.actions.setMarker({
           x:
-            (e.clientX - rect.x - rect.width / 2) * (1 / ui.zoom) -
-            ui.position.x,
+            (e.clientX - rect.x - rect.width / 2 - ui.position.x) *
+            (1 / ui.zoom),
           y:
-            (e.clientY - rect.y - rect.height / 2) * (1 / ui.zoom) -
-            ui.position.y,
+            (e.clientY - rect.y - rect.height / 2 - ui.position.y) *
+            (1 / ui.zoom),
         });
       }
     }
@@ -100,7 +100,7 @@ export default function BoardCanvas() {
         }}
       >
         {data.images.map((image) => (
-          <ImageContainer key={image.id} image={image} />
+          <ImageContainer key={image.id} image={image} rect={rect} />
         ))}
         {data.areas.map((area) => (
           <AudioArea rect={rect} key={area.id} area={area} />
@@ -109,8 +109,8 @@ export default function BoardCanvas() {
           <div
             className={styles.marker}
             style={{
-              left: ui.marker.x * ui.zoom,
-              top: ui.marker.y * ui.zoom,
+              left: ui.marker.x,
+              top: ui.marker.y,
             }}
           >
             <MapPin />

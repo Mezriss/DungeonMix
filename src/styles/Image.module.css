@@ -4,8 +4,8 @@
   display: grid;
   place-items: center;
   grid-template-areas: "center";
-  min-width: calc(15rem * var(--scale));
-  min-height: calc(15rem * var(--scale));
+  min-width: 15rem;
+  min-height: 15rem;
   background-color: var(--color-background);
   & > * {
     grid-area: center;
@@ -19,7 +19,6 @@
 
 .noImage {
   color: var(--color-gray-400);
-  transform: scale(var(--scale));
   pointer-events: none;
 }
 
@@ -30,4 +29,13 @@
   input[type="file"] {
     display: none;
   }
+}
+
+.controlsPanel {
+  position: absolute;
+  background: var(--color-base);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transform: translate(-50%, -50%);
 }

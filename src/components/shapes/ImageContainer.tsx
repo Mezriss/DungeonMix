@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { useSnapshot } from "valtio";
-import Tooltip from "../ui/Tooltip";
+import ImageControls from "./ImageControls";
 import { STORE_PREFIX } from "@/const";
 import { useDrag } from "@/hooks/boardCanvas/useDrag";
 import { useIDB } from "@/hooks/useIDB";
@@ -8,23 +9,23 @@ import { BoardStateContext } from "@/providers/BoardStateContext";
 import { classes } from "@/util/misc";
 
 import type { Image as ImageType } from "@/state";
-import type { ChangeEvent, CSSProperties } from "react";
+import type { CSSProperties } from "react";
 
-import { Image as ImageIcon, ImageOff, Move, Plus, Trash2 } from "lucide-react";
+import { ImageOff } from "lucide-react";
 import styles from "@/styles/Image.module.css";
 
 type Props = {
   image: ImageType;
+  rect: { x: number; y: number; width: number; height: number };
 };
 
-export default function ImageContainer({ image }: Props) {
+export default function ImageContainer({ image, rect }: Props) {
   const state = useContext(BoardStateContext);
-  const ui = useSnapshot(state.ui);
-  const selected = image.id === ui.selectedId;
-  const [loading, setLoading] = useState(false);
+  const { selectedId, zoom, position } = useSnapshot(state.ui);
+  const selected = image.id === selectedId;
 
   const style = {
-    "--scale": ui.zoom,
+    "--scale": zoom,
   } as CSSProperties;
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -43,14 +44,14 @@ export default function ImageContainer({ image }: Props) {
     },
   });
 
-  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files || !e.target.files.length) return;
-
-    const file = e.target.files[0];
-    setLoading(true);
-    await state.actions.loadImage(image.id, file);
-    setLoading(false);
+  const absoluteAreaCenter = {
+    x: rect.x + rect.width / 2 + position.x + image.x * zoom,
+    y: rect.y + rect.height / 2 + position.y + image.y * zoom,
   };
+  if (offset) {
+    absoluteAreaCenter.x += offset[0];
+    absoluteAreaCenter.y += offset[1];
+  }
 
   return (
     <div
@@ -60,10 +61,10 @@ export default function ImageContainer({ image }: Props) {
       onPointerLeave={handleDragEnd}
       className={classes(styles.imageContainer, selected && styles.selected)}
       style={{
-        top: image.y * ui.zoom,
-        left: image.x * ui.zoom,
+        top: image.y,
+        left: image.x,
         ...(offset && {
-          transform: `translate(calc(-50% + ${offset[0]}px), calc(-50% + ${offset[1]}px))`,
+          transform: `translate(calc(-50% + ${offset[0] * (1 / zoom)}px), calc(-50% + ${offset[1] * (1 / zoom)}px))`,
         }),
         ...style,
       }}
@@ -75,44 +76,24 @@ export default function ImageContainer({ image }: Props) {
           <ImageOff size={64} />
         </div>
       )}
-      {selected && (
-        <div className={styles.controls}>
-          {!image.assetId && (
-            <Tooltip text="Add image">
-              <label className={"button"}>
-                <input
-                  disabled={loading}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                />
-                <Plus size={16} />
-                <ImageIcon size={16} />
-              </label>
-            </Tooltip>
-          )}
-          <Tooltip text="Hold button to move image">
-            <button className={"button"} onPointerDown={handleDragStart}>
-              <Move size={16} />
-            </button>
-          </Tooltip>
-          <Tooltip text="Delete image">
-            <button
-              className={"button"}
-              onClick={() => state.actions.deleteImage(image.id)}
-            >
-              <Trash2 size={16} />
-            </button>
-          </Tooltip>
-        </div>
-      )}
+      {selected &&
+        createPortal(
+          <div
+            className={classes(styles.controlsPanel, "panel")}
+            style={{
+              left: absoluteAreaCenter.x,
+              top: absoluteAreaCenter.y,
+            }}
+          >
+            <ImageControls image={image} handleDragStart={handleDragStart} />
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }
 
 function Image({ assetId }: { assetId: string }) {
-  const state = useContext(BoardStateContext);
-  const ui = useSnapshot(state.ui);
   const { data, error, loading } = useIDB<File>(STORE_PREFIX + assetId);
   const [src, setSrc] = useState<string | null>(null);
   useEffect(() => {
@@ -130,17 +111,5 @@ function Image({ assetId }: { assetId: string }) {
     return <div>Loading image...</div>;
   }
 
-  return (
-    <>
-      {src && (
-        <img
-          src={src}
-          alt="Image"
-          style={{
-            zoom: ui.zoom,
-          }}
-        />
-      )}
-    </>
-  );
+  return <>{src && <img src={src} alt="Image" />}</>;
 }
