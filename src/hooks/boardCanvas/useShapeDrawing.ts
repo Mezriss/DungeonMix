@@ -27,8 +27,8 @@ export function useShapeDrawing({ rect }: Props) {
       shape: selectedTool as "circle" | "rectangle",
       width: 0,
       height: 0,
-      x: (e.clientX - rect.x) * (1 / ui.zoom),
-      y: (e.clientY - rect.y) * (1 / ui.zoom),
+      x: e.clientX - rect.x,
+      y: e.clientY - rect.y,
       tracks: [],
     });
   };
@@ -38,15 +38,20 @@ export function useShapeDrawing({ rect }: Props) {
     setTempShape({
       ...tempShape,
 
-      width: (e.clientX - rect.x) * (1 / ui.zoom) - tempShape.x,
-      height: (e.clientY - rect.y) * (1 / ui.zoom) - tempShape.y,
+      width: e.clientX - rect.x - tempShape.x,
+      height: e.clientY - rect.y - tempShape.y,
     });
   };
 
   const endDrawing = () => {
     if (tempShape) {
-      tempShape.x -= (rect.width / 2) * (1 / ui.zoom);
-      tempShape.y -= (rect.height / 2) * (1 / ui.zoom);
+      console.info(tempShape.x, tempShape.y);
+      tempShape.x =
+        (tempShape.x - ui.position.x - rect.width / 2) * (1 / ui.zoom);
+      tempShape.y =
+        (tempShape.y - ui.position.y - rect.height / 2) * (1 / ui.zoom);
+      tempShape.width *= 1 / ui.zoom;
+      tempShape.height *= 1 / ui.zoom;
       actions.addArea(tempShape);
       setTempShape(null);
     }

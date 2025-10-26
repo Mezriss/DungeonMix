@@ -204,8 +204,7 @@ export const actions = (data: BoardState, ui: UIState) => {
         ...shape,
         id: nanoid(),
       };
-      area.x -= ui.position.x;
-      area.y -= ui.position.y;
+
       area.width = Math.max(area.width, 100);
       area.height = Math.max(area.height, 100);
       data.areas.push(area);

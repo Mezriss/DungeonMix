@@ -1,6 +1,6 @@
+import { createPortal } from "react-dom";
 import { type Snapshot } from "valtio";
 import AreaControls from "./AreaControls";
-import TrackControls from "./TrackControls";
 import Tooltip from "@/components/ui/Tooltip";
 import { useDrag } from "@/hooks/boardCanvas/useDrag";
 import { useBoardState } from "@/hooks/useBoardState";
@@ -12,23 +12,21 @@ import { CirclePause, CirclePlay } from "lucide-react";
 import styles from "@/styles/AudioArea.module.css";
 
 // TODO: resize handles
-// TODO: volume control
 
-export default function AudioAreaComponent({
-  area,
-  temp = false,
-}: {
+type Props = {
   area: Snapshot<AudioArea>;
+  rect: { x: number; y: number; width: number; height: number };
   temp?: boolean;
-}) {
+};
+
+export default function AudioArea({ area, rect, temp = false }: Props) {
   const { ui, actions, data } = useBoardState();
   const selected = ui.selectedId === area.id;
-  const isInteractive = selected || ui.selectedTool === "select";
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!ui.editMode || e.buttons !== 1 || selected || !isInteractive) return;
-
-    actions.select(area.id);
+    if (ui.editMode && e.buttons === 1 && ui.selectedTool === "select") {
+      actions.select(area.id);
+    }
   };
 
   const { offset, handleDragStart, handleDrag, handleDragEnd } = useDrag({
@@ -36,6 +34,23 @@ export default function AudioAreaComponent({
       actions.moveArea(area.id, moveX, moveY);
     },
   });
+
+  const absoluteAreaCenter = {
+    x:
+      rect.x +
+      rect.width / 2 +
+      ui.position.x +
+      (area.x + area.width / 2) * ui.zoom,
+    y:
+      rect.y +
+      rect.height / 2 +
+      ui.position.y +
+      (area.y + area.height / 2) * ui.zoom,
+  };
+  if (offset) {
+    absoluteAreaCenter.x += offset[0];
+    absoluteAreaCenter.y += offset[1];
+  }
 
   return (
     <div
@@ -47,14 +62,13 @@ export default function AudioAreaComponent({
         styles.area,
         area.shape === "circle" && styles.circle,
         selected && styles.selected,
-        !isInteractive && styles.nonInteractive,
         temp && styles.temp,
       )}
       style={{
-        left: area.x * ui.zoom,
-        top: area.y * ui.zoom,
-        width: area.width * ui.zoom,
-        height: area.height * ui.zoom,
+        left: area.x,
+        top: area.y,
+        width: area.width,
+        height: area.height,
         ...(offset && {
           transform: `translate(${offset[0]}px, ${offset[1]}px)`,
         }),
@@ -63,7 +77,7 @@ export default function AudioAreaComponent({
       <div className={styles.tracklist}>
         {area.tracks.map((track) => (
           <div key={track.trackId} className={styles.track}>
-            {!ui.editMode && (
+            {!ui.editMode ? (
               <Tooltip text="Toggle autoplay">
                 <button
                   className={classes("button", styles.autoplay)}
@@ -78,18 +92,30 @@ export default function AudioAreaComponent({
                   )}
                 </button>
               </Tooltip>
+            ) : track.autoplay ? (
+              <CirclePlay size={16} />
+            ) : (
+              <CirclePause size={16} />
             )}
             <div className={styles.title}>{data.files[track.trackId].name}</div>
-            {ui.editMode && selected && (
-              <TrackControls areaId={area.id} track={track} />
-            )}
           </div>
         ))}
       </div>
 
-      {selected && (
-        <AreaControls area={area} handleMoveStart={handleDragStart} />
-      )}
+      {ui.editMode &&
+        selected &&
+        createPortal(
+          <div
+            className={classes(styles.controlsPanel, "panel")}
+            style={{
+              left: absoluteAreaCenter.x,
+              top: absoluteAreaCenter.y,
+            }}
+          >
+            <AreaControls area={area} handleMoveStart={handleDragStart} />
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }

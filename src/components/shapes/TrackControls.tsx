@@ -5,7 +5,7 @@ import { useBoardState } from "@/hooks/useBoardState";
 import type { AudioArea } from "@/state";
 
 import { CirclePause, CirclePlay, Trash2 } from "lucide-react";
-import styles from "@/styles/AudioArea.module.css";
+import styles from "@/styles/AreaControls.module.css";
 
 export default function TrackControls({
   areaId,

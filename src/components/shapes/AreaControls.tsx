@@ -1,4 +1,5 @@
 import TrackAdder from "./TrackAdder";
+import TrackControls from "./TrackControls";
 import Tooltip from "@/components/ui/Tooltip";
 import { useBoardState } from "@/hooks/useBoardState";
 
@@ -6,7 +7,7 @@ import type { AudioArea } from "@/state";
 import type { Snapshot } from "valtio";
 
 import { Move, Music, Plus, Trash2 } from "lucide-react";
-import styles from "@/styles/AudioArea.module.css";
+import styles from "@/styles/AreaControls.module.css";
 
 type Props = {
   area: Snapshot<AudioArea>;
@@ -16,31 +17,45 @@ type Props = {
 export default function AreaControls({ area, handleMoveStart }: Props) {
   const { data, actions } = useBoardState();
   return (
-    <div className={styles.controls}>
-      {!!data.folders.length && (
-        <TrackAdder areaId={area.id}>
-          <Tooltip text="Add track">
-            <button className={"button"}>
-              <Plus size={16} />
-              <Music size={16} />
-            </button>
-          </Tooltip>
-        </TrackAdder>
+    <>
+      {!!area.tracks.length && (
+        <div className={styles.tracklist}>
+          {area.tracks.map((track) => (
+            <div key={track.trackId} className={styles.track}>
+              <div className={styles.title}>
+                {data.files[track.trackId].name}
+              </div>
+              <TrackControls areaId={area.id} track={track} />
+            </div>
+          ))}
+        </div>
       )}
+      <div className={styles.controls}>
+        {!!data.folders.length && (
+          <TrackAdder areaId={area.id}>
+            <Tooltip text="Add track">
+              <button className={"button"}>
+                <Plus size={16} />
+                <Music size={16} />
+              </button>
+            </Tooltip>
+          </TrackAdder>
+        )}
 
-      <Tooltip text="Hold button to move area">
-        <button className={"button"} onPointerDown={handleMoveStart}>
-          <Move size={16} />
-        </button>
-      </Tooltip>
-      <Tooltip text="Delete area (there is no undo)">
-        <button
-          className={"button"}
-          onClick={() => actions.deleteArea(area.id)}
-        >
-          <Trash2 size={16} />
-        </button>
-      </Tooltip>
-    </div>
+        <Tooltip text="Hold button to move area">
+          <button className={"button"} onPointerDown={handleMoveStart}>
+            <Move size={16} />
+          </button>
+        </Tooltip>
+        <Tooltip text="Delete area (there is no undo)">
+          <button
+            className={"button"}
+            onClick={() => actions.deleteArea(area.id)}
+          >
+            <Trash2 size={16} />
+          </button>
+        </Tooltip>
+      </div>
+    </>
   );
 }

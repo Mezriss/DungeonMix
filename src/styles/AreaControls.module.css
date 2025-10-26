@@ -1,0 +1,30 @@
+.tracklist {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: 80%;
+
+  .track {
+    display: grid;
+    grid-template-columns: 15rem min-content;
+    gap: 0.5rem;
+    align-items: center;
+
+    button {
+      height: auto;
+      padding: 0.25rem;
+    }
+  }
+}
+
+.title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 0.25rem;
+}

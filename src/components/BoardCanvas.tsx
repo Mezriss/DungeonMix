@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import AudioAreaComponent from "./shapes/AudioArea";
+import AudioArea from "./shapes/AudioArea";
 import ImageContainer from "./shapes/ImageContainer";
 import { useBoardDimensions } from "@/hooks/boardCanvas/useBoardDimensions";
 import { useBoardPan } from "@/hooks/boardCanvas/useBoardPan";
@@ -15,10 +15,10 @@ import styles from "@/styles/BoardCanvas.module.css";
 
 export default function BoardCanvas() {
   const { data, ui, actions } = useBoardState();
-  const divRef = useRef<HTMLDivElement>(null!);
+  const bodyRef = useRef<HTMLDivElement>(null!);
 
-  useZoom(divRef);
-  const rect = useBoardDimensions(divRef);
+  useZoom(bodyRef);
+  const rect = useBoardDimensions(bodyRef);
 
   const { tempShape, startDrawing, draw, endDrawing } = useShapeDrawing({
     rect,
@@ -76,7 +76,7 @@ export default function BoardCanvas() {
 
   return (
     <div
-      ref={divRef}
+      ref={bodyRef}
       className={styles.body}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
@@ -90,14 +90,14 @@ export default function BoardCanvas() {
         style={{
           left: "50%",
           top: "50%",
-          transform: `translate(${ui.position.x * ui.zoom + panDelta.x}px, ${ui.position.y * ui.zoom + panDelta.y}px)`,
+          transform: `translate(${ui.position.x + panDelta.x}px, ${ui.position.y + panDelta.y}px) scale(${ui.zoom})`,
         }}
       >
         {data.images.map((image) => (
           <ImageContainer key={image.id} image={image} />
         ))}
         {data.areas.map((area) => (
-          <AudioAreaComponent key={area.id} area={area} />
+          <AudioArea rect={rect} key={area.id} area={area} />
         ))}
         {!ui.editMode && ui.marker && (
           <div
@@ -111,7 +111,7 @@ export default function BoardCanvas() {
           </div>
         )}
       </div>
-      {tempShape && <AudioAreaComponent area={tempShape} temp={true} />}
+      {tempShape && <AudioArea rect={rect} area={tempShape} temp={true} />}
     </div>
   );
 }

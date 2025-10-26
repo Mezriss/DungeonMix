@@ -11,6 +11,21 @@
   justify-content: center;
   gap: 1rem;
   overflow: hidden;
+  transform-origin: top left;
+
+  &.circle {
+    border-radius: 50%;
+  }
+  &.temp {
+    outline-style: 2px dashed var(--color-primary);
+  }
+  &.selected {
+    outline: 2px solid var(--color-primary);
+
+    .tracklist {
+      display: none;
+    }
+  }
 }
 
 .tracklist {
@@ -18,23 +33,23 @@
   flex-direction: column;
   gap: 0.25rem;
   max-width: 80%;
-}
 
-.track {
-  display: grid;
-  grid-template-columns: min-content auto;
-  gap: 0.5rem;
-  align-items: center;
-
-  button {
-    height: auto;
-    padding: 0.25rem;
-  }
-}
-.selected {
-  overflow: visible;
   .track {
-    grid-template-columns: 1fr min-content;
+    display: grid;
+    grid-template-columns: min-content auto;
+    gap: 0.5rem;
+    align-items: center;
+
+    button {
+      height: auto;
+      padding: 0.25rem;
+    }
+  }
+
+  .title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
 
@@ -43,30 +58,11 @@
   border-color: color-mix(in srgb, var(--color-gray-900), transparent 70%);
 }
 
-.title {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.circle {
-  border-radius: 50%;
-}
-
-.nonInteractive {
-  pointer-events: none;
-}
-
-.selected {
-  outline: 1px solid var(--color-accent);
-  z-index: 10;
-}
-
-.temp {
-  border-style: dashed;
-}
-
-.controls {
+.controlsPanel {
+  position: absolute;
+  background: var(--color-base);
   display: flex;
-  gap: 0.25rem;
+  flex-direction: column;
+  gap: 0.5rem;
+  transform: translate(-50%, -50%);
 }
