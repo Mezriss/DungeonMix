@@ -10,6 +10,7 @@
   place-items: center;
   justify-content: center;
   gap: 1rem;
+  overflow: hidden;
 }
 
 .tracklist {
@@ -30,8 +31,11 @@
     padding: 0.25rem;
   }
 }
-.selected .track {
-  grid-template-columns: 1fr min-content;
+.selected {
+  overflow: visible;
+  .track {
+    grid-template-columns: 1fr min-content;
+  }
 }
 
 .autoplay {

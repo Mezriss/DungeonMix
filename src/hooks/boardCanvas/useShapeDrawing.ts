@@ -13,13 +13,12 @@ export function useShapeDrawing({ rect }: Props) {
   const [tempShape, setTempShape] = useState<AudioArea | null>(null);
 
   const startDrawing = (e: PointerEvent) => {
-    const editMode = actions.getUI("editMode");
-    const selectedTool = actions.getUI("selectedTool");
+    const { editMode, selectedTool } = ui;
     if (
       !editMode ||
       e.buttons !== 1 ||
       !["circle", "rectangle"].includes(selectedTool) ||
-      e.target !== e.currentTarget
+      (e.target as HTMLElement).closest("button")
     )
       return;
 

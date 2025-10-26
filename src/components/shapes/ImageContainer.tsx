@@ -26,9 +26,9 @@ export default function ImageContainer({ image }: Props) {
   } as CSSProperties;
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!ui.editMode || e.buttons !== 1 || selected) return;
-
-    actions.select(image.id);
+    if (ui.editMode && e.buttons === 1 && ui.selectedTool === "select") {
+      actions.select(image.id);
+    }
   };
 
   const { offset, handleDragStart, handleDrag, handleDragEnd } = useDrag({
