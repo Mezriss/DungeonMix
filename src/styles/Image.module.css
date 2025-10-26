@@ -15,7 +15,6 @@
 
 .selected {
   outline: 1px solid var(--color-accent);
-  z-index: 10;
 }
 
 .noImage {

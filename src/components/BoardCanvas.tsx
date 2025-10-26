@@ -32,16 +32,19 @@ export default function BoardCanvas() {
 
   function handlePointerDown(e: PointerEvent<HTMLDivElement>) {
     e.preventDefault();
-    const editMode = actions.getUI("editMode");
-    const selectedTool = actions.getUI("selectedTool");
+
+    if (e.buttons === 2) {
+      actions.select(null);
+      return false;
+    }
 
     startPan(e);
     startDrawing(e);
     placeImage(e);
 
     if (e.buttons === 1) {
-      if (editMode) {
-        if (selectedTool === "select" && e.target === e.currentTarget) {
+      if (ui.editMode) {
+        if (ui.selectedTool === "select" && e.target === e.currentTarget) {
           actions.select(null);
         }
       } else if (!(e.target as HTMLElement).closest("button")) {
@@ -80,6 +83,7 @@ export default function BoardCanvas() {
       onPointerUp={handlePointerUp}
       onPointerLeave={handlePointerLeave}
       style={style}
+      onContextMenu={(e) => e.preventDefault()}
     >
       <div
         className={styles.positioner}

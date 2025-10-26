@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import Info from "./Info";
 import Settings from "./Settings";
 import Switch from "./ui/Switch";
 import { useBoardState } from "@/hooks/useBoardState";
@@ -37,7 +38,10 @@ export default function Header() {
             onChange={(checked) => actions.toggleEditMode(checked)}
           />
         </div>
-        <div className={styles.settings}>
+        <div className={styles.headerButton}>
+          <Info />
+        </div>
+        <div className={styles.headerButton}>
           <Settings />
         </div>
       </div>

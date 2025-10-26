@@ -87,7 +87,7 @@ export const getInitialBoardState = (id: string): BoardState => ({
   images: [],
   settings: {
     fadeDuration: FADE_DURATION,
-    areaOpacity: 80,
+    areaOpacity: 50,
   },
 });
 

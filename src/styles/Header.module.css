@@ -5,7 +5,7 @@
   background-color: var(--color-background);
   border-bottom: 1px solid var(--color-gray-300);
   display: grid;
-  grid-template-columns: auto 1fr auto auto;
+  grid-template-columns: auto 1fr auto auto auto;
   gap: 2rem;
 }
 
@@ -27,12 +27,12 @@
   font-weight: normal;
 }
 
-.settings {
+.headerButton {
   display: flex;
   place-items: center;
 }
 
-.settings svg {
+.headerButton svg {
   cursor: pointer;
 }
 

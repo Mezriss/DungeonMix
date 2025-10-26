@@ -65,9 +65,6 @@ export const actions = (data: BoardState, ui: UIState) => {
   };
 
   return {
-    getUI: <K extends keyof UIState>(prop: K): UIState[K] => {
-      return ui[prop];
-    },
     updateName: (name: string) => {
       data.name = name;
       try {
