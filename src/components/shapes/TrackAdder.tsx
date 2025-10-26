@@ -1,9 +1,11 @@
-import { useState } from "react";
-import { useBoardState } from "@/hooks/useBoardState";
+import { Combobox } from "@base-ui-components/react";
+import { useContext, useState } from "react";
+import { useSnapshot } from "valtio";
+import { BoardStateContext } from "@/providers/BoardStateContext";
+
+import type { FileInfo } from "@/state";
 
 import styles from "@/styles/TrackAdder.module.css";
-import { Combobox } from "@base-ui-components/react";
-import type { FileInfo } from "@/state";
 
 type Props = {
   children: React.ReactNode;
@@ -11,7 +13,8 @@ type Props = {
 };
 
 export default function TrackAdder({ children, areaId }: Props) {
-  const { data, actions } = useBoardState();
+  const state = useContext(BoardStateContext);
+  const data = useSnapshot(state.data);
   const [value, setValue] = useState<FileInfo | null>(null);
 
   const tracks = Object.values(data.files).sort((a, b) =>
@@ -20,7 +23,7 @@ export default function TrackAdder({ children, areaId }: Props) {
 
   const handleChange = (track: FileInfo | null) => {
     if (track) {
-      actions.addTrackToArea(areaId, track.id);
+      state.actions.addTrackToArea(areaId, track.id);
     }
     setValue(null);
   };

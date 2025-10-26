@@ -1,10 +1,11 @@
-import { useBoardState } from "@/hooks/useBoardState";
-import styles from "@/styles/AudioGrabber.module.css";
+import { useContext, useRef, useState } from "react";
+import { BoardStateContext } from "@/providers/BoardStateContext";
+
 import { CircleX, X } from "lucide-react";
-import { useRef, useState } from "react";
+import styles from "@/styles/AudioGrabber.module.css";
 
 export default function AudioGrabber() {
-  const { actions } = useBoardState();
+  const { actions } = useContext(BoardStateContext);
   const [isDragOver, setIsDragOver] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const dragCounter = useRef(0);

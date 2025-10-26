@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { useBoardState } from "@/hooks/useBoardState";
+import { useContext, useState } from "react";
+import { useSnapshot } from "valtio";
+import { BoardStateContext } from "@/providers/BoardStateContext";
 
 import type { AudioArea } from "@/state";
 import type { PointerEvent } from "react";
@@ -9,22 +10,22 @@ type Props = {
 };
 
 export function useShapeDrawing({ rect }: Props) {
-  const { actions, ui } = useBoardState();
+  const state = useContext(BoardStateContext);
+  const ui = useSnapshot(state.ui);
   const [tempShape, setTempShape] = useState<AudioArea | null>(null);
 
   const startDrawing = (e: PointerEvent) => {
-    const { editMode, selectedTool } = ui;
     if (
-      !editMode ||
+      !state.ui.editMode ||
       e.buttons !== 1 ||
-      !["circle", "rectangle"].includes(selectedTool) ||
+      !["circle", "rectangle"].includes(state.ui.selectedTool) ||
       (e.target as HTMLElement).closest("button")
     )
       return;
 
     setTempShape({
       id: "temp",
-      shape: selectedTool as "circle" | "rectangle",
+      shape: state.ui.selectedTool as "circle" | "rectangle",
       width: 0,
       height: 0,
       x: e.clientX - rect.x,
@@ -45,14 +46,13 @@ export function useShapeDrawing({ rect }: Props) {
 
   const endDrawing = () => {
     if (tempShape) {
-      console.info(tempShape.x, tempShape.y);
       tempShape.x =
         (tempShape.x - ui.position.x - rect.width / 2) * (1 / ui.zoom);
       tempShape.y =
         (tempShape.y - ui.position.y - rect.height / 2) * (1 / ui.zoom);
       tempShape.width *= 1 / ui.zoom;
       tempShape.height *= 1 / ui.zoom;
-      actions.addArea(tempShape);
+      state.actions.addArea(tempShape);
       setTempShape(null);
     }
   };

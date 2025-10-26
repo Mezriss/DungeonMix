@@ -1,12 +1,14 @@
-import { useState } from "react";
-import { useBoardState } from "../useBoardState";
+import { useContext, useState } from "react";
+import { useSnapshot } from "valtio";
+import { BoardStateContext } from "@/providers/BoardStateContext";
 
 type Props = {
   onDragEnd: (moveX: number, moveY: number) => void;
 };
 
 export function useDrag({ onDragEnd }: Props) {
-  const { ui } = useBoardState();
+  const state = useContext(BoardStateContext);
+  const ui = useSnapshot(state.ui);
   const [move, setMove] = useState<[number, number] | null>(null);
   const [offset, setOffset] = useState<[number, number] | null>(null);
 

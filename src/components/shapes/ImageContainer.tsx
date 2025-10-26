@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useSnapshot } from "valtio";
 import Tooltip from "../ui/Tooltip";
 import { STORE_PREFIX } from "@/const";
 import { useDrag } from "@/hooks/boardCanvas/useDrag";
-import { useBoardState } from "@/hooks/useBoardState";
 import { useIDB } from "@/hooks/useIDB";
+import { BoardStateContext } from "@/providers/BoardStateContext";
 import { classes } from "@/util/misc";
 
 import type { Image as ImageType } from "@/state";
@@ -17,7 +18,8 @@ type Props = {
 };
 
 export default function ImageContainer({ image }: Props) {
-  const { ui, actions } = useBoardState();
+  const state = useContext(BoardStateContext);
+  const ui = useSnapshot(state.ui);
   const selected = image.id === ui.selectedId;
   const [loading, setLoading] = useState(false);
 
@@ -26,14 +28,18 @@ export default function ImageContainer({ image }: Props) {
   } as CSSProperties;
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (ui.editMode && e.buttons === 1 && ui.selectedTool === "select") {
-      actions.select(image.id);
+    if (
+      e.buttons === 1 &&
+      state.ui.editMode &&
+      state.ui.selectedTool === "select"
+    ) {
+      state.actions.select(image.id);
     }
   };
 
   const { offset, handleDragStart, handleDrag, handleDragEnd } = useDrag({
     onDragEnd: (moveX, moveY) => {
-      actions.moveImage(image.id, moveX, moveY);
+      state.actions.moveImage(image.id, moveX, moveY);
     },
   });
 
@@ -42,7 +48,7 @@ export default function ImageContainer({ image }: Props) {
 
     const file = e.target.files[0];
     setLoading(true);
-    await actions.loadImage(image.id, file);
+    await state.actions.loadImage(image.id, file);
     setLoading(false);
   };
 
@@ -93,7 +99,7 @@ export default function ImageContainer({ image }: Props) {
           <Tooltip text="Delete image">
             <button
               className={"button"}
-              onClick={() => actions.deleteImage(image.id)}
+              onClick={() => state.actions.deleteImage(image.id)}
             >
               <Trash2 size={16} />
             </button>
@@ -105,7 +111,8 @@ export default function ImageContainer({ image }: Props) {
 }
 
 function Image({ assetId }: { assetId: string }) {
-  const { ui } = useBoardState();
+  const state = useContext(BoardStateContext);
+  const ui = useSnapshot(state.ui);
   const { data, error, loading } = useIDB<File>(STORE_PREFIX + assetId);
   const [src, setSrc] = useState<string | null>(null);
   useEffect(() => {

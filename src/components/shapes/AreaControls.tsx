@@ -1,7 +1,9 @@
+import { useContext } from "react";
+import { useSnapshot } from "valtio";
 import TrackAdder from "./TrackAdder";
 import TrackControls from "./TrackControls";
 import Tooltip from "@/components/ui/Tooltip";
-import { useBoardState } from "@/hooks/useBoardState";
+import { BoardStateContext } from "@/providers/BoardStateContext";
 
 import type { AudioArea } from "@/state";
 import type { Snapshot } from "valtio";
@@ -15,7 +17,8 @@ type Props = {
 };
 
 export default function AreaControls({ area, handleMoveStart }: Props) {
-  const { data, actions } = useBoardState();
+  const state = useContext(BoardStateContext);
+  const data = useSnapshot(state.data);
   return (
     <>
       {!!area.tracks.length && (
@@ -50,7 +53,7 @@ export default function AreaControls({ area, handleMoveStart }: Props) {
         <Tooltip text="Delete area (there is no undo)">
           <button
             className={"button"}
-            onClick={() => actions.deleteArea(area.id)}
+            onClick={() => state.actions.deleteArea(area.id)}
           >
             <Trash2 size={16} />
           </button>

@@ -1,10 +1,10 @@
-import { useRef, useState } from "react";
-import { useBoardState } from "@/hooks/useBoardState";
+import { useContext, useRef, useState } from "react";
+import { BoardStateContext } from "@/providers/BoardStateContext";
 
 import type { PointerEvent } from "react";
 
 export function useBoardPan() {
-  const { actions } = useBoardState();
+  const { actions } = useContext(BoardStateContext);
   const panStartCoords = useRef({ x: 0, y: 0 });
   const [panDelta, setPanDelta] = useState({ x: 0, y: 0 });
 

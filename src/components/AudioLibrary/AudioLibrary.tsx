@@ -1,11 +1,15 @@
-import styles from "@/styles/AudioLibrary.module.css";
-import { Info } from "lucide-react";
+import { useContext } from "react";
+import { useSnapshot } from "valtio";
 import AudioGrabber from "./AudioGrabber";
-import { useBoardState } from "@/hooks/useBoardState";
 import AudioList from "./AudioList";
+import { BoardStateContext } from "@/providers/BoardStateContext";
+
+import { Info } from "lucide-react";
+import styles from "@/styles/AudioLibrary.module.css";
 
 export default function AudioLibrary() {
-  const { data } = useBoardState();
+  const state = useContext(BoardStateContext);
+  const data = useSnapshot(state.data);
 
   return (
     <div className={styles.library}>

@@ -1,7 +1,7 @@
 import { Slider } from "@base-ui-components/react/slider";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Tooltip from "@/components/ui/Tooltip";
-import { useBoardState } from "@/hooks/useBoardState";
+import { BoardStateContext } from "@/providers/BoardStateContext";
 
 import type { Track } from "@/state";
 
@@ -14,7 +14,7 @@ type Props = {
 };
 
 export default function VolumeControl({ areaId, track }: Props) {
-  const { actions } = useBoardState();
+  const { actions } = useContext(BoardStateContext);
   const [volume, setVolume] = useState(track.volume * 100);
   useEffect(() => {
     setVolume(track.volume * 100);

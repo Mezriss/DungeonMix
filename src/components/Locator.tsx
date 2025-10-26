@@ -1,6 +1,7 @@
-import { useEffect, useId, useState } from "react";
+import { useContext, useEffect, useId, useState } from "react";
+import { useSnapshot } from "valtio";
 import Tooltip from "@/components/ui/Tooltip";
-import { useBoardState } from "@/hooks/useBoardState";
+import { BoardStateContext } from "@/providers/BoardStateContext";
 import { classes } from "@/util/misc";
 
 import type { KeyboardEvent } from "react";
@@ -9,7 +10,8 @@ import { Minus, Plus } from "lucide-react";
 import styles from "@/styles/Locator.module.css";
 
 export default function Locator() {
-  const { ui, actions } = useBoardState();
+  const state = useContext(BoardStateContext);
+  const ui = useSnapshot(state.ui);
   const [zoom, setZoom] = useState(Math.round(ui.zoom * 100) + "%");
   const id = useId();
 
@@ -20,17 +22,17 @@ export default function Locator() {
   const onKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     switch (event.key) {
       case "ArrowUp":
-        actions.changeZoom(0.1);
+        state.actions.changeZoom(0.1);
         break;
       case "ArrowDown":
-        actions.changeZoom(-0.1);
+        state.actions.changeZoom(-0.1);
         break;
       case "Enter": {
         const value = parseInt(
           event.currentTarget.value.replace(/[^0-9]/g, ""),
           10,
         );
-        actions.setZoom(isNaN(value) ? 1 : value / 100);
+        state.actions.setZoom(isNaN(value) ? 1 : value / 100);
         break;
       }
     }
@@ -57,10 +59,16 @@ export default function Locator() {
           onChange={(e) => setZoom(e.target.value)}
           onKeyDown={onKeyDown}
         />
-        <button className={"button"} onClick={() => actions.changeZoom(0.1)}>
+        <button
+          className={"button"}
+          onClick={() => state.actions.changeZoom(0.1)}
+        >
           <Plus size={16} />
         </button>
-        <button className={"button"} onClick={() => actions.changeZoom(-0.1)}>
+        <button
+          className={"button"}
+          onClick={() => state.actions.changeZoom(-0.1)}
+        >
           <Minus size={16} />
         </button>
       </div>

@@ -1,9 +1,10 @@
-import { useCallback, useId, useState } from "react";
+import { useCallback, useContext, useId, useState } from "react";
+import { useSnapshot } from "valtio";
 import { useLocation } from "wouter";
 import { AlertDialog } from "./ui/AlertDialog";
 import Dialog from "./ui/Dialog";
 import Tooltip from "./ui/Tooltip";
-import { useBoardState } from "@/hooks/useBoardState";
+import { BoardStateContext } from "@/providers/BoardStateContext";
 
 import type { ChangeEvent } from "react";
 
@@ -33,13 +34,14 @@ export default function Settings() {
 
 function TrackFadeSetting() {
   const id = useId();
-  const { data, actions } = useBoardState();
+  const state = useContext(BoardStateContext);
+  const data = useSnapshot(state.data);
   const [duration, setDuration] = useState(
     String(data.settings.fadeDuration / 1000),
   );
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setDuration(e.target.value);
-    actions.setFadeDuration(parseFloat(e.target.value) * 1000);
+    state.actions.setFadeDuration(parseFloat(e.target.value) * 1000);
   };
 
   return (
@@ -57,13 +59,14 @@ function TrackFadeSetting() {
 }
 
 function AreaOpacity() {
-  const { data, actions } = useBoardState();
+  const state = useContext(BoardStateContext);
+  const data = useSnapshot(state.data);
   const id = useId();
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value, 10);
     if (!isNaN(value)) {
-      actions.setAreaOpacity(value);
+      state.actions.setAreaOpacity(value);
     }
   };
 
@@ -84,7 +87,7 @@ function AreaOpacity() {
 }
 
 function DeleteBoard() {
-  const { actions } = useBoardState();
+  const { actions } = useContext(BoardStateContext);
 
   const [, navigate] = useLocation();
   const [isDialogOpen, setIsDialogOpen] = useState(false);

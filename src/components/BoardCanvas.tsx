@@ -1,4 +1,5 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
+import { useSnapshot } from "valtio";
 import AudioArea from "./shapes/AudioArea";
 import ImageContainer from "./shapes/ImageContainer";
 import { useBoardDimensions } from "@/hooks/boardCanvas/useBoardDimensions";
@@ -6,7 +7,7 @@ import { useBoardPan } from "@/hooks/boardCanvas/useBoardPan";
 import { useImagePlacing } from "@/hooks/boardCanvas/useImagePlacing";
 import { useShapeDrawing } from "@/hooks/boardCanvas/useShapeDrawing";
 import { useZoom } from "@/hooks/boardCanvas/useZoom";
-import { useBoardState } from "@/hooks/useBoardState";
+import { BoardStateContext } from "@/providers/BoardStateContext";
 
 import type { CSSProperties, PointerEvent } from "react";
 
@@ -14,7 +15,9 @@ import { MapPin } from "lucide-react";
 import styles from "@/styles/BoardCanvas.module.css";
 
 export default function BoardCanvas() {
-  const { data, ui, actions } = useBoardState();
+  const state = useContext(BoardStateContext);
+  const data = useSnapshot(state.data);
+  const ui = useSnapshot(state.ui);
   const bodyRef = useRef<HTMLDivElement>(null!);
 
   useZoom(bodyRef);
@@ -34,7 +37,7 @@ export default function BoardCanvas() {
     e.preventDefault();
 
     if (e.buttons === 2) {
-      actions.select(null);
+      state.actions.select(null);
       return false;
     }
 
@@ -43,12 +46,15 @@ export default function BoardCanvas() {
     placeImage(e);
 
     if (e.buttons === 1) {
-      if (ui.editMode) {
-        if (ui.selectedTool === "select" && e.target === e.currentTarget) {
-          actions.select(null);
+      if (state.ui.editMode) {
+        if (
+          state.ui.selectedTool === "select" &&
+          e.target === e.currentTarget
+        ) {
+          state.actions.select(null);
         }
       } else if (!(e.target as HTMLElement).closest("button")) {
-        actions.setMarker({
+        state.actions.setMarker({
           x:
             (e.clientX - rect.x - rect.width / 2) * (1 / ui.zoom) -
             ui.position.x,

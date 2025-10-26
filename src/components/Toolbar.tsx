@@ -1,5 +1,7 @@
+import { useContext } from "react";
+import { useSnapshot } from "valtio";
 import Tooltip from "./ui/Tooltip";
-import { useBoardState } from "@/hooks/useBoardState";
+import { BoardStateContext } from "@/providers/BoardStateContext";
 import { classes } from "@/util/misc";
 
 import {
@@ -13,7 +15,8 @@ import {
 import styles from "@/styles/Toolbar.module.css";
 
 export default function Toolbar() {
-  const { ui, actions } = useBoardState();
+  const state = useContext(BoardStateContext);
+  const ui = useSnapshot(state.ui);
   if (!ui.editMode)
     return (
       <div className={classes(styles.toolbar, "panel")}>
@@ -28,7 +31,7 @@ export default function Toolbar() {
     <div className={classes(styles.toolbar, "panel")}>
       <Tooltip text="Select" side="right">
         <button
-          onClick={() => actions.switchTool("select")}
+          onClick={() => state.actions.switchTool("select")}
           className={classes(
             "button",
             ui.selectedTool === "select" && styles.selected,
@@ -41,7 +44,7 @@ export default function Toolbar() {
       <Music size={16} />
       <Tooltip text="Add rectangular sound area" side="right">
         <button
-          onClick={() => actions.switchTool("rectangle")}
+          onClick={() => state.actions.switchTool("rectangle")}
           className={classes(
             "button",
             ui.selectedTool === "rectangle" && styles.selected,
@@ -52,7 +55,7 @@ export default function Toolbar() {
       </Tooltip>
       <Tooltip text="Add circular sound area" side="right">
         <button
-          onClick={() => actions.switchTool("circle")}
+          onClick={() => state.actions.switchTool("circle")}
           className={classes(
             "button",
             ui.selectedTool === "circle" && styles.selected,
@@ -63,7 +66,7 @@ export default function Toolbar() {
       </Tooltip>
       <Tooltip text="Add image">
         <button
-          onClick={() => actions.switchTool("image")}
+          onClick={() => state.actions.switchTool("image")}
           className={classes(
             "button",
             ui.selectedTool === "image" && styles.selected,

@@ -1,13 +1,17 @@
+import { useContext } from "react";
+import { useSnapshot } from "valtio";
 import { Link } from "wouter";
 import Info from "./Info";
 import Settings from "./Settings";
 import Switch from "./ui/Switch";
-import { useBoardState } from "@/hooks/useBoardState";
+import { BoardStateContext } from "@/providers/BoardStateContext";
 
 import styles from "@/styles/Header.module.css";
 
 export default function Header() {
-  const { data, ui, actions } = useBoardState();
+  const state = useContext(BoardStateContext);
+  const data = useSnapshot(state.data);
+  const ui = useSnapshot(state.ui);
 
   return (
     <>
@@ -21,7 +25,7 @@ export default function Header() {
               name="Board name"
               placeholder="Untitled board"
               value={data.name}
-              onChange={(e) => actions.updateName(e.target.value)}
+              onChange={(e) => state.actions.updateName(e.target.value)}
             />
           ) : (
             <h2>{data.name || "Untitled board"}</h2>
@@ -35,7 +39,7 @@ export default function Header() {
           </div>
           <Switch
             checked={ui.editMode}
-            onChange={(checked) => actions.toggleEditMode(checked)}
+            onChange={(checked) => state.actions.toggleEditMode(checked)}
           />
         </div>
         <div className={styles.headerButton}>

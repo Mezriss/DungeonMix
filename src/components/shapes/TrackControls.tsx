@@ -1,6 +1,7 @@
+import { useContext } from "react";
 import VolumeControl from "./VolumeControl";
 import Tooltip from "@/components/ui/Tooltip";
-import { useBoardState } from "@/hooks/useBoardState";
+import { BoardStateContext } from "@/providers/BoardStateContext";
 
 import type { AudioArea } from "@/state";
 
@@ -14,7 +15,8 @@ export default function TrackControls({
   areaId: string;
   track: AudioArea["tracks"][number];
 }) {
-  const { actions } = useBoardState();
+  const { actions } = useContext(BoardStateContext);
+
   return (
     <div className={styles.controls}>
       <Tooltip text="Toggle autoplay">

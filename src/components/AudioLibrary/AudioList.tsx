@@ -1,15 +1,18 @@
 import { Collapsible } from "@base-ui-components/react/collapsible";
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
+import { useSnapshot } from "valtio";
 import { AlertDialogTriggered as AlertDialog } from "@/components/ui/AlertDialog";
 import Tooltip from "@/components/ui/Tooltip";
-import { useBoardState } from "@/hooks/useBoardState";
+import { BoardStateContext } from "@/providers/BoardStateContext";
 import { classes } from "@/util/misc";
 
 import { Folder, FolderOpen, RefreshCw, X } from "lucide-react";
 import styles from "@/styles/AudioList.module.css";
 
 export default function AudioList() {
-  const { data, actions } = useBoardState();
+  const state = useContext(BoardStateContext);
+
+  const data = useSnapshot(state.data);
   return (
     <div className={classes(styles.audioList, "panel")}>
       {data.folders.map((folder) => (
@@ -22,7 +25,7 @@ export default function AudioList() {
             <Tooltip text="Refresh files in folder">
               <button
                 className="button"
-                onClick={() => actions.refreshFolder(folder.id)}
+                onClick={() => state.actions.refreshFolder(folder.id)}
               >
                 <RefreshCw size={16} />
               </button>
@@ -32,7 +35,7 @@ export default function AudioList() {
                 title="Remove Folder"
                 description="Are you sure you want to remove this folder? This will also remove its tracks from the board."
                 actionName="Remove"
-                action={() => actions.removeFolder(folder.id)}
+                action={() => state.actions.removeFolder(folder.id)}
               >
                 <X size={16} />
               </AlertDialog>
@@ -46,7 +49,8 @@ export default function AudioList() {
 }
 
 function TrackList({ folderId }: { folderId: string }) {
-  const { data } = useBoardState();
+  const state = useContext(BoardStateContext);
+  const data = useSnapshot(state.data);
 
   const list = useMemo(() => {
     return Object.values(data.files)

@@ -1,12 +1,14 @@
+import { useContext } from "react";
 import { createPortal } from "react-dom";
-import { type Snapshot } from "valtio";
+import { useSnapshot } from "valtio";
 import AreaControls from "./AreaControls";
 import Tooltip from "@/components/ui/Tooltip";
 import { useDrag } from "@/hooks/boardCanvas/useDrag";
-import { useBoardState } from "@/hooks/useBoardState";
+import { BoardStateContext } from "@/providers/BoardStateContext";
 import { classes } from "@/util/misc";
 
 import type { AudioArea } from "@/state";
+import type { Snapshot } from "valtio";
 
 import { CirclePause, CirclePlay } from "lucide-react";
 import styles from "@/styles/AudioArea.module.css";
@@ -20,32 +22,31 @@ type Props = {
 };
 
 export default function AudioArea({ area, rect, temp = false }: Props) {
-  const { ui, actions, data } = useBoardState();
-  const selected = ui.selectedId === area.id;
+  const state = useContext(BoardStateContext);
 
+  const { editMode, selectedId, position, zoom } = useSnapshot(state.ui);
+  const { files } = useSnapshot(state.data);
+  const selected = selectedId === area.id;
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (ui.editMode && e.buttons === 1 && ui.selectedTool === "select") {
-      actions.select(area.id);
+    if (
+      e.buttons === 1 &&
+      state.ui.editMode &&
+      state.ui.selectedTool === "select"
+    ) {
+      state.actions.select(area.id);
     }
   };
 
   const { offset, handleDragStart, handleDrag, handleDragEnd } = useDrag({
     onDragEnd: (moveX, moveY) => {
-      actions.moveArea(area.id, moveX, moveY);
+      state.actions.moveArea(area.id, moveX, moveY);
     },
   });
 
   const absoluteAreaCenter = {
-    x:
-      rect.x +
-      rect.width / 2 +
-      ui.position.x +
-      (area.x + area.width / 2) * ui.zoom,
+    x: rect.x + rect.width / 2 + position.x + (area.x + area.width / 2) * zoom,
     y:
-      rect.y +
-      rect.height / 2 +
-      ui.position.y +
-      (area.y + area.height / 2) * ui.zoom,
+      rect.y + rect.height / 2 + position.y + (area.y + area.height / 2) * zoom,
   };
   if (offset) {
     absoluteAreaCenter.x += offset[0];
@@ -77,12 +78,12 @@ export default function AudioArea({ area, rect, temp = false }: Props) {
       <div className={styles.tracklist}>
         {area.tracks.map((track) => (
           <div key={track.trackId} className={styles.track}>
-            {!ui.editMode ? (
+            {!editMode ? (
               <Tooltip text="Toggle autoplay">
                 <button
                   className={classes("button", styles.autoplay)}
                   onClick={() =>
-                    actions.toggleTrackAutoplay(area.id, track.trackId)
+                    state.actions.toggleTrackAutoplay(area.id, track.trackId)
                   }
                 >
                   {track.autoplay ? (
@@ -97,12 +98,12 @@ export default function AudioArea({ area, rect, temp = false }: Props) {
             ) : (
               <CirclePause size={16} />
             )}
-            <div className={styles.title}>{data.files[track.trackId].name}</div>
+            <div className={styles.title}>{files[track.trackId].name}</div>
           </div>
         ))}
       </div>
 
-      {ui.editMode &&
+      {editMode &&
         selected &&
         createPortal(
           <div
