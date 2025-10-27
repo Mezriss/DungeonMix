@@ -21,8 +21,8 @@ export function useImagePlacing({ rect }: Props) {
     )
       return;
     const id = state.actions.addImage(
-      (e.clientX - rect.x - rect.width / 2) * (1 / ui.zoom) - ui.position.x,
-      (e.clientY - rect.y - rect.height / 2) * (1 / ui.zoom) - ui.position.y,
+      (e.clientX - rect.x - rect.width / 2 - ui.position.x) * (1 / ui.zoom),
+      (e.clientY - rect.y - rect.height / 2 - ui.position.y) * (1 / ui.zoom),
     );
     state.actions.select(id);
   };

@@ -1,42 +1,43 @@
-import { useContext, useState } from "react";
-import { BoardStateContext } from "@/providers/BoardStateContext";
+import { useRef } from "react";
+
+import type { RefObject } from "react";
 
 type Props = {
-  onDragEnd: (moveX: number, moveY: number) => void;
+  refs: RefObject<HTMLDivElement>[];
+  onUpdate: (moveX: number, moveY: number) => void;
 };
 
-export function useDrag({ onDragEnd }: Props) {
-  const state = useContext(BoardStateContext);
-  const [move, setMove] = useState<[number, number] | null>(null);
-  const [offset, setOffset] = useState<[number, number] | null>(null);
+export function useDrag({ refs, onUpdate }: Props) {
+  const start = useRef<{ x: number; y: number } | null>(null);
 
-  const handleDragStart = (e: React.PointerEvent<HTMLButtonElement>) => {
-    setMove([e.clientX, e.clientY]);
+  const onDragStart = (e: React.PointerEvent<HTMLButtonElement>) => {
+    start.current = { x: e.clientX, y: e.clientY };
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("pointerup", onPointerUp);
   };
 
-  const handleDrag = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!move) return;
-
-    const dx = e.clientX - move[0];
-    const dy = e.clientY - move[1];
-    setOffset([dx, dy]);
-  };
-
-  const handleDragEnd = () => {
-    if (offset) {
-      onDragEnd(
-        offset[0] * (1 / state.ui.zoom),
-        offset[1] * (1 / state.ui.zoom),
-      );
+  const onPointerMove = (e: PointerEvent) => {
+    if (!start.current) return;
+    for (const ref of refs) {
+      ref.current.style.setProperty("--dx", `${e.clientX - start.current.x}px`);
+      ref.current.style.setProperty("--dy", `${e.clientY - start.current.y}px`);
     }
-    setMove(null);
-    setOffset(null);
+  };
+
+  const onPointerUp = (e: PointerEvent) => {
+    if (start.current) {
+      for (const ref of refs) {
+        ref.current.style.removeProperty("--dx");
+        ref.current.style.removeProperty("--dy");
+      }
+      onUpdate(e.clientX - start.current!.x, e.clientY - start.current!.y);
+      start.current = null;
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerup", onPointerUp);
+    }
   };
 
   return {
-    offset,
-    handleDragStart,
-    handleDrag,
-    handleDragEnd,
+    onDragStart,
   };
 }

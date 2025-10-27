@@ -1,6 +1,9 @@
 .imageContainer {
   position: absolute;
-  transform: translate(-50%, -50%);
+  transform: translate(
+    calc(-50% + var(--dx, 0px) * (1 / var(--zoom, 1))),
+    calc(-50% + var(--dy, 0px) * (1 / var(--zoom, 1)))
+  );
   display: grid;
   place-items: center;
   grid-template-areas: "center";
@@ -37,5 +40,8 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  transform: translate(-50%, -50%);
+  transform: translate(
+    calc(-50% + var(--dx, 0px)),
+    calc(-50% + var(--dy, 0px))
+  );
 }

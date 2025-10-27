@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useSnapshot } from "valtio";
 import AreaControls from "./AreaControls";
@@ -8,7 +8,6 @@ import { BoardStateContext } from "@/providers/BoardStateContext";
 import { classes } from "@/util/misc";
 
 import type { AudioArea } from "@/state";
-import type { Snapshot } from "valtio";
 
 import { CirclePause, CirclePlay } from "lucide-react";
 import styles from "@/styles/AudioArea.module.css";
@@ -16,17 +15,20 @@ import styles from "@/styles/AudioArea.module.css";
 // TODO: resize handles
 
 type Props = {
-  area: Snapshot<AudioArea>;
+  id: string;
   rect: { x: number; y: number; width: number; height: number };
-  temp?: boolean;
 };
 
-export default function AudioArea({ area, rect, temp = false }: Props) {
+export function AudioArea({ id, rect }: Props) {
   const state = useContext(BoardStateContext);
+  const area = useSnapshot(state.data.areas.find((area) => area.id === id)!);
+  const areaRef = useRef<HTMLDivElement>(null!);
+  const controlsRef = useRef<HTMLDivElement>(null!);
 
   const { editMode, selectedId, position, zoom } = useSnapshot(state.ui);
   const { files } = useSnapshot(state.data);
   const selected = selectedId === area.id;
+
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     if (
       e.buttons === 1 &&
@@ -37,9 +39,18 @@ export default function AudioArea({ area, rect, temp = false }: Props) {
     }
   };
 
-  const { offset, handleDragStart, handleDrag, handleDragEnd } = useDrag({
-    onDragEnd: (moveX, moveY) => {
-      state.actions.moveArea(area.id, moveX, moveY);
+  const cssVars = {
+    "--zoom": zoom,
+  };
+
+  const { onDragStart } = useDrag({
+    refs: [areaRef, controlsRef],
+    onUpdate: (moveX, moveY) => {
+      state.actions.moveArea(
+        area.id,
+        moveX * (1 / state.ui.zoom),
+        moveY * (1 / state.ui.zoom),
+      );
     },
   });
 
@@ -48,31 +59,22 @@ export default function AudioArea({ area, rect, temp = false }: Props) {
     y:
       rect.y + rect.height / 2 + position.y + (area.y + area.height / 2) * zoom,
   };
-  if (offset) {
-    absoluteAreaCenter.x += offset[0];
-    absoluteAreaCenter.y += offset[1];
-  }
 
   return (
     <div
+      ref={areaRef}
       onPointerDown={handlePointerDown}
-      onPointerMove={handleDrag}
-      onPointerUp={handleDragEnd}
-      onPointerLeave={handleDragEnd}
       className={classes(
         styles.area,
         area.shape === "circle" && styles.circle,
         selected && styles.selected,
-        temp && styles.temp,
       )}
       style={{
         left: area.x,
         top: area.y,
         width: area.width,
         height: area.height,
-        ...(offset && {
-          transform: `translate(${offset[0] * (1 / zoom)}px, ${offset[1] * (1 / zoom)}px)`,
-        }),
+        ...cssVars,
       }}
     >
       <div className={styles.tracklist}>
@@ -107,16 +109,35 @@ export default function AudioArea({ area, rect, temp = false }: Props) {
         selected &&
         createPortal(
           <div
+            ref={controlsRef}
             className={classes(styles.controlsPanel, "panel")}
             style={{
               left: absoluteAreaCenter.x,
               top: absoluteAreaCenter.y,
             }}
           >
-            <AreaControls area={area} handleMoveStart={handleDragStart} />
+            <AreaControls area={area} handleMoveStart={onDragStart} />
           </div>,
           document.body,
         )}
     </div>
+  );
+}
+
+export function TempAudioArea({ area }: { area: AudioArea }) {
+  return (
+    <div
+      className={classes(
+        styles.area,
+        area.shape === "circle" && styles.circle,
+        styles.temp,
+      )}
+      style={{
+        left: area.x,
+        top: area.y,
+        width: area.width,
+        height: area.height,
+      }}
+    />
   );
 }

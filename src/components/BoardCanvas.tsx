@@ -1,6 +1,6 @@
 import { useContext, useRef } from "react";
 import { useSnapshot } from "valtio";
-import AudioArea from "./shapes/AudioArea";
+import { AudioArea, TempAudioArea } from "./shapes/AudioArea";
 import ImageContainer from "./shapes/ImageContainer";
 import { useBoardDimensions } from "@/hooks/boardCanvas/useBoardDimensions";
 import { useBoardPan } from "@/hooks/boardCanvas/useBoardPan";
@@ -79,7 +79,6 @@ export default function BoardCanvas() {
     draw(e);
     pan(e);
   }
-
   return (
     <div
       ref={bodyRef}
@@ -100,10 +99,10 @@ export default function BoardCanvas() {
         }}
       >
         {data.images.map((image) => (
-          <ImageContainer key={image.id} image={image} rect={rect} />
+          <ImageContainer key={image.id} id={image.id} rect={rect} />
         ))}
         {data.areas.map((area) => (
-          <AudioArea rect={rect} key={area.id} area={area} />
+          <AudioArea rect={rect} key={area.id} id={area.id} />
         ))}
         {!ui.editMode && ui.marker && (
           <div
@@ -117,7 +116,7 @@ export default function BoardCanvas() {
           </div>
         )}
       </div>
-      {tempShape && <AudioArea rect={rect} area={tempShape} temp={true} />}
+      {tempShape && <TempAudioArea area={tempShape} />}
     </div>
   );
 }
