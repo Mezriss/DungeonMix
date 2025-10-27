@@ -290,7 +290,10 @@ export const actions = (data: BoardState, ui: UIState) => {
         await initTrack(trackId);
       }
       try {
-        if (!volumePreview || volumePreview.trackId !== trackId) {
+        // possible improvement: don't preview track if any other is playing
+        if (ui.tracks[trackId]?.status === "playing") {
+          trackCache.get(trackId)?.volume(volume);
+        } else if (!volumePreview || volumePreview.trackId !== trackId) {
           volumePreview = {
             trackId,
             howl: new Howl({
