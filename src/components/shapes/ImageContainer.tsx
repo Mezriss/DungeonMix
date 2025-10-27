@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useSnapshot } from "valtio";
-import ImageControls from "./ImageControls";
+import ImageControls from "./controls/ImageControls";
 import { STORE_PREFIX } from "@/const";
 import { useDrag } from "@/hooks/boardCanvas/useDrag";
 import { useIDB } from "@/hooks/useIDB";
@@ -26,6 +26,7 @@ export default function ImageContainer({ id, rect }: Props) {
 
   const cssVars = {
     "--zoom": zoom,
+    "--scale": image.scale,
   };
 
   const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
@@ -82,7 +83,11 @@ export default function ImageContainer({ id, rect }: Props) {
               top: absoluteAreaCenter.y,
             }}
           >
-            <ImageControls image={image} handleDragStart={onDragStart} />
+            <ImageControls
+              image={image}
+              handleDragStart={onDragStart}
+              containerRef={containerRef}
+            />
           </div>,
           document.body,
         )}

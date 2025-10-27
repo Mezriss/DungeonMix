@@ -346,6 +346,13 @@ export const actions = (data: BoardState, ui: UIState) => {
       }
       image.assetId = assetId;
     },
+    setImageScale: (id: string, scale: number) => {
+      const image = data.images.find((image) => image.id === id);
+      if (!image) {
+        return console.error(`Image with id ${id} not found`);
+      }
+      image.scale = scale;
+    },
     deleteImage: (id: string) => {
       const image = data.images.find((image) => image.id === id);
       if (!image) {

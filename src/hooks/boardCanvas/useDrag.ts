@@ -25,16 +25,14 @@ export function useDrag({ refs, onUpdate }: Props) {
   };
 
   const onPointerUp = (e: PointerEvent) => {
-    if (start.current) {
-      for (const ref of refs) {
-        ref.current.style.removeProperty("--dx");
-        ref.current.style.removeProperty("--dy");
-      }
-      onUpdate(e.clientX - start.current!.x, e.clientY - start.current!.y);
-      start.current = null;
-      window.removeEventListener("pointermove", onPointerMove);
-      window.removeEventListener("pointerup", onPointerUp);
+    for (const ref of refs) {
+      ref.current?.style.removeProperty("--dx");
+      ref.current?.style.removeProperty("--dy");
     }
+    onUpdate(e.clientX - start.current!.x, e.clientY - start.current!.y);
+    start.current = null;
+    window.removeEventListener("pointermove", onPointerMove);
+    window.removeEventListener("pointerup", onPointerUp);
   };
 
   return {

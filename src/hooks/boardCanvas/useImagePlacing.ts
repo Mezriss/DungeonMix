@@ -17,7 +17,8 @@ export function useImagePlacing({ rect }: Props) {
       !state.ui.editMode ||
       state.ui.selectedTool !== "image" ||
       e.buttons !== 1 ||
-      e.target !== e.currentTarget
+      (e.target as HTMLElement).closest("button") ||
+      (e.target as HTMLElement).closest("label")
     )
       return;
     const id = state.actions.addImage(

@@ -3,10 +3,11 @@
 - [x] track volume control
 - [x] fade duration setting
 - [ ] fix sound preview of currently playing track
+- [ ] hint on using tools
 - [ ] resize handles for tracks
 - [ ] visual indicator for playing tracks
 - [x] autoplay control (with play button in play mode)
-- [ ] adding images (a layer under shapes, shapes shouldn't stop adding)
+- [x] adding images (a layer under shapes, shapes shouldn't stop adding)
 - [ ] user visible errors for actions in AudioGrabber
 - [ ] fallback flow for browsers withour proper support of File System Access API
 - [x] audio library revisit, scroll for long track lists

@@ -1,12 +1,12 @@
-import { Slider } from "@base-ui-components/react/slider";
 import { useContext, useEffect, useState } from "react";
+import Slider from "@/components/ui/Slider";
 import Tooltip from "@/components/ui/Tooltip";
 import { BoardStateContext } from "@/providers/BoardStateContext";
 
 import type { Track } from "@/state";
 
 import { Volume1 } from "lucide-react";
-import styles from "@/styles/VolumeControl.module.css";
+import styles from "@/styles/AreaControls.module.css";
 
 type Props = {
   areaId: string;
@@ -19,10 +19,10 @@ export default function VolumeControl({ areaId, track }: Props) {
   useEffect(() => {
     setVolume(track.volume * 100);
   }, [track.volume]);
-  const onValueComitted = (value: number) => {
+  const onComit = (value: number) => {
     actions.setTrackVolume(areaId, track.trackId, value / 100);
   };
-  const onValueChange = (value: number) => {
+  const onChange = (value: number) => {
     setVolume(value);
     actions.previewVolume(track.trackId, value / 100);
   };
@@ -31,20 +31,13 @@ export default function VolumeControl({ areaId, track }: Props) {
     <Tooltip text="Volume">
       <div className={styles.volumeControl}>
         <Volume1 size={16} />
-        <Slider.Root
-          value={volume}
+        <Slider
           min={0}
           max={100}
-          onValueChange={onValueChange}
-          onValueCommitted={onValueComitted}
-        >
-          <Slider.Control className={styles.control}>
-            <Slider.Track className={styles.track}>
-              <Slider.Indicator className={styles.indicator} />
-              <Slider.Thumb className={styles.thumb} />
-            </Slider.Track>
-          </Slider.Control>
-        </Slider.Root>
+          value={volume}
+          onChange={onChange}
+          onCommit={onComit}
+        />
       </div>
     </Tooltip>
   );

@@ -13,7 +13,9 @@
   & > * {
     grid-area: center;
   }
-  isolation: isolate;
+  img {
+    transform: scale(var(--scale, 1));
+  }
 }
 
 .selected {
@@ -28,7 +30,6 @@
 .controls {
   display: flex;
   gap: 0.25rem;
-  z-index: 1; /* no image icon want's to cut into buttons otherwise*/
   input[type="file"] {
     display: none;
   }
@@ -44,4 +45,22 @@
     calc(-50% + var(--dx, 0px)),
     calc(-50% + var(--dy, 0px))
   );
+}
+
+.scaleControl {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  height: 100%;
+  box-sizing: border-box;
+
+  padding: 0.25rem 1rem 0.25rem 0.875rem;
+
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+  background-color: var(--color-background);
+
+  input {
+    margin: 0;
+  }
 }

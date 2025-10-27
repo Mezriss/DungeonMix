@@ -1,7 +1,7 @@
 import { useContext, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useSnapshot } from "valtio";
-import AreaControls from "./AreaControls";
+import AreaControls from "./controls/AreaControls";
 import Tooltip from "@/components/ui/Tooltip";
 import { useDrag } from "@/hooks/boardCanvas/useDrag";
 import { BoardStateContext } from "@/providers/BoardStateContext";
