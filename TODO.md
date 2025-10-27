@@ -2,8 +2,8 @@
 - [x] scaling
 - [x] track volume control
 - [x] fade duration setting
-- [ ] fix sound preview of currently playing track
-- [ ] hint on using tools
+- [x] fix sound preview of currently playing track
+- [x] hint on using tools
 - [ ] resize handles for tracks
 - [ ] visual indicator for playing tracks
 - [x] autoplay control (with play button in play mode)

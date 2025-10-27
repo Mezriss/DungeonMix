@@ -64,6 +64,8 @@ export default function Toolbar() {
           <Circle size={16} />
         </button>
       </Tooltip>
+      <div className={styles.separator} />
+
       <Tooltip text="Add image">
         <button
           onClick={() => state.actions.switchTool("image")}
