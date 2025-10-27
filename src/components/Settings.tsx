@@ -1,9 +1,13 @@
-import { useCallback, useContext, useId, useState } from "react";
+import { i18n } from "@lingui/core";
+import { useCallback, useContext, useId, useMemo, useState } from "react";
 import { useSnapshot } from "valtio";
 import { useLocation } from "wouter";
 import { AlertDialog } from "./ui/AlertDialog";
 import Dialog from "./ui/Dialog";
+import Select from "./ui/Select";
 import Tooltip from "./ui/Tooltip";
+import { LOCALE_KEY } from "@/const";
+import { dynamicActivate, locales } from "@/i18n";
 import { BoardStateContext } from "@/providers/BoardStateContext";
 
 import type { ChangeEvent } from "react";
@@ -25,6 +29,7 @@ export default function Settings() {
         <div className={styles.settings}>
           <TrackFadeSetting />
           <AreaOpacity />
+          <Language />
           <DeleteBoard />
         </div>
       </Dialog>
@@ -81,6 +86,33 @@ function AreaOpacity() {
         max={100}
         value={data.settings.areaOpacity}
         onChange={onChange}
+      />
+    </div>
+  );
+}
+
+function Language() {
+  const localeList = useMemo(
+    () =>
+      Object.keys(locales).map((locale) => ({
+        label: locales[locale as keyof typeof locales],
+        value: locale,
+      })),
+    [],
+  );
+
+  const onChange = (value: string) => {
+    dynamicActivate(value);
+    localStorage.setItem(LOCALE_KEY, value);
+  };
+
+  return (
+    <div>
+      <div>Language</div>
+      <Select
+        items={localeList}
+        onChange={onChange}
+        defaultValue={i18n.locale}
       />
     </div>
   );

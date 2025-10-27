@@ -1,12 +1,16 @@
 import path from "node:path";
-import { defineConfig } from "vite";
+import { lingui } from "@lingui/vite-plugin";
 import react from "@vitejs/plugin-react-swc";
+import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    react(),
+    react({
+      plugins: [["@lingui/swc-plugin", {}]],
+    }),
+    lingui(),
     VitePWA({
       registerType: "autoUpdate",
       workbox: {

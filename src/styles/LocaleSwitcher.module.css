@@ -1,0 +1,19 @@
+.switcher {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.switch {
+  interpolate-size: allow-keywords;
+  width: 0;
+  overflow: hidden;
+  transition: width 0.5s ease-in-out;
+  white-space: nowrap;
+
+  &.open {
+    width: auto;
+  }
+}
