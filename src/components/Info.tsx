@@ -16,7 +16,7 @@ export default function Info() {
             <CircleQuestionMark size={32} />
           </Tooltip>
         }
-        title="Quick tips"
+        title={t`Quick tips`}
       >
         <div className={styles.info}>
           <p>

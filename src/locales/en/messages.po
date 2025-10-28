@@ -51,7 +51,7 @@ msgstr "Audio area opacity, %"
 msgid "Back to Home"
 msgstr "Back to Home"
 
-#: src/components/Header.tsx:26
+#: src/components/Header.tsx:27
 msgid "Board name"
 msgstr "Board name"
 
@@ -124,6 +124,10 @@ msgstr "DungeonMix is a web application that allows you to create audio boards f
 msgid "e.g."
 msgstr "e.g."
 
+#: src/components/Header.tsx:38
+msgid "Edit<0/>Mode"
+msgstr "Edit<0/>Mode"
+
 #: src/components/shapes/ImageContainer.tsx:112
 msgid "Error loading image"
 msgstr "Error loading image"
@@ -189,6 +193,7 @@ msgid "Please drop a folder containing audio files."
 msgstr "Please drop a folder containing audio files."
 
 #: src/components/Info.tsx:15
+#: src/components/Info.tsx:19
 msgid "Quick tips"
 msgstr "Quick tips"
 
@@ -263,8 +268,8 @@ msgstr "Tools"
 msgid "Track fade duration, s"
 msgstr "Track fade duration, s"
 
-#: src/components/Header.tsx:27
-#: src/components/Header.tsx:32
+#: src/components/Header.tsx:28
+#: src/components/Header.tsx:33
 msgid "Untitled board"
 msgstr "Untitled board"
 

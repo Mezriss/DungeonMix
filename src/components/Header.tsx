@@ -1,4 +1,5 @@
 import { t } from "@lingui/core/macro";
+import { Trans } from "@lingui/react/macro";
 import { useContext } from "react";
 import { useSnapshot } from "valtio";
 import { Link } from "wouter";
@@ -34,9 +35,11 @@ export default function Header() {
         </div>
         <div className={styles.editToggle}>
           <div>
-            Edit
-            <br />
-            Mode
+            <Trans>
+              Edit
+              <br />
+              Mode
+            </Trans>
           </div>
           <Switch
             checked={ui.editMode}
