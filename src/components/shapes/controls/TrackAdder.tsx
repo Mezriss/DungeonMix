@@ -1,4 +1,6 @@
 import { Combobox } from "@base-ui-components/react";
+import { t } from "@lingui/core/macro";
+import { Trans } from "@lingui/react/macro";
 import { useContext, useState } from "react";
 import { useSnapshot } from "valtio";
 import { BoardStateContext } from "@/providers/BoardStateContext";
@@ -43,15 +45,15 @@ export default function TrackAdder({ children, areaId }: Props) {
       </Combobox.Trigger>
       <Combobox.Portal>
         <Combobox.Positioner align="start" sideOffset={4}>
-          <Combobox.Popup className={styles.popup} aria-label="Select track">
+          <Combobox.Popup className={styles.popup} aria-label={t`Select track`}>
             <div className={styles.inputContainer}>
               <Combobox.Input
-                placeholder={"e.g. " + tracks[0].name}
+                placeholder={t`e.g.` + " " + tracks[0].name}
                 className={styles.input}
               />
             </div>
             <Combobox.Empty className={styles.empty}>
-              No tracks found.
+              <Trans>No tracks found.</Trans>
             </Combobox.Empty>
             <Combobox.List className={styles.list}>
               {(track: FileInfo) => (

@@ -1,3 +1,5 @@
+import { t } from "@lingui/core/macro";
+import { Trans } from "@lingui/react/macro";
 import { useContext, useRef, useState } from "react";
 import { BoardStateContext } from "@/providers/BoardStateContext";
 
@@ -22,7 +24,7 @@ export default function AudioGrabber() {
       const err = error as { name?: string };
       if (err.name !== "AbortError") {
         console.error("Error selecting directory:", error);
-        setError("Failed to select directory.");
+        setError(t`Failed to select directory.`);
       }
     }
   };
@@ -73,10 +75,10 @@ export default function AudioGrabber() {
         }
       }
 
-      setError("Please drop a folder containing audio files.");
+      setError(t`Please drop a folder containing audio files.`);
     } catch (error) {
       console.error("Error handling dropped directory:", error);
-      setError("Failed to access the dropped folder.");
+      setError(t`Failed to access the dropped folder.`);
     }
   };
 
@@ -99,17 +101,21 @@ export default function AudioGrabber() {
         onDragOver={handleDragOver}
         onDrop={handleDrop}
       >
-        <div>Give DungeonMix access to a folder with your audio files.</div>
         <div>
-          Drag and drop a folder
+          <Trans>
+            Give DungeonMix access to a folder with your audio files.
+          </Trans>
+        </div>
+        <div>
+          <Trans>Drag and drop a folder</Trans>
           {"showDirectoryPicker" in window && (
-            <>
+            <Trans>
               {" "}
               or{" "}
               <button className="button" onClick={selectDirectory}>
                 browse
               </button>
-            </>
+            </Trans>
           )}
         </div>
       </div>

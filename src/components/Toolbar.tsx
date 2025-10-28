@@ -1,3 +1,4 @@
+import { t } from "@lingui/core/macro";
 import { useContext } from "react";
 import { useSnapshot } from "valtio";
 import Tooltip from "./ui/Tooltip";
@@ -20,7 +21,7 @@ export default function Toolbar() {
   if (!ui.editMode)
     return (
       <div className={classes(styles.toolbar, "panel")}>
-        <Tooltip text="Place location marker" side="right">
+        <Tooltip text={t`Place location marker`} side="right">
           <button className={classes("button", styles.selected)}>
             <MapPin size={16} />
           </button>
@@ -29,7 +30,7 @@ export default function Toolbar() {
     );
   return (
     <div className={classes(styles.toolbar, "panel")}>
-      <Tooltip text="Select" side="right">
+      <Tooltip text={t`Select`} side="right">
         <button
           onClick={() => state.actions.switchTool("select")}
           className={classes(
@@ -42,7 +43,7 @@ export default function Toolbar() {
       </Tooltip>
       <div className={styles.separator} />
       <Music size={16} />
-      <Tooltip text="Add rectangular sound area" side="right">
+      <Tooltip text={t`Add rectangular sound area`} side="right">
         <button
           onClick={() => state.actions.switchTool("rectangle")}
           className={classes(
@@ -53,7 +54,7 @@ export default function Toolbar() {
           <Square size={16} />
         </button>
       </Tooltip>
-      <Tooltip text="Add circular sound area" side="right">
+      <Tooltip text={t`Add circular sound area`} side="right">
         <button
           onClick={() => state.actions.switchTool("circle")}
           className={classes(
@@ -66,7 +67,7 @@ export default function Toolbar() {
       </Tooltip>
       <div className={styles.separator} />
 
-      <Tooltip text="Add image">
+      <Tooltip text={t`Add image`} side="right">
         <button
           onClick={() => state.actions.switchTool("image")}
           className={classes(

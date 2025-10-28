@@ -1,3 +1,4 @@
+import { Trans } from "@lingui/react/macro";
 import { useContext } from "react";
 import { useSnapshot } from "valtio";
 import AudioGrabber from "./AudioGrabber";
@@ -17,7 +18,7 @@ export default function AudioLibrary() {
         <AudioList />
       ) : (
         <div className="info">
-          <Info /> Start here
+          <Info /> <Trans>Start here</Trans>
         </div>
       )}
       <AudioGrabber />

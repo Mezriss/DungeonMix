@@ -1,3 +1,4 @@
+import { t } from "@lingui/core/macro";
 import { useContext, useEffect, useState } from "react";
 import Slider from "@/components/ui/Slider";
 import Tooltip from "@/components/ui/Tooltip";
@@ -28,7 +29,7 @@ export default function VolumeControl({ areaId, track }: Props) {
   };
 
   return (
-    <Tooltip text="Volume">
+    <Tooltip text={t`Volume`}>
       <div className={styles.volumeControl}>
         <Volume1 size={16} />
         <Slider

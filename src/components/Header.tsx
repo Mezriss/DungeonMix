@@ -1,3 +1,4 @@
+import { t } from "@lingui/core/macro";
 import { useContext } from "react";
 import { useSnapshot } from "valtio";
 import { Link } from "wouter";
@@ -22,13 +23,13 @@ export default function Header() {
         <div className={styles.name}>
           {ui.editMode ? (
             <input
-              name="Board name"
-              placeholder="Untitled board"
+              name={t`Board name`}
+              placeholder={t`Untitled board`}
               value={data.name}
               onChange={(e) => state.actions.updateName(e.target.value)}
             />
           ) : (
-            <h2>{data.name || "Untitled board"}</h2>
+            <h2>{data.name || t`Untitled board`}</h2>
           )}
         </div>
         <div className={styles.editToggle}>

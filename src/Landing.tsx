@@ -1,3 +1,4 @@
+import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
@@ -16,6 +17,9 @@ export type BoardList = {
 export default function Landing() {
   const [, navigate] = useLocation();
   const [boards, setBoards] = useState<BoardList | null>(null);
+
+  const untitled = t`Untitled Board`;
+
   useEffect(() => {
     try {
       setBoards(JSON.parse(localStorage.getItem(KEY_BOARDS) || "[]"));
@@ -28,7 +32,7 @@ export default function Landing() {
     const id = nanoid();
     localStorage.setItem(
       KEY_BOARDS,
-      JSON.stringify([...(boards || []), { id, name: "Untitled Board" }]),
+      JSON.stringify([...(boards || []), { id, name: untitled }]),
     );
     localStorage.setItem(
       STORE_PREFIX + id,
@@ -43,7 +47,9 @@ export default function Landing() {
         <div>
           <div className={styles.title}>
             <h1>
-              Welcome to <span>DungeonMix</span>
+              <Trans>
+                Welcome to <span>DungeonMix</span>
+              </Trans>
             </h1>
             <p>
               <Trans>
@@ -56,16 +62,18 @@ export default function Landing() {
           <div className={styles.controls}>
             <>
               <button onClick={createBoard} className="button">
-                Create New Board
+                <Trans>Create New Board</Trans>
               </button>
               {!boards?.length ? null : (
                 <>
-                  <div>or load existing board</div>
+                  <div>
+                    <Trans>or load existing board</Trans>
+                  </div>
                   <ul>
                     {boards.map((board) => (
                       <li key={board.id}>
                         <Link href={`/boards/${board.id}`}>
-                          {board.name || "Untitled Board"}
+                          {board.name || untitled}
                         </Link>
                       </li>
                     ))}

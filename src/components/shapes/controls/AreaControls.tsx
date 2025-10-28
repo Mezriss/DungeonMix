@@ -1,3 +1,4 @@
+import { t } from "@lingui/core/macro";
 import { useContext } from "react";
 import { useSnapshot } from "valtio";
 import TrackAdder from "./TrackAdder";
@@ -36,7 +37,7 @@ export default function AreaControls({ area, handleMoveStart }: Props) {
       <div className={styles.controls}>
         {!!data.folders.length && (
           <TrackAdder areaId={area.id}>
-            <Tooltip text="Add track">
+            <Tooltip text={t`Add track`}>
               <button className={"button"}>
                 <Plus size={16} />
                 <Music size={16} />
@@ -45,12 +46,12 @@ export default function AreaControls({ area, handleMoveStart }: Props) {
           </TrackAdder>
         )}
 
-        <Tooltip text="Hold button to move area">
+        <Tooltip text={t`Hold button to move area`}>
           <button className={"button"} onPointerDown={handleMoveStart}>
             <Move size={16} />
           </button>
         </Tooltip>
-        <Tooltip text="Delete area (there is no undo)">
+        <Tooltip text={t`Delete area (there is no undo)`}>
           <button
             className={"button"}
             onClick={() => state.actions.deleteArea(area.id)}

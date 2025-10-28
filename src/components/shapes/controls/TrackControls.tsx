@@ -1,3 +1,4 @@
+import { t } from "@lingui/core/macro";
 import { useContext } from "react";
 import VolumeControl from "./VolumeControl";
 import Tooltip from "@/components/ui/Tooltip";
@@ -19,7 +20,7 @@ export default function TrackControls({
 
   return (
     <div className={styles.controls}>
-      <Tooltip text="Toggle autoplay">
+      <Tooltip text={t`Toggle autoplay`}>
         <button
           className={"button"}
           onClick={() => actions.toggleTrackAutoplay(areaId, track.trackId)}
@@ -32,7 +33,7 @@ export default function TrackControls({
         </button>
       </Tooltip>
       <VolumeControl areaId={areaId} track={track} />
-      <Tooltip text="Remove track">
+      <Tooltip text={t`Remove track`}>
         <button
           className={"button"}
           onClick={() => actions.removeTrackFromArea(areaId, track.trackId)}

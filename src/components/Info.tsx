@@ -1,5 +1,8 @@
+import { t } from "@lingui/core/macro";
+import { Trans } from "@lingui/react/macro";
 import Dialog from "./ui/Dialog";
 import Tooltip from "./ui/Tooltip";
+import { GITHUB_URL } from "@/const";
 
 import { CircleQuestionMark } from "lucide-react";
 import styles from "@/styles/Info.module.css";
@@ -9,7 +12,7 @@ export default function Info() {
     <>
       <Dialog
         trigger={
-          <Tooltip text="Quick tips">
+          <Tooltip text={t`Quick tips`}>
             <CircleQuestionMark size={32} />
           </Tooltip>
         }
@@ -17,34 +20,69 @@ export default function Info() {
       >
         <div className={styles.info}>
           <p>
-            This app is in a very early stage of development. Expect half of the
-            functionality to be broken and the other half to be missing.
+            <Trans>
+              This app is still in development. There might be bugs or missing
+              features. Suggestions? Bug reports? Get in touch on{" "}
+              <a href={GITHUB_URL}>GitHub</a>.
+            </Trans>
           </p>
-          <h2 className={styles.subheader}>Tools</h2>
+          <h2 className={styles.subheader}>
+            <Trans>Tools</Trans>
+          </h2>
           <dl className={styles.definitions}>
-            <dt>Select</dt>
+            <dt>
+              <Trans>Select</Trans>
+            </dt>
             <dd>
-              Click to select audio area or an image. You will see a control
-              panel in its center.
+              <Trans>
+                Click to select audio area or an image. You will see a control
+                panel in its center.
+              </Trans>
             </dd>
-            <dt>Add sound area</dt>
-            <dd>Drag to draw a rectangular or circular area.</dd>
-            <dt>Add image</dt>
+            <dt>
+              <Trans>Add sound area</Trans>
+            </dt>
             <dd>
-              Click to add an image placeholder. Then use appearing control
-              panel to add image itself.
+              <Trans>Drag to draw a rectangular or circular area.</Trans>
+            </dd>
+            <dt>
+              <Trans>Add image</Trans>
+            </dt>
+            <dd>
+              <Trans>
+                Click to add an image placeholder. Then use appearing control
+                panel to add image itself.
+              </Trans>
             </dd>
           </dl>
-          <h2 className={styles.subheader}>Controls</h2>
+          <h2 className={styles.subheader}>
+            <Trans>Controls</Trans>
+          </h2>
           <dl className={styles.definitions}>
-            <dt>Left Click</dt>
-            <dd>Use the currently selected tool.</dd>
-            <dt>Right Click</dt>
-            <dd>Deselect the current element.</dd>
-            <dt>Middle Mouse (hold)</dt>
-            <dd>Pan the board.</dd>
-            <dt>Mouse Wheel</dt>
-            <dd>Zoom in and out.</dd>
+            <dt>
+              <Trans>Left Click</Trans>
+            </dt>
+            <dd>
+              <Trans>Use the currently selected tool.</Trans>
+            </dd>
+            <dt>
+              <Trans>Right Click</Trans>
+            </dt>
+            <dd>
+              <Trans>Deselect the current element.</Trans>
+            </dd>
+            <dt>
+              <Trans>Middle Mouse (hold)</Trans>
+            </dt>
+            <dd>
+              <Trans>Pan the board.</Trans>
+            </dd>
+            <dt>
+              <Trans>Mouse Wheel</Trans>
+            </dt>
+            <dd>
+              <Trans>Zoom in and out.</Trans>
+            </dd>
           </dl>
         </div>
       </Dialog>

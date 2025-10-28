@@ -1,3 +1,4 @@
+import { t } from "@lingui/core/macro";
 import { useContext, useEffect, useId, useState } from "react";
 import { useSnapshot } from "valtio";
 import Tooltip from "@/components/ui/Tooltip";
@@ -40,7 +41,7 @@ export default function Locator() {
 
   return (
     <div className={classes(styles.locator, "panel")}>
-      <Tooltip text="Use middle mouse button to pan around">
+      <Tooltip text={t`Use middle mouse button to pan around`}>
         <div className={styles.position}>
           <div className={styles.indicator}>
             X:<div className={styles.value}>{-Math.round(ui.position.x)}</div>

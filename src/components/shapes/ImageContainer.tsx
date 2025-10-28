@@ -1,3 +1,4 @@
+import { Trans } from "@lingui/react/macro";
 import { useContext, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useSnapshot } from "valtio";
@@ -106,12 +107,20 @@ function Image({ assetId }: { assetId: string }) {
   }, [data]);
 
   if (error) {
-    return <div>Error loading image</div>;
+    return (
+      <div>
+        <Trans>Error loading image</Trans>
+      </div>
+    );
   }
 
   if (loading) {
-    return <div>Loading image...</div>;
+    return (
+      <div>
+        <Trans>Loading image...</Trans>
+      </div>
+    );
   }
 
-  return <>{src && <img src={src} alt="Image" />}</>;
+  return <>{src && <img src={src} alt={data?.name || "Image"} />}</>;
 }

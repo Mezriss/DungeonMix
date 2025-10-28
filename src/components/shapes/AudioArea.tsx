@@ -1,3 +1,4 @@
+import { t } from "@lingui/core/macro";
 import { useContext, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useSnapshot } from "valtio";
@@ -81,7 +82,7 @@ export function AudioArea({ id, rect }: Props) {
         {area.tracks.map((track) => (
           <div key={track.trackId} className={styles.track}>
             {!editMode ? (
-              <Tooltip text="Toggle autoplay">
+              <Tooltip text={t`Toggle autoplay`}>
                 <button
                   className={classes("button", styles.autoplay)}
                   onClick={() =>

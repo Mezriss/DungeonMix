@@ -1,4 +1,5 @@
 import { Collapsible } from "@base-ui-components/react/collapsible";
+import { t } from "@lingui/core/macro";
 import { useContext, useMemo } from "react";
 import { useSnapshot } from "valtio";
 import { AlertDialogTriggered as AlertDialog } from "@/components/ui/AlertDialog";
@@ -22,7 +23,7 @@ export default function AudioList() {
               <Folder size={16} className={styles.iconClosed} />
               <FolderOpen size={16} className={styles.iconOpen} /> {folder.name}
             </Collapsible.Trigger>
-            <Tooltip text="Refresh files in folder">
+            <Tooltip text={t`Refresh files in folder`}>
               <button
                 className="button"
                 onClick={() => state.actions.refreshFolder(folder.id)}
@@ -30,11 +31,11 @@ export default function AudioList() {
                 <RefreshCw size={16} />
               </button>
             </Tooltip>
-            <Tooltip text="Remove folder">
+            <Tooltip text={t`Remove folder`}>
               <AlertDialog
-                title="Remove Folder"
-                description="Are you sure you want to remove this folder? This will also remove its tracks from the board."
-                actionName="Remove"
+                title={t`Remove Folder`}
+                description={t`Are you sure you want to remove this folder? This will also remove its tracks from the board.`}
+                actionName={t`Remove`}
                 action={() => state.actions.removeFolder(folder.id)}
               >
                 <X size={16} />

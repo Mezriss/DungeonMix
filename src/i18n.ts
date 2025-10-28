@@ -23,5 +23,4 @@ export async function dynamicActivate(locale: string) {
   const { messages } = await import(`./locales/${locale}/messages.ts`);
 
   i18n.loadAndActivate({ locale, messages });
-  console.log(i18n.locale);
 }

@@ -1,4 +1,6 @@
 import { i18n } from "@lingui/core";
+import { t } from "@lingui/core/macro";
+import { Trans } from "@lingui/react/macro";
 import { useCallback, useContext, useId, useMemo, useState } from "react";
 import { useSnapshot } from "valtio";
 import { useLocation } from "wouter";
@@ -20,11 +22,11 @@ export default function Settings() {
     <>
       <Dialog
         trigger={
-          <Tooltip text="Settings">
+          <Tooltip text={t`Settings`}>
             <SettingsIcon size={32} />
           </Tooltip>
         }
-        title="Settings"
+        title={t`Settings`}
       >
         <div className={styles.settings}>
           <TrackFadeSetting />
@@ -51,7 +53,9 @@ function TrackFadeSetting() {
 
   return (
     <div>
-      <label htmlFor={id}>Track fade duration, s</label>
+      <label htmlFor={id}>
+        <Trans>Track fade duration, s</Trans>
+      </label>
       <input
         id={id}
         type="number"
@@ -77,7 +81,9 @@ function AreaOpacity() {
 
   return (
     <div>
-      <label htmlFor={id}>Audio area opacity, %</label>
+      <label htmlFor={id}>
+        <Trans>Audio area opacity, %</Trans>
+      </label>
       <input
         id={id}
         type="number"
@@ -108,7 +114,9 @@ function Language() {
 
   return (
     <div>
-      <div>Language</div>
+      <div>
+        <Trans>Language</Trans>
+      </div>
       <Select
         items={localeList}
         onChange={onChange}
@@ -135,15 +143,17 @@ function DeleteBoard() {
   return (
     <>
       <div>
-        <span>Delete board</span>
+        <span>
+          <Trans>Delete board</Trans>
+        </span>
         <button className="button" onClick={() => setIsDialogOpen(true)}>
-          Delete
+          <Trans>Delete</Trans>
         </button>
       </div>
       <AlertDialog
-        title="Delete Board"
-        description="Delete this board? This can't be undone."
-        actionName="Delete"
+        title={t`Delete Board`}
+        description={t`Delete this board? This can't be undone.`}
+        actionName={t`Delete`}
         action={deleteBoard}
         open={isDialogOpen}
         setOpen={setIsDialogOpen}

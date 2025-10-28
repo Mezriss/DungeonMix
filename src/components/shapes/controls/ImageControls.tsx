@@ -1,3 +1,4 @@
+import { t } from "@lingui/core/macro";
 import { useContext, useEffect, useState } from "react";
 import Slider from "@/components/ui/Slider";
 import Tooltip from "@/components/ui/Tooltip";
@@ -50,7 +51,7 @@ export default function ImageControls({
   return (
     <div className={styles.controls}>
       {!image.assetId && (
-        <Tooltip text="Add image">
+        <Tooltip text={t`Add image`}>
           <label className={"button"}>
             <input
               disabled={loading}
@@ -63,12 +64,12 @@ export default function ImageControls({
           </label>
         </Tooltip>
       )}
-      <Tooltip text="Hold button to move image">
+      <Tooltip text={t`Hold button to move image`}>
         <button className={"button"} onPointerDown={handleDragStart}>
           <Move size={16} />
         </button>
       </Tooltip>
-      <Tooltip text="Delete image">
+      <Tooltip text={t`Delete image`}>
         <button
           className={"button"}
           onClick={() => state.actions.deleteImage(image.id)}
@@ -77,7 +78,7 @@ export default function ImageControls({
         </button>
       </Tooltip>
       {image.assetId && (
-        <Tooltip text="Scale Image">
+        <Tooltip text={t`Scale Image`}>
           <div className={styles.scaleControl}>
             <Scaling size={16} />
             <Slider
