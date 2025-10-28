@@ -1,3 +1,7 @@
+import { Howl } from "howler";
+import { get } from "idb-keyval";
+import { STORE_PREFIX } from "@/const";
+import { getFileHandleFromPath, getPermission } from "@/util/file";
 import { pointInEllipse, pointInRectangle } from "@/util/misc";
 
 import type { BoardState, UIState } from "@/state";
@@ -6,18 +10,48 @@ export const trackActions = (
   data: BoardState,
   ui: UIState,
   trackCache: Map<string, Howl>,
-  initTrack: (trackId: string) => Promise<void>,
 ) => {
   let volumePreview: null | {
     howl: Howl;
     timeout: number;
     trackId: string;
   } = null;
+
   const clearVolumePreview = () => {
     if (!volumePreview) return;
     clearTimeout(volumePreview.timeout);
     volumePreview.howl.stop();
     volumePreview = null;
+  };
+
+  const initTrack = async (trackId: string) => {
+    const dirHandle = await get(STORE_PREFIX + data.files[trackId].folderId);
+    try {
+      if (!getPermission(dirHandle)) return;
+      const fileHandle = await getFileHandleFromPath(
+        dirHandle,
+        data.files[trackId].path,
+      );
+      const src = URL.createObjectURL(await fileHandle.getFile());
+      trackCache.set(
+        trackId,
+        new Howl({
+          src: src,
+          format: data.files[trackId].format,
+          volume: 1,
+          loop: true,
+          autoplay: false,
+        }),
+      );
+
+      ui.tracks[trackId] = {
+        id: trackId,
+        src: src,
+        status: "stopped",
+      };
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return {
@@ -159,7 +193,9 @@ export const trackActions = (
             }
             howl.off("fade");
             howl.fade(0, volume, data.settings.fadeDuration);
-            howl.play();
+            if (["paused", "stopped"].includes(ui.tracks[trackId].status)) {
+              howl.play();
+            }
             ui.tracks[trackId].status = "playing";
           }
         }),
