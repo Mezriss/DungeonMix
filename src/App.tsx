@@ -1,10 +1,11 @@
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
-import { useEffect } from "react";
+import { lazy, useEffect } from "react";
 import { Route, Switch } from "wouter";
-import Board from "./Board";
 import { detectLocale, dynamicActivate } from "./i18n";
-import Landing from "./Landing";
+
+const Landing = lazy(() => import("./Landing"));
+const Board = lazy(() => import("./Board"));
 
 function App() {
   useEffect(() => {
