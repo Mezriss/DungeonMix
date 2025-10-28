@@ -18,7 +18,8 @@ export function useImagePlacing({ rect }: Props) {
       state.ui.selectedTool !== "image" ||
       e.buttons !== 1 ||
       (e.target as HTMLElement).closest("button") ||
-      (e.target as HTMLElement).closest("label")
+      (e.target as HTMLElement).closest("label") ||
+      !(e.target as HTMLElement).closest("#root")
     )
       return;
     const id = state.actions.addImage(

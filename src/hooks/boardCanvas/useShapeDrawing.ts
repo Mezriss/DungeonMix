@@ -19,7 +19,8 @@ export function useShapeDrawing({ rect }: Props) {
       !state.ui.editMode ||
       e.buttons !== 1 ||
       !["circle", "rectangle"].includes(state.ui.selectedTool) ||
-      (e.target as HTMLElement).closest("button")
+      (e.target as HTMLElement).closest("button") ||
+      !(e.target as HTMLElement).closest("#root")
     )
       return;
 
