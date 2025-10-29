@@ -5,8 +5,17 @@ on:
     branches:
       - master
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -16,13 +25,24 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 25
+          cache: "pnpm"
 
       - uses: pnpm/action-setup@v4
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
 
-      - uses: peaceiris/actions-gh-pages@v4
+      # Upload the dist folder as a Pages artifact
+      - uses: actions/upload-pages-artifact@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
