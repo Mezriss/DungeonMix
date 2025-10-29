@@ -75,7 +75,7 @@ msgstr "Click to select audio area or an image. You will see a control panel in 
 msgid "Controls"
 msgstr "Controls"
 
-#: src/Landing.tsx:65
+#: src/Landing.tsx:77
 msgid "Create New Board"
 msgstr "Create New Board"
 
@@ -116,7 +116,7 @@ msgstr "Drag and drop a folder"
 msgid "Drag to draw a rectangular or circular area."
 msgstr "Drag to draw a rectangular or circular area."
 
-#: src/Landing.tsx:55
+#: src/Landing.tsx:57
 msgid "DungeonMix is a web application that allows you to create audio boards for your dungeon maps."
 msgstr "DungeonMix is a web application that allows you to create audio boards for your dungeon maps."
 
@@ -176,7 +176,7 @@ msgstr "Mouse Wheel"
 msgid "No tracks found."
 msgstr "No tracks found."
 
-#: src/Landing.tsx:70
+#: src/Landing.tsx:82
 msgid "or load existing board"
 msgstr "or load existing board"
 
@@ -255,6 +255,10 @@ msgstr "The board you are looking for does not exist."
 msgid "This app is still in development. There might be bugs or missing features. Suggestions? Bug reports? Get in touch on <0>GitHub</0>."
 msgstr "This app is still in development. There might be bugs or missing features. Suggestions? Bug reports? Get in touch on <0>GitHub</0>."
 
+#: src/Landing.tsx:65
+msgid "To provide a seamless experience and conveniently handle your local files, this application uses a feature that is not available in your current browser. For the best experience, please use a recent version of Google Chrome, Microsoft Edge, or Opera."
+msgstr "To provide a seamless experience and conveniently handle your local files, this application uses a feature that is not available in your current browser. For the best experience, please use a recent version of Google Chrome, Microsoft Edge, or Opera."
+
 #: src/components/shapes/AudioArea.tsx:85
 #: src/components/shapes/controls/TrackControls.tsx:23
 msgid "Toggle autoplay"
@@ -273,7 +277,7 @@ msgstr "Track fade duration, s"
 msgid "Untitled board"
 msgstr "Untitled board"
 
-#: src/Landing.tsx:21
+#: src/Landing.tsx:24
 msgid "Untitled Board"
 msgstr "Untitled Board"
 
@@ -289,7 +293,7 @@ msgstr "Use the currently selected tool."
 msgid "Volume"
 msgstr "Volume"
 
-#: src/Landing.tsx:50
+#: src/Landing.tsx:52
 msgid "Welcome to <0>DungeonMix</0>"
 msgstr "Welcome to <0>DungeonMix</0>"
 

@@ -7,6 +7,7 @@ import LocaleSwitcher from "./components/LocaleSwitcher";
 import { KEY_BOARDS, STORE_PREFIX } from "./const";
 import { getInitialBoardState } from "./state";
 
+import { TriangleAlert } from "lucide-react";
 import styles from "@/styles/Landing.module.css";
 
 export type BoardList = {
@@ -17,6 +18,8 @@ export type BoardList = {
 export default function Landing() {
   const [, navigate] = useLocation();
   const [boards, setBoards] = useState<BoardList | null>(null);
+
+  const browserSupported = "showDirectoryPicker" in window;
 
   const untitled = t`Untitled Board`;
 
@@ -56,6 +59,18 @@ export default function Landing() {
               boards for your dungeon maps.
             </Trans>
           </p>
+          {!browserSupported && (
+            <p>
+              <TriangleAlert size={32} />
+              <Trans>
+                To provide a seamless experience and conveniently handle your
+                local files, this application uses a feature that is not
+                available in your current browser. For the best experience,
+                please use a recent version of Google Chrome, Microsoft Edge, or
+                Opera.
+              </Trans>
+            </p>
+          )}
           <div className={styles.controls}>
             <>
               <button onClick={createBoard} className="button">

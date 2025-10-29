@@ -39,6 +39,11 @@
   text-align: center;
 }
 
+.content p svg {
+  float: left;
+  padding: 1rem;
+}
+
 .controls {
   display: flex;
   flex-direction: column;

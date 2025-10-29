@@ -75,7 +75,7 @@ msgstr "Натисніть, щоб вибрати звукову зону або
 msgid "Controls"
 msgstr "Керування"
 
-#: src/Landing.tsx:65
+#: src/Landing.tsx:77
 msgid "Create New Board"
 msgstr "Створити нову дошку"
 
@@ -115,7 +115,7 @@ msgstr "Перетягніть папку"
 msgid "Drag to draw a rectangular or circular area."
 msgstr "Перетягніть, щоб намалювати прямокутну або кругову зону."
 
-#: src/Landing.tsx:55
+#: src/Landing.tsx:57
 msgid "DungeonMix is a web application that allows you to create audio boards for your dungeon maps."
 msgstr "DungeonMix — це веб-додаток, який дозволяє створювати аудіодошки для мап підземель."
 
@@ -175,7 +175,7 @@ msgstr "Коліщатко миші"
 msgid "No tracks found."
 msgstr "Треків не знайдено."
 
-#: src/Landing.tsx:70
+#: src/Landing.tsx:82
 msgid "or load existing board"
 msgstr "або завантажити існуючу дошку"
 
@@ -251,6 +251,10 @@ msgstr "Дошка, яку ви шукаєте, не існує."
 msgid "This app is still in development. There might be bugs or missing features. Suggestions? Bug reports? Get in touch on <0>GitHub</0>."
 msgstr "Цей додаток все ще в розробці. Можуть бути помилки або відсутні функції. Пропозиції? Звіти про помилки? Зв'яжіться з нами на <0>GitHub</0>."
 
+#: src/Landing.tsx:65
+msgid "To provide a seamless experience and conveniently handle your local files, this application uses a feature that is not available in your current browser. For the best experience, please use a recent version of Google Chrome, Microsoft Edge, or Opera."
+msgstr "Для зручної роботи з вашими локальними файлами, цей застосунок використовує функцію, яка недоступна у вашому поточному браузері. Для найкращого досвіду використання, будь ласка, використовуйте останню версію Google Chrome, Microsoft Edge або Opera."
+
 #: src/components/shapes/AudioArea.tsx:85
 #: src/components/shapes/controls/TrackControls.tsx:23
 msgid "Toggle autoplay"
@@ -268,7 +272,7 @@ msgstr "Тривалість затухання треку, с"
 msgid "Untitled board"
 msgstr "Дошка без назви"
 
-#: src/Landing.tsx:21
+#: src/Landing.tsx:24
 msgid "Untitled Board"
 msgstr "Дошка без назви"
 
@@ -284,7 +288,7 @@ msgstr "Використовувати обраний інструмент."
 msgid "Volume"
 msgstr "Гучність"
 
-#: src/Landing.tsx:50
+#: src/Landing.tsx:52
 msgid "Welcome to <0>DungeonMix</0>"
 msgstr "Ласкаво просимо до <0>DungeonMix</0>"
 

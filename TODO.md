@@ -9,7 +9,7 @@
 - [x] autoplay control (with play button in play mode)
 - [x] adding images (a layer under shapes, shapes shouldn't stop adding)
 - [ ] user visible errors for actions in AudioGrabber
-- [ ] fallback flow for browsers withour proper support of File System Access API
+- [x] ~~fallback flow for browsers withour proper support of File System Access API~~
 - [x] audio library revisit, scroll for long track lists
 - [ ] color setting for audio areas
 - [x] localization
