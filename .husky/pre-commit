@@ -2,5 +2,6 @@
 git update-index --again
 
 ./node_modules/.bin/tsc -b --noEmit
+./node_modules/.bin/vitest related --run
 
 echo "All checks passed."
