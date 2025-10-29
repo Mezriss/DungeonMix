@@ -212,7 +212,8 @@ export const trackActions = (
           ui.tracks[trackId].status = "paused";
         });
       });
-      // TODO if there are several areas - determine how they should mix (?)
+      // if there are several areas - should the sound mix based on distance?
+      // current implementation is probably good enough
     },
   };
 };

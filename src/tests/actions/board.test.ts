@@ -6,7 +6,7 @@ import { getInitialBoardState, getInitialUIState } from "@/state";
 import type { BoardState, UIState } from "@/state";
 import type { Mocked } from "vitest";
 
-describe("actions", () => {
+describe("board", () => {
   let data: BoardState;
   let ui: UIState;
   let localStorageMock: Mocked<Storage>;
