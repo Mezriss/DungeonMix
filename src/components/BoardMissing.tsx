@@ -1,5 +1,6 @@
 import { Trans } from "@lingui/react/macro";
 import { Link } from "wouter";
+import { BASE_URL } from "@/const";
 
 import styles from "@/styles/BoardMissing.module.css";
 
@@ -12,7 +13,7 @@ export default function BoardMissing() {
       <p>
         <Trans>The board you are looking for does not exist.</Trans>
       </p>
-      <Link to="/">
+      <Link to={`${BASE_URL}/`}>
         <Trans>Back to Home</Trans>
       </Link>
     </div>

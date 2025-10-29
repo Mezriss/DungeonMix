@@ -1,3 +1,4 @@
+export const BASE_URL = "/dungeonmix";
 export const STORE_PREFIX = "dungeonmix:";
 export const LOCALE_KEY = "locale";
 export const KEY_BOARDS = STORE_PREFIX + "boards";

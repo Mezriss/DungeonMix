@@ -1,5 +1,6 @@
 import { Trans } from "@lingui/react/macro";
 import { Link } from "wouter";
+import { BASE_URL } from "@/const";
 
 import { Bug } from "lucide-react";
 import styles from "@/styles/BoardError.module.css";
@@ -17,8 +18,9 @@ export default function BoardError({ error }: { error: Error }) {
       </div>
       <div>
         <Trans>
-          But there is still hope - try <Link to="/">returning to title</Link>{" "}
-          and loading your board again
+          But there is still hope - try{" "}
+          <Link href={`${BASE_URL}/`}>returning to title</Link> and loading your
+          board again
         </Trans>
       </div>
     </div>

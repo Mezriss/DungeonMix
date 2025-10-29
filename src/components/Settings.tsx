@@ -8,7 +8,7 @@ import { AlertDialog } from "./ui/AlertDialog";
 import Dialog from "./ui/Dialog";
 import Select from "./ui/Select";
 import Tooltip from "./ui/Tooltip";
-import { LOCALE_KEY } from "@/const";
+import { BASE_URL, LOCALE_KEY } from "@/const";
 import { dynamicActivate, locales } from "@/i18n";
 import { BoardStateContext } from "@/providers/BoardStateContext";
 
@@ -135,7 +135,7 @@ function DeleteBoard() {
   const deleteBoard = useCallback(() => {
     try {
       actions.deleteBoard();
-      navigate("/");
+      navigate(`${BASE_URL}/`);
     } catch (e) {
       console.error(e);
     }

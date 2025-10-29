@@ -2,6 +2,7 @@ import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import { lazy, useEffect } from "react";
 import { Route, Switch } from "wouter";
+import { BASE_URL } from "./const";
 import { detectLocale, dynamicActivate } from "./i18n";
 
 const Landing = lazy(() => import("./Landing"));
@@ -15,8 +16,10 @@ function App() {
   return (
     <I18nProvider i18n={i18n}>
       <Switch>
-        <Route path="/" component={Landing} />
-        <Route path="/boards/:id">{({ id }) => <Board id={id} />}</Route>
+        <Route path={BASE_URL} component={Landing} />
+        <Route path={`${BASE_URL}/boards/:id`}>
+          {({ id }) => <Board id={id} />}
+        </Route>
       </Switch>
     </I18nProvider>
   );

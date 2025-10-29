@@ -6,6 +6,7 @@ import { Link } from "wouter";
 import Info from "./Info";
 import Settings from "./Settings";
 import Switch from "./ui/Switch";
+import { BASE_URL } from "@/const";
 import { BoardStateContext } from "@/providers/BoardStateContext";
 
 import styles from "@/styles/Header.module.css";
@@ -19,7 +20,7 @@ export default function Header() {
     <>
       <div className={styles.header}>
         <div className={styles.logo}>
-          <Link to="/">DungeonMix</Link>
+          <Link to={`${BASE_URL}/`}>DungeonMix</Link>
         </div>
         <div className={styles.name}>
           {ui.editMode ? (

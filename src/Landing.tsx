@@ -4,7 +4,7 @@ import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
 import LocaleSwitcher from "./components/LocaleSwitcher";
-import { KEY_BOARDS, STORE_PREFIX } from "./const";
+import { BASE_URL, KEY_BOARDS, STORE_PREFIX } from "./const";
 import { getInitialBoardState } from "./state";
 
 import { TriangleAlert } from "lucide-react";
@@ -41,7 +41,7 @@ export default function Landing() {
       STORE_PREFIX + id,
       JSON.stringify(getInitialBoardState(id)),
     );
-    navigate(`/boards/${id}`);
+    navigate(`${BASE_URL}/boards/${id}`);
   }
 
   return (
@@ -84,7 +84,7 @@ export default function Landing() {
                   <ul>
                     {boards.map((board) => (
                       <li key={board.id}>
-                        <Link href={`/boards/${board.id}`}>
+                        <Link href={`${BASE_URL}/boards/${board.id}`}>
                           {board.name || untitled}
                         </Link>
                       </li>

@@ -1,14 +1,14 @@
 {
-  "name": "rdungeonmix",
+  "name": "DungeonMix",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "homepage": "https://github.com/Mezriss/DungeonMix",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy": "rsync -avz --delete dist/ $DM_DEPLOY",
     "extract": "lingui extract",
     "compile": "lingui compile --typescript",
     "prepare": "husky",
