@@ -44,21 +44,18 @@ export default function Landing() {
   return (
     <>
       <div className={styles.landing}>
-        <div>
-          <div className={styles.title}>
-            <h1>
-              <Trans>
-                Welcome to <span>DungeonMix</span>
-              </Trans>
-            </h1>
-            <p>
-              <Trans>
-                DungeonMix is a web application that allows you to create audio
-                boards for your dungeon maps.
-              </Trans>
-            </p>
-          </div>
-          <div className={styles.separator}></div>
+        <div className={styles.content}>
+          <h1>
+            <Trans>
+              Welcome to <span>DungeonMix</span>
+            </Trans>
+          </h1>
+          <p>
+            <Trans>
+              DungeonMix is a web application that allows you to create audio
+              boards for your dungeon maps.
+            </Trans>
+          </p>
           <div className={styles.controls}>
             <>
               <button onClick={createBoard} className="button">
@@ -83,6 +80,7 @@ export default function Landing() {
             </>
           </div>
         </div>
+        <div className={styles.illustration} />
       </div>
       <LocaleSwitcher />
     </>

@@ -12,8 +12,9 @@
 - [ ] fallback flow for browsers withour proper support of File System Access API
 - [x] audio library revisit, scroll for long track lists
 - [ ] color setting for audio areas
-- [ ] localization
+- [x] localization
 - [ ] hotkeys
-- [ ] tests
+- [x] tests
+- [ ] e2e tests
 - [ ] docs
 - [ ] video presentation
