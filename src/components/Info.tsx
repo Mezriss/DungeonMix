@@ -23,7 +23,10 @@ export default function Info() {
             <Trans>
               This app is still in development. There might be bugs or missing
               features. Suggestions? Bug reports? Get in touch on{" "}
-              <a href={GITHUB_URL}>GitHub</a>.
+              <a href={GITHUB_URL} target="_blank">
+                GitHub
+              </a>
+              .
             </Trans>
           </p>
           <h2 className={styles.subheader}>

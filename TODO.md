@@ -16,5 +16,6 @@
 - [ ] hotkeys
 - [x] tests
 - [ ] e2e tests
-- [ ] docs
+- [x] docs
 - [ ] video presentation
+- [ ] pwa setup
