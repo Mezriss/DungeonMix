@@ -1,5 +1,5 @@
-import { i18n } from "@lingui/core";
 import { t } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { useCallback, useContext, useId, useMemo, useState } from "react";
 import { useSnapshot } from "valtio";
@@ -98,6 +98,7 @@ function AreaOpacity() {
 }
 
 function Language() {
+  const { i18n } = useLingui();
   const localeList = useMemo(
     () =>
       Object.keys(locales).map((locale) => ({
@@ -117,11 +118,7 @@ function Language() {
       <div>
         <Trans>Language</Trans>
       </div>
-      <Select
-        items={localeList}
-        onChange={onChange}
-        defaultValue={i18n.locale}
-      />
+      <Select items={localeList} onChange={onChange} value={i18n.locale} />
     </div>
   );
 }

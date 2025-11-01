@@ -21,7 +21,7 @@ msgstr " or <0>browse</0>"
 msgid "Add circular sound area"
 msgstr "Add circular sound area"
 
-#: src/components/Info.tsx:49
+#: src/components/Info.tsx:52
 #: src/components/shapes/controls/ImageControls.tsx:54
 #: src/components/Toolbar.tsx:70
 msgid "Add image"
@@ -31,7 +31,7 @@ msgstr "Add image"
 msgid "Add rectangular sound area"
 msgstr "Add rectangular sound area"
 
-#: src/components/Info.tsx:43
+#: src/components/Info.tsx:46
 msgid "Add sound area"
 msgstr "Add sound area"
 
@@ -47,35 +47,35 @@ msgstr "Are you sure you want to remove this folder? This will also remove its t
 msgid "Audio area opacity, %"
 msgstr "Audio area opacity, %"
 
-#: src/components/BoardMissing.tsx:16
+#: src/components/BoardMissing.tsx:17
 msgid "Back to Home"
 msgstr "Back to Home"
 
-#: src/components/Header.tsx:27
+#: src/components/Header.tsx:28
 msgid "Board name"
 msgstr "Board name"
 
-#: src/components/BoardMissing.tsx:10
+#: src/components/BoardMissing.tsx:11
 msgid "Board Not Found"
 msgstr "Board Not Found"
 
-#: src/components/BoardError.tsx:19
+#: src/components/BoardError.tsx:20
 msgid "But there is still hope - try <0>returning to title</0> and loading your board again"
 msgstr "But there is still hope - try <0>returning to title</0> and loading your board again"
 
-#: src/components/Info.tsx:52
+#: src/components/Info.tsx:55
 msgid "Click to add an image placeholder. Then use appearing control panel to add image itself."
 msgstr "Click to add an image placeholder. Then use appearing control panel to add image itself."
 
-#: src/components/Info.tsx:37
+#: src/components/Info.tsx:40
 msgid "Click to select audio area or an image. You will see a control panel in its center."
 msgstr "Click to select audio area or an image. You will see a control panel in its center."
 
-#: src/components/Info.tsx:59
+#: src/components/Info.tsx:62
 msgid "Controls"
 msgstr "Controls"
 
-#: src/Landing.tsx:77
+#: src/Landing.tsx:89
 msgid "Create New Board"
 msgstr "Create New Board"
 
@@ -104,7 +104,7 @@ msgstr "Delete image"
 msgid "Delete this board? This can't be undone."
 msgstr "Delete this board? This can't be undone."
 
-#: src/components/Info.tsx:72
+#: src/components/Info.tsx:75
 msgid "Deselect the current element."
 msgstr "Deselect the current element."
 
@@ -112,11 +112,11 @@ msgstr "Deselect the current element."
 msgid "Drag and drop a folder"
 msgstr "Drag and drop a folder"
 
-#: src/components/Info.tsx:46
+#: src/components/Info.tsx:49
 msgid "Drag to draw a rectangular or circular area."
 msgstr "Drag to draw a rectangular or circular area."
 
-#: src/Landing.tsx:57
+#: src/Landing.tsx:62
 msgid "DungeonMix is a web application that allows you to create audio boards for your dungeon maps."
 msgstr "DungeonMix is a web application that allows you to create audio boards for your dungeon maps."
 
@@ -124,7 +124,7 @@ msgstr "DungeonMix is a web application that allows you to create audio boards f
 msgid "e.g."
 msgstr "e.g."
 
-#: src/components/Header.tsx:38
+#: src/components/Header.tsx:39
 msgid "Edit<0/>Mode"
 msgstr "Edit<0/>Mode"
 
@@ -156,7 +156,7 @@ msgstr "Hold button to move image"
 msgid "Language"
 msgstr "Language"
 
-#: src/components/Info.tsx:63
+#: src/components/Info.tsx:66
 msgid "Left Click"
 msgstr "Left Click"
 
@@ -164,11 +164,11 @@ msgstr "Left Click"
 msgid "Loading image..."
 msgstr "Loading image..."
 
-#: src/components/Info.tsx:75
+#: src/components/Info.tsx:78
 msgid "Middle Mouse (hold)"
 msgstr "Middle Mouse (hold)"
 
-#: src/components/Info.tsx:81
+#: src/components/Info.tsx:84
 msgid "Mouse Wheel"
 msgstr "Mouse Wheel"
 
@@ -176,11 +176,19 @@ msgstr "Mouse Wheel"
 msgid "No tracks found."
 msgstr "No tracks found."
 
-#: src/Landing.tsx:82
+#: src/Landing.tsx:77
+#~ msgid "Not sure what this is or how to use it? Watch a <0>video introduction</0>"
+#~ msgstr "Not sure what this is or how to use it? Watch a <0>video introduction</0>"
+
+#: src/Landing.tsx:68
+msgid "Not sure what this is or how to use it?<0/>Watch a <1>video introduction</1>."
+msgstr "Not sure what this is or how to use it?<0/>Watch a <1>video introduction</1>."
+
+#: src/Landing.tsx:94
 msgid "or load existing board"
 msgstr "or load existing board"
 
-#: src/components/Info.tsx:78
+#: src/components/Info.tsx:81
 msgid "Pan the board."
 msgstr "Pan the board."
 
@@ -217,7 +225,7 @@ msgstr "Remove Folder"
 msgid "Remove track"
 msgstr "Remove track"
 
-#: src/components/Info.tsx:69
+#: src/components/Info.tsx:72
 msgid "Right Click"
 msgstr "Right Click"
 
@@ -225,7 +233,7 @@ msgstr "Right Click"
 msgid "Scale Image"
 msgstr "Scale Image"
 
-#: src/components/Info.tsx:34
+#: src/components/Info.tsx:37
 #: src/components/Toolbar.tsx:33
 msgid "Select"
 msgstr "Select"
@@ -239,15 +247,15 @@ msgstr "Select track"
 msgid "Settings"
 msgstr "Settings"
 
-#: src/components/BoardError.tsx:11
+#: src/components/BoardError.tsx:12
 msgid "Something went wrong"
 msgstr "Something went wrong"
 
-#: src/components/AudioLibrary/AudioLibrary.tsx:21
+#: src/components/AudioLibrary/AudioLibrary.tsx:24
 msgid "Start here"
 msgstr "Start here"
 
-#: src/components/BoardMissing.tsx:13
+#: src/components/BoardMissing.tsx:14
 msgid "The board you are looking for does not exist."
 msgstr "The board you are looking for does not exist."
 
@@ -255,7 +263,7 @@ msgstr "The board you are looking for does not exist."
 msgid "This app is still in development. There might be bugs or missing features. Suggestions? Bug reports? Get in touch on <0>GitHub</0>."
 msgstr "This app is still in development. There might be bugs or missing features. Suggestions? Bug reports? Get in touch on <0>GitHub</0>."
 
-#: src/Landing.tsx:65
+#: src/Landing.tsx:77
 msgid "To provide a seamless experience and conveniently handle your local files, this application uses a feature that is not available in your current browser. For the best experience, please use a recent version of Google Chrome, Microsoft Edge, or Opera."
 msgstr "To provide a seamless experience and conveniently handle your local files, this application uses a feature that is not available in your current browser. For the best experience, please use a recent version of Google Chrome, Microsoft Edge, or Opera."
 
@@ -264,7 +272,7 @@ msgstr "To provide a seamless experience and conveniently handle your local file
 msgid "Toggle autoplay"
 msgstr "Toggle autoplay"
 
-#: src/components/Info.tsx:30
+#: src/components/Info.tsx:33
 msgid "Tools"
 msgstr "Tools"
 
@@ -272,12 +280,12 @@ msgstr "Tools"
 msgid "Track fade duration, s"
 msgstr "Track fade duration, s"
 
-#: src/components/Header.tsx:28
-#: src/components/Header.tsx:33
+#: src/components/Header.tsx:29
+#: src/components/Header.tsx:34
 msgid "Untitled board"
 msgstr "Untitled board"
 
-#: src/Landing.tsx:24
+#: src/Landing.tsx:29
 msgid "Untitled Board"
 msgstr "Untitled Board"
 
@@ -285,7 +293,7 @@ msgstr "Untitled Board"
 msgid "Use middle mouse button to pan around"
 msgstr "Use middle mouse button to pan around"
 
-#: src/components/Info.tsx:66
+#: src/components/Info.tsx:69
 msgid "Use the currently selected tool."
 msgstr "Use the currently selected tool."
 
@@ -293,10 +301,10 @@ msgstr "Use the currently selected tool."
 msgid "Volume"
 msgstr "Volume"
 
-#: src/Landing.tsx:52
+#: src/Landing.tsx:57
 msgid "Welcome to <0>DungeonMix</0>"
 msgstr "Welcome to <0>DungeonMix</0>"
 
-#: src/components/Info.tsx:84
+#: src/components/Info.tsx:87
 msgid "Zoom in and out."
 msgstr "Zoom in and out."

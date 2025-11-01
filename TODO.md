@@ -17,5 +17,5 @@
 - [x] tests
 - [ ] e2e tests
 - [x] docs
-- [ ] video presentation
+- [x] video presentation
 - [ ] pwa setup

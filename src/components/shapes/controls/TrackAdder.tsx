@@ -48,7 +48,7 @@ export default function TrackAdder({ children, areaId }: Props) {
           <Combobox.Popup className={styles.popup} aria-label={t`Select track`}>
             <div className={styles.inputContainer}>
               <Combobox.Input
-                placeholder={t`e.g.` + " " + tracks[0].name}
+                placeholder={tracks[0] ? t`e.g.` + " " + tracks[0].name : ""}
                 className={styles.input}
               />
             </div>

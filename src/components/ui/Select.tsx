@@ -5,20 +5,16 @@ import styles from "@/styles/Select.module.css";
 
 type Props = {
   items: { label: string; value: string }[];
-  defaultValue: string;
+  value: string;
   onChange: (value: string) => void;
 };
 
-export default function Select({
-  items,
-  defaultValue: value,
-  onChange,
-}: Props) {
+export default function Select({ items, value, onChange }: Props) {
   return (
     <div>
       <SelectComponent.Root
         items={items}
-        defaultValue={value}
+        value={value}
         onValueChange={onChange}
       >
         <SelectComponent.Trigger className={styles.select}>

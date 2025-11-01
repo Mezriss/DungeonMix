@@ -27,11 +27,7 @@ export default function LocaleSwitcher() {
         <Languages />
       </button>
       <div className={classes(styles.switch, open && styles.open)}>
-        <Select
-          items={localeList}
-          onChange={onChange}
-          defaultValue={i18n.locale}
-        />
+        <Select items={localeList} onChange={onChange} value={i18n.locale} />
       </div>
     </div>
   );

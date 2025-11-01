@@ -6,6 +6,11 @@ DungeonMix lets game masters organize background music and ambient sounds spatia
 
 [Try it out](https://mezriss.github.io/dungeonmix/)
 
+or watch video introduction:
+
+- [Introducing DungeonMix - Visual audio board for tabletop RPG sessions](https://youtu.be/8hyRCVuhfoI)
+- [Представляємо DungeonMix — візуальну аудіодошку для настільних рольових ігор](https://youtu.be/KhNrx5BMK68)
+
 ## Key Features
 
 - Visual audio zones - Draw regions on your battle maps and assign tracks to each area

@@ -11,6 +11,9 @@ import styles from "@/styles/AudioLibrary.module.css";
 export default function AudioLibrary() {
   const state = useContext(BoardStateContext);
   const data = useSnapshot(state.data);
+  const ui = useSnapshot(state.ui);
+
+  if (!ui.editMode) return null;
 
   return (
     <div className={styles.library}>

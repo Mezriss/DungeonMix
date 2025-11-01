@@ -1,10 +1,17 @@
 import { t } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
 import LocaleSwitcher from "./components/LocaleSwitcher";
-import { BASE_URL, KEY_BOARDS, STORE_PREFIX } from "./const";
+import {
+  BASE_URL,
+  KEY_BOARDS,
+  STORE_PREFIX,
+  VIDEO_INTRO_URL_EN,
+  VIDEO_INTRO_URL_UA,
+} from "./const";
 import { getInitialBoardState } from "./state";
 
 import { TriangleAlert } from "lucide-react";
@@ -18,6 +25,10 @@ export type BoardList = {
 export default function Landing() {
   const [, navigate] = useLocation();
   const [boards, setBoards] = useState<BoardList | null>(null);
+  const { i18n } = useLingui();
+
+  const videoUrl =
+    i18n.locale === "ua" ? VIDEO_INTRO_URL_UA : VIDEO_INTRO_URL_EN;
 
   const browserSupported = "showDirectoryPicker" in window;
 
@@ -57,6 +68,17 @@ export default function Landing() {
             <Trans>
               DungeonMix is a web application that allows you to create audio
               boards for your dungeon maps.
+            </Trans>
+          </p>
+          <p>
+            <Trans>
+              Not sure what this is or how to use it?
+              <br />
+              Watch a{" "}
+              <a href={videoUrl} target="_blank">
+                video introduction
+              </a>
+              .
             </Trans>
           </p>
           {!browserSupported && (
