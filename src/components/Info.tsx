@@ -1,4 +1,5 @@
 import { t } from "@lingui/core/macro";
+import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import Dialog from "./ui/Dialog";
 import Tooltip from "./ui/Tooltip";
@@ -8,6 +9,7 @@ import { CircleQuestionMark } from "lucide-react";
 import styles from "@/styles/Info.module.css";
 
 export default function Info() {
+  useLingui();
   return (
     <>
       <Dialog

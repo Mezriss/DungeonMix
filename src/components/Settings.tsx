@@ -18,6 +18,7 @@ import { Settings as SettingsIcon } from "lucide-react";
 import styles from "@/styles/Settings.module.css";
 
 export default function Settings() {
+  useLingui();
   return (
     <>
       <Dialog

@@ -17,17 +17,17 @@ msgstr ""
 msgid " or <0>browse</0>"
 msgstr " or <0>browse</0>"
 
-#: src/components/Toolbar.tsx:57
+#: src/components/Toolbar.tsx:59
 msgid "Add circular sound area"
 msgstr "Add circular sound area"
 
 #: src/components/Info.tsx:52
 #: src/components/shapes/controls/ImageControls.tsx:54
-#: src/components/Toolbar.tsx:70
+#: src/components/Toolbar.tsx:72
 msgid "Add image"
 msgstr "Add image"
 
-#: src/components/Toolbar.tsx:46
+#: src/components/Toolbar.tsx:48
 msgid "Add rectangular sound area"
 msgstr "Add rectangular sound area"
 
@@ -43,7 +43,7 @@ msgstr "Add track"
 msgid "Are you sure you want to remove this folder? This will also remove its tracks from the board."
 msgstr "Are you sure you want to remove this folder? This will also remove its tracks from the board."
 
-#: src/components/Settings.tsx:85
+#: src/components/Settings.tsx:86
 msgid "Audio area opacity, %"
 msgstr "Audio area opacity, %"
 
@@ -75,12 +75,12 @@ msgstr "Click to select audio area or an image. You will see a control panel in 
 msgid "Controls"
 msgstr "Controls"
 
-#: src/Landing.tsx:89
+#: src/Landing.tsx:99
 msgid "Create New Board"
 msgstr "Create New Board"
 
-#: src/components/Settings.tsx:150
-#: src/components/Settings.tsx:156
+#: src/components/Settings.tsx:148
+#: src/components/Settings.tsx:154
 msgid "Delete"
 msgstr "Delete"
 
@@ -88,11 +88,11 @@ msgstr "Delete"
 msgid "Delete area (there is no undo)"
 msgstr "Delete area (there is no undo)"
 
-#: src/components/Settings.tsx:147
+#: src/components/Settings.tsx:145
 msgid "Delete board"
 msgstr "Delete board"
 
-#: src/components/Settings.tsx:154
+#: src/components/Settings.tsx:152
 msgid "Delete Board"
 msgstr "Delete Board"
 
@@ -100,7 +100,7 @@ msgstr "Delete Board"
 msgid "Delete image"
 msgstr "Delete image"
 
-#: src/components/Settings.tsx:155
+#: src/components/Settings.tsx:153
 msgid "Delete this board? This can't be undone."
 msgstr "Delete this board? This can't be undone."
 
@@ -116,7 +116,7 @@ msgstr "Drag and drop a folder"
 msgid "Drag to draw a rectangular or circular area."
 msgstr "Drag to draw a rectangular or circular area."
 
-#: src/Landing.tsx:62
+#: src/Landing.tsx:68
 msgid "DungeonMix is a web application that allows you to create audio boards for your dungeon maps."
 msgstr "DungeonMix is a web application that allows you to create audio boards for your dungeon maps."
 
@@ -152,7 +152,7 @@ msgstr "Hold button to move area"
 msgid "Hold button to move image"
 msgstr "Hold button to move image"
 
-#: src/components/Settings.tsx:118
+#: src/components/Settings.tsx:120
 msgid "Language"
 msgstr "Language"
 
@@ -180,11 +180,11 @@ msgstr "No tracks found."
 #~ msgid "Not sure what this is or how to use it? Watch a <0>video introduction</0>"
 #~ msgstr "Not sure what this is or how to use it? Watch a <0>video introduction</0>"
 
-#: src/Landing.tsx:68
+#: src/Landing.tsx:74
 msgid "Not sure what this is or how to use it?<0/>Watch a <1>video introduction</1>."
 msgstr "Not sure what this is or how to use it?<0/>Watch a <1>video introduction</1>."
 
-#: src/Landing.tsx:94
+#: src/Landing.tsx:104
 msgid "or load existing board"
 msgstr "or load existing board"
 
@@ -192,7 +192,7 @@ msgstr "or load existing board"
 msgid "Pan the board."
 msgstr "Pan the board."
 
-#: src/components/Toolbar.tsx:24
+#: src/components/Toolbar.tsx:26
 msgid "Place location marker"
 msgstr "Place location marker"
 
@@ -234,7 +234,7 @@ msgid "Scale Image"
 msgstr "Scale Image"
 
 #: src/components/Info.tsx:37
-#: src/components/Toolbar.tsx:33
+#: src/components/Toolbar.tsx:35
 msgid "Select"
 msgstr "Select"
 
@@ -242,8 +242,8 @@ msgstr "Select"
 msgid "Select track"
 msgstr "Select track"
 
-#: src/components/Settings.tsx:25
-#: src/components/Settings.tsx:29
+#: src/components/Settings.tsx:26
+#: src/components/Settings.tsx:30
 msgid "Settings"
 msgstr "Settings"
 
@@ -263,7 +263,7 @@ msgstr "The board you are looking for does not exist."
 msgid "This app is still in development. There might be bugs or missing features. Suggestions? Bug reports? Get in touch on <0>GitHub</0>."
 msgstr "This app is still in development. There might be bugs or missing features. Suggestions? Bug reports? Get in touch on <0>GitHub</0>."
 
-#: src/Landing.tsx:77
+#: src/Landing.tsx:87
 msgid "To provide a seamless experience and conveniently handle your local files, this application uses a feature that is not available in your current browser. For the best experience, please use a recent version of Google Chrome, Microsoft Edge, or Opera."
 msgstr "To provide a seamless experience and conveniently handle your local files, this application uses a feature that is not available in your current browser. For the best experience, please use a recent version of Google Chrome, Microsoft Edge, or Opera."
 
@@ -276,7 +276,7 @@ msgstr "Toggle autoplay"
 msgid "Tools"
 msgstr "Tools"
 
-#: src/components/Settings.tsx:57
+#: src/components/Settings.tsx:58
 msgid "Track fade duration, s"
 msgstr "Track fade duration, s"
 
@@ -285,7 +285,7 @@ msgstr "Track fade duration, s"
 msgid "Untitled board"
 msgstr "Untitled board"
 
-#: src/Landing.tsx:29
+#: src/Landing.tsx:35
 msgid "Untitled Board"
 msgstr "Untitled Board"
 
@@ -301,7 +301,7 @@ msgstr "Use the currently selected tool."
 msgid "Volume"
 msgstr "Volume"
 
-#: src/Landing.tsx:57
+#: src/Landing.tsx:63
 msgid "Welcome to <0>DungeonMix</0>"
 msgstr "Welcome to <0>DungeonMix</0>"
 
